@@ -20,7 +20,7 @@ class FeedbackQueries
      */
     public function getAll()
     {
-        $sqlQuery = 'SELECT * FROM motivationFeedback';
+        $sqlQuery = 'SELECT * FROM feedback';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
