@@ -11,7 +11,7 @@ class FeedbackTable
     public function __construct($dbRow)
     {
 
-        $this->_idfeedback = $dbRow['idfeedback']?? null;
+        $this->_idfeedback = $dbRow['feedback_id']?? null;
 
         $this->_score = $dbRow['score']?? null;
         $this->_feedback = $dbRow['feedback']?? null;
