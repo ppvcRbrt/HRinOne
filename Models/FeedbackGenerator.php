@@ -19,8 +19,9 @@ class FeedbackGenerator extends FPDF_Protection {
        //below we create the border around the title and specify it
         $w = $this->GetStringWidth($title)+6;
         $this->SetX((210-$w)/2);
+        //$this->SetY(70);
         $this->SetLineWidth(.5);
-        $this->Cell($w,9,$title,1,1,'C',false);
+        //$this->Cell($w,9,$title,1,1,'C',false);
         $this->Ln(10);
     }
 
@@ -33,11 +34,20 @@ class FeedbackGenerator extends FPDF_Protection {
         // Position at 1.5 cm from bottom
         $this->SetY(-15);
         // Arial italic 8
-        $this->SetFont('Arial','I',8);
+        $this->SetFont('Arial','',8);
         // Text color in gray
         $this->SetTextColor(128);
         // Page number
+        $this->Cell(0,10, 'PACE | HR in One 2021');
+        $this->SetFont('Arial','I',8);
         $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
+    }
+
+    function FirstPageTitle($label)
+    {
+        $w = $this->GetStringWidth($label)+6;
+        $this->SetFont('Arial','B',22);
+        $this->Cell(0,20, "$label",0,1,'C',false);
     }
 
     /**
@@ -51,7 +61,7 @@ class FeedbackGenerator extends FPDF_Protection {
 
         //NOTE : the cell can be used to set kind of like padding around the edges of words
         $this->Cell(0,$this->cellHeight, "$label",0,1,'L',true);
-        $this->Ln(4);
+        $this->Ln(2);
     }
 
     /**
@@ -65,7 +75,7 @@ class FeedbackGenerator extends FPDF_Protection {
 
         //NOTE : the cell can be used to set padding around the edges of words
         $this->Cell(0,$this->cellHeight, "$label",0,1,'L',true);
-        $this->Ln(4);
+        $this->Ln(2);
     }
 
     /**
@@ -77,9 +87,7 @@ class FeedbackGenerator extends FPDF_Protection {
         $txt = file_get_contents($file);
         $this->SetFont('Times','',$this->fontSize);
         $this->MultiCell(0,5,$txt);
-        $this->Ln(); //NOTE : This is a line break, you can also specify the height as a parameter ;)
-        $this->SetFont('','I');
-        $this->Cell(0,5,'EOF HERE');
+        $this->Ln(2); //NOTE : This is a line break, you can also specify the height as a parameter ;)
     }
 
     /**
@@ -93,11 +101,10 @@ class FeedbackGenerator extends FPDF_Protection {
         // Output justified text
         $this->MultiCell(0,5,$txt);
         // Line break
-        $this->Ln();
+        $this->Ln(2);
         // Mention in italics
-        $this->SetFont('','I');
-        $this->Cell(0,5,'EOF HERE');
     }
+
 
     /**
      * Function that will print the top of the page with all the needed headings
@@ -135,6 +142,10 @@ class FeedbackGenerator extends FPDF_Protection {
         $this->SectionBodyFromStr($txt);
     }
 
+    function PrintImage($src)
+    {
+        $this->Image($src,30,null,150);
+    }
     /**
      * Function that just prints the title
      * @param $title
