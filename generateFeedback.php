@@ -19,11 +19,9 @@ $pdf->SetTitle($title);
 $pdf->SetAuthor('PACE Instructor');//author of document
 $pdf->PrintFirstSection('Introduction','text/paceIntro.txt');
 $pdf->PrintTitle('Overview Of Development Centre Exercises','info');
-$pdf->PrintSectionFromTxt('Interview Exercise','text/intExercise.txt');
+$pdf->PrintSectionFromTxt('Interview Exercise','text/intExercise.txt',"b");
 
-
-$pdf->PrintTitle('FEEDBACK','feedback');
-$pdf->PrintSectionFromStr("FEEDBACK", $feedback);
+$pdf->PrintSectionFromStr("FEEDBACK", $feedback, "p");
 $pdf->Output();
 
 

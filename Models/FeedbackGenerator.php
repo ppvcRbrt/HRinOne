@@ -5,7 +5,8 @@ class FeedbackGenerator extends FPDF_Protection {
     public $fontSize = 12;
     public $cellHeight = 6; //i recommend setting cell height to half of fontsize so when filled with colour it looks noice
     protected $text;
-
+    public $blue = [191,229,242];
+    public $purp = [156,139,162];
     /**
      * This function will specify the logo, the font and the title of the document
      */
@@ -115,10 +116,10 @@ class FeedbackGenerator extends FPDF_Protection {
      * @param $title: title of section
      * @param $file: directory of .txt file for section body
      */
-    function PrintSectionFromTxt($title, $file)
+    function PrintSectionFromTxt($title, $file, $bOrp)
     {
         $this->Ln();
-        $this->IntroTitle($title);
+        $this->PrintTitle($title, $bOrp);
         $this->SectionBodyFromTxt($file);
     }
 
@@ -127,26 +128,26 @@ class FeedbackGenerator extends FPDF_Protection {
      * @param $title: title of section
      * @param $txt: section body
      */
-    function PrintSectionFromStr($title, $txt)
+    function PrintSectionFromStr($title, $txt, $bOrp)
     {
         $this->Ln();
-        $this->IntroTitle($title);
+        $this->PrintTitle($title, $bOrp);
         $this->SectionBodyFromStr($txt);
     }
 
     /**
-     * Function that doesnt do too much atm
+     * Function that just prints the title
      * @param $title
-     * @param $infoOrFdbck
+     * @param $bOrP: enter "b" for blue title fill or "p" for purple title fill
      */
-    function PrintTitle($title,$infoOrFdbck)
+    function PrintTitle($title,$bOrP)
     {
         $this->Ln();
-        if($infoOrFdbck == "info")
+        if($bOrP == "b")
         {
             $this->IntroTitle($title);
         }
-        if($infoOrFdbck == "feedback")
+        if($bOrP == "p")
         {
             $this->FeedbackTitle($title);
         }
