@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class FeedbackTable : This class will allow us to get individual columns from rows
+ * Class FeedbackTable : This class will allow us to get individual columns from Feedback Queries
  */
 class FeedbackTable
 {
