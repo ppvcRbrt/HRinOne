@@ -1,0 +1,11 @@
+<?php require('template/header.phtml') ?>
+
+
+<?php
+foreach($view->candidate as $candInfo) {
+echo '<p>'. $candInfo->getName() .'</p>';
+}
+?>
+
+
+<?php require('template/footer.phtml') ?>

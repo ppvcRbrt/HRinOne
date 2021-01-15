@@ -9,7 +9,7 @@ class CandidateInfoTable
     public function __construct($dbRow)
     {
 
-        $this->_candidate_ID = $dbRow['candidate_ID']?? null;
+        $this->_candidate_ID = $dbRow['ID']?? null;
         $this->_name = $dbRow['name']?? null;
         $this->_email= $dbRow['email']?? null;
     }
