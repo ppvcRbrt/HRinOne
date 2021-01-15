@@ -7,6 +7,6 @@ if(!isset($_SESSION['UserData']['Username'])){
 }
 else
 {
-    require_once("Views/demolink.phtml");
+    require_once("Views/index.phtml");
 }
 ?>

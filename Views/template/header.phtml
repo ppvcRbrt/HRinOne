@@ -5,13 +5,16 @@
     <title>Minimal example</title>
     <link type="text/css" rel="stylesheet" href="../fpdf.css">
     <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href = "../../css/my-style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../js/bootstrap.js"></script>
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg bg-custom">
+    <a class="navbar-brand" href="#">
+        <img src="../../images/logoHRinOne.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -21,13 +24,14 @@
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="#">Admin</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="#">Assessors</a>
             </li>
+            <?php ?>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a class="nav-link" href="#">Generate Feedback!</a>
             </li>
         </ul>
     </div>
