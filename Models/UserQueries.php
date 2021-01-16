@@ -1,9 +1,8 @@
 <?php
+require('Database.php');
+require('UserTable.php');
 
-require_once ('Database.php');
-require_once('AssessorFdbkTable.php');
-
-class FeedbackQueries
+class UserQueries
 {
     protected $_dbInstance;
     protected $_dbHandle;
@@ -18,15 +17,19 @@ class FeedbackQueries
      * Function to query and return all info from table
      * @return array: will return an array of our rows
      */
-    public function getAll()
+    public function getPrivileges($name)
     {
-        $sqlQuery = 'SELECT * FROM feedback';
+        $sqlQuery = 'SELECT user_category_ID FROM Users 
+                     WHERE name = :name';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
         while ($row = $statement->fetch()) {
-            $dataSet[] = new AssessorFdbkTable($row);
+            $dataSet[] = new UserTable($row);
         }
         return $dataSet;
     }
+
+
 }

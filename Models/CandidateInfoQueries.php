@@ -12,7 +12,7 @@ class CandidateInfoQueries
         $this->_dbInstance = Database::getInstance();
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
-
+    // normalizare plm normalized = (x-min(x))/(max(x)-min(x))
     /**
      * Function to query and return all info from table
      * @return array: will return an array of our rows
