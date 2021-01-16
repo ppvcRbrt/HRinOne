@@ -1,5 +1,11 @@
 <?php require('template/header.phtml') ?>
+<?php
+foreach($view->ind as $indicator)
+{
+    echo '<h1>'.$indicator->getFeedback().'</h1>';
+}
 
+?>
 
 
 <?php require('template/footer.phtml') ?>

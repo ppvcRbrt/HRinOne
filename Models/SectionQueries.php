@@ -24,8 +24,8 @@ class SectionQueries
 
     public function InsertSection($name, $weight, $assessmentTypeID)
     {
-        $sqlQuery = 'INSERT INTO Assessment_type (name, description, work_domain_ID) 
-                        VALUES (:name, :description, :workDomainID)';
+        $sqlQuery = 'INSERT INTO Section (name, weight, assessment_type_ID) 
+                        VALUES (:name, :weight, :assessmentTypeID)';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->bindValue(':weight', $weight, PDO::PARAM_STR);

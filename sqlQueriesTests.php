@@ -1,13 +1,13 @@
 <?php
-require_once('Models/AssessmentTypeQueries.php');
+require_once('Models/IndicatorsQueries.php');
 session_start();
 
 $view = new stdClass();
 
 //$domainQuery = new DomainQueries();
-$assType = new AssessmentTypeQueries();
-$assType->InsertAssessmentType("Interview","Bla bla bla bla bla Bla BLA",11);
+$ind = new IndicatorsQueries();
 
+$view->ind = $ind->GetIndicator('Motivation');
 
 
 
