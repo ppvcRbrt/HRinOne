@@ -46,10 +46,8 @@ class DomainQueries
         $statement->bindValue(':domainName', $domainName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
-        while ($row = $statement->fetch()) {
-            $dataSet[] = new DomainTable($row);
-        }
-    return $dataSet;
+
+    return $statement->fetch();
     }
 
     public function getAll()
