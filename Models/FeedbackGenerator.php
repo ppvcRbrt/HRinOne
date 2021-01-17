@@ -52,7 +52,7 @@ class FeedbackGenerator extends FPDF_Protection {
 
     /**
      * This function deals with the specification of the font and fill of the Intro Titles
-     * @param $label: the current title of the Intro Section to be printed to the PDF
+     * @param $label: the current title of the Intro SectionTable to be printed to the PDF
      */
     function IntroTitle($label)
     {
@@ -66,7 +66,7 @@ class FeedbackGenerator extends FPDF_Protection {
 
     /**
      * This function deals with the spec of the font and fill of Feedback titles
-     * @param $label: the current title of the Feedback Section to be printed to the PDF
+     * @param $label: the current title of the Feedback SectionTable to be printed to the PDF
      */
     function FeedbackTitle($label)
     {

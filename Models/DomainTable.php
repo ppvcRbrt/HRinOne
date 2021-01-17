@@ -10,7 +10,7 @@ class DomainTable
     {
 
         $this->_work_domain_ID = $dbRow['work_domain_ID']?? null;
-        $this->_work_domain = $dbRow['work_domain']?? null;
+        $this->_work_domain = $dbRow['domain_name']?? null;
     }
 
     public function getID()

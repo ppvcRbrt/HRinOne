@@ -1,9 +1,8 @@
 <?php
-
 require_once('Database.php');
-require_once('AssessorFdbkTable.php');
+require_once('CandidateInfoTable.php');
 
-class FeedbackQueries
+class CandidateInfoQueries
 {
     protected $_dbInstance;
     protected $_dbHandle;
@@ -13,20 +12,24 @@ class FeedbackQueries
         $this->_dbInstance = Database::getInstance();
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
-
+    // normalizare plm normalized = (x-min(x))/(max(x)-min(x))
     /**
      * Function to query and return all info from table
      * @return array: will return an array of our rows
      */
-    public function getAll()
+    public function getCandidateName($candidateID)
     {
-        $sqlQuery = 'SELECT * FROM feedback';
+        $sqlQuery = 'SELECT name FROM Candidate_information 
+                     WHERE ID = :candID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':candID', $candidateID, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
         while ($row = $statement->fetch()) {
-            $dataSet[] = new AssessorFdbkTable($row);
+            $dataSet[] = new CandidateInfoTable($row);
         }
         return $dataSet;
     }
+
+
 }

@@ -3,14 +3,15 @@
 class QuestionTable
 {
 
-    protected $_question_ID, $_question; //Question table
-    protected $_add_question_ID, $_add_question; //Additional_questions table
+    protected $_question_ID, $_question, $_section_ID; //Question table
 
     public function __construct($dbRow)
     {
 
         $this->_question_ID = $dbRow['question_ID']?? null;
         $this->_question = $dbRow['question']?? null;
+        $this->_section_ID = $dbRow['section_ID']?? null;
+
     }
 
     public function getID()
@@ -23,12 +24,9 @@ class QuestionTable
         return $this->_question;
     }
 
-    public function getAddQuestionID()
+    public function getSectionID()
     {
-        return $this->_add_question_ID;
+        return $this->_section_ID;
     }
-    public function getAddQuestion()
-    {
-        return $this->_add_question;
-    }
+
 }
