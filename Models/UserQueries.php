@@ -1,6 +1,6 @@
 <?php
-require('Database.php');
-require('UserTable.php');
+require_once('Database.php');
+require_once('UserTable.php');
 
 class UserQueries
 {

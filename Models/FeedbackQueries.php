@@ -1,6 +1,6 @@
 <?php
 
-require_once ('Database.php');
+require_once('Database.php');
 require_once('AssessorFdbkTable.php');
 
 class FeedbackQueries

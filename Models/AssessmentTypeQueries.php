@@ -1,6 +1,6 @@
 <?php
-require('Database.php');
-require('AssessmentTypeTable.php');
+require_once('Database.php');
+require_once('AssessmentTypeTable.php');
 
 class AssessmentTypeQueries
 {

@@ -1,6 +1,6 @@
 <?php
-require('Database.php');
-require('SectionTable.php');
+require_once('Database.php');
+require_once('SectionTable.php');
 
 class SectionQueries
 {
@@ -33,9 +33,9 @@ class SectionQueries
         $statement->execute(); // execute the PDO statement
     }
 
-    public function GetSectionByName($name)
+    public function GetSectionIDByName($name)
     {
-        $sqlQuery = 'SELECT name 
+        $sqlQuery = 'SELECT section_ID 
                         FROM Section 
                         WHERE name = :name';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement

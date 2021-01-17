@@ -1,13 +1,30 @@
 <?php
 require_once('Models/IndicatorsQueries.php');
+require_once('Models/SectionQueries.php');
 session_start();
 
 $view = new stdClass();
 
 //$domainQuery = new DomainQueries();
 $ind = new IndicatorsQueries();
+$sec = new SectionQueries();
 
-$view->ind = $ind->GetIndicator('Motivation');
+if(isset($_POST["submit"]))
+{
+    $sec = $sec->GetSectionIDByName($_POST["sectionName"]);
+    $indWeight = 100/$_POST["maxScore"];
+    foreach($sec as $section)
+    {
+        $sec = $section->getSectionID();
+    }
+    for($x = 0; $x <= $_POST["maxScore"]; $x++)
+    {
+    }
+}
+else
+{
+
+}
 
 
 

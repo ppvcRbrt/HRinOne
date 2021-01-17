@@ -1,6 +1,6 @@
 <?php
-require('Database.php');
-require('CandidateInfoTable.php');
+require_once('Database.php');
+require_once('CandidateInfoTable.php');
 
 class CandidateInfoQueries
 {

@@ -6,6 +6,24 @@ foreach($view->ind as $indicator)
 }
 
 ?>
-
-
+    <form class="form-inline my-2 my-lg-0" action = ../sqlQueriesTests.php method = 'post'>
+        <h2>Insert New Indicator</h2>
+        <label>
+            Description For Assessor:
+            <input type="text" name="name"/>
+        </label>
+        <label>
+            Auto feedback:
+            <input type="text" name="feedback"/>
+        </label>
+        <label>
+            MaxScore:
+            <input type="number" name="maxScore"/>
+        </label>
+        <label>
+            Section Name Of Indicator:
+            <input type="text" name="sectionName"/>
+        </label>
+        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" name="submit">Insert Indicator!</button>
+    </form>
 <?php require('template/footer.phtml') ?>
