@@ -45,8 +45,6 @@ class DomainQueries
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':domainName', $domainName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
-        $dataSet = [];
-
     return $statement->fetch();
     }
 

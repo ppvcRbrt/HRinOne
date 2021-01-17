@@ -1,8 +1,8 @@
 <?php
 require_once('Database.php');
-require_once('AssessmentTypeTable.php');
+require_once('QuestionTable.php');
 
-class AssessmentTypeQueries
+class QuestionQueries
 {
     protected $_dbInstance;
     protected $_dbHandle;
@@ -13,45 +13,44 @@ class AssessmentTypeQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
-    public function DeleteAssessmentType($typeName)
+    public function DeleteQuestion($question)
     {
-        $sqlQuery = 'DELETE FROM Assessment_type
+        $sqlQuery = 'DELETE FROM Question
                         WHERE name = :name';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
-        $statement->bindValue(':name', $typeName, PDO::PARAM_STR);
+        $statement->bindValue(':name', $question, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
     }
 
-    public function InsertAssessmentType($name, $description, $workDomainID)
+    public function InsertQuestion($question, $sectionID)
     {
-        $sqlQuery = 'INSERT INTO Assessment_type (name, description, work_domain_ID) 
-                        VALUES (:name, :description, :workDomainID)';
+        $sqlQuery = 'INSERT INTO Question (question, section_ID) 
+                        VALUES (:question, :sectionID)';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
-        $statement->bindValue(':name', $name, PDO::PARAM_STR);
-        $statement->bindValue(':description', $description, PDO::PARAM_STR);
-        $statement->bindValue(':workDomainID', $workDomainID, PDO::PARAM_INT);
+        $statement->bindValue(':question', $question, PDO::PARAM_STR);
+        $statement->bindValue(':sectionID', $sectionID, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
     }
 
-    public function GetAssessmentTypeID($name)
+    public function GetQuestionID($question)
     {
-        $sqlQuery = 'SELECT assessment_type_ID 
-                        FROM Assessment_type 
+        $sqlQuery = 'SELECT question 
+                        FROM Question 
                         WHERE name = :name';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
-        $statement->bindValue(':name', $name, PDO::PARAM_STR);
+        $statement->bindValue(':name', $question, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
         return $statement->fetch();
     }
 
     public function getAll()
     {
-        $sqlQuery = 'SELECT name FROM Assessment_type';
+        $sqlQuery = 'SELECT question FROM Question';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
         while ($row = $statement->fetch()) {
-            $dataSet[] = new AssessmentTypeTable($row);
+            $dataSet[] = new QuestionTable($row);
         }
         return $dataSet;
     }

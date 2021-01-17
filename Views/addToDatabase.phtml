@@ -30,6 +30,7 @@
         if(!empty($_COOKIE["workDomName"]) and empty($_COOKIE["assessmentTypeName"]))
         {
             echo '<div id = "assessmentType">';
+            echo '<h2>Work Domain : '.$_COOKIE["workDomName"].'</h2>';
         }
         else
         {
@@ -56,6 +57,9 @@
     if(!empty($_COOKIE["assessmentTypeName"]) and empty($_COOKIE["sectionName"]))
     {
         echo '<div id = "section">';
+        echo '<h2>Work Domain : '.$_COOKIE["workDomName"].'</h2>';
+        echo '<h3>Assessment Type : '.$_COOKIE["assessmentTypeName"].'</h3>';
+
     }
     else
     {
@@ -77,8 +81,62 @@
             <input class="form-control" type="text" name = "sectionDesc" placeholder="Add a brief Description here">
             <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
         </form>
+
         </div>
+        <?php
+        if(!empty($_COOKIE["sectionName"]) and empty($_COOKIE["maxQuestion"]) and empty($_COOKIE["maxScore"]))
+        {
+            echo '<div id = "max">';
+            echo '<h2>Work Domain : '.$_COOKIE["workDomName"].'</h2>';
+            echo '<h3>Assessment Type : '.$_COOKIE["assessmentTypeName"].'</h3>';
+            echo '<h4>Section : '.$_COOKIE["sectionName"].'</h4>';
+        }
+        else
+        {
+            echo '<div class = "d-none" id = "max">';
+        }
+
+        ?>
+            <form class="form-group" method = "post" action="../addToDatabase.php">
+                <label for="max">Select Max Number Of Questions and Max Score</label>
+                <input class="form-control" type="number" name = "maxQuestion" placeholder="Enter here the maximum number of questions">
+                <input class="form-control" type="number" name = "maxScore" placeholder="Enter here the maximum score">
+                <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
+            </form>
+            </div>
+
+
+
+<?php
+        if(!empty($_COOKIE["maxQuestion"]) and !empty($_COOKIE["maxScore"]) and empty($_COOKIE["question"]))
+        {
+            echo '<div id = "questions">';
+            echo '<h2>Work Domain : '.$_COOKIE["workDomName"].'</h2>';
+            echo '<h3>Assessment Type : '.$_COOKIE["assessmentTypeName"].'</h3>';
+            echo '<h4>Section : '.$_COOKIE["sectionName"].'</h4>';
+        }
+        else
+        {
+            echo '<div class = "d-none" id = "questions">';
+        }
+
+        ?>
+            <form class="form-group" method = "post" action="../addToDatabase.php">
+                <datalist id="questions">
+                    <?php
+                        foreach($view->questions as $currentQuestion)
+                        {
+                            echo  "<option value='".$currentQuestion->getQuestion()."'/>";
+                        }
+                        ?>
+                </datalist>
+
+                <input class="form-control" type="text" name = "sectionDesc" list = "questions">
+                <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            </div>
     <a href="../fuckTheCookies.php" class="btn btn-primary">Delete Cookies</a>
-</div>
+
 
 <?php require('template/footer.phtml') ?>
