@@ -18,7 +18,7 @@ class Database {
        $username ='hc21-15';
        $password = 'EWZGQWUJWn0WrHe';
        $host = 'poseidon.salford.ac.uk';
-       $dbName = 'hc21_15_testv2';
+       $dbName = 'hc21_15_testv3';
        
        if(self::$_dbInstance === null) { //checks if the PDO exists
             // creates new instance if not, sending in connection info

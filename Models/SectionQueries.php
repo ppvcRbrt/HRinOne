@@ -22,13 +22,14 @@ class SectionQueries
         $statement->execute(); // execute the PDO statement
     }
 
-    public function InsertSection($name, $weight, $assessmentTypeID)
+    public function InsertSection($name, $description, $weight, $assessmentTypeID)
     {
-        $sqlQuery = 'INSERT INTO Section (name, weight, assessment_type_ID) 
-                        VALUES (:name, :weight, :assessmentTypeID)';
+        $sqlQuery = 'INSERT INTO Section (name, weight, description, assessment_type_ID) 
+                        VALUES (:name, :description, :weight, :assessmentTypeID)';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->bindValue(':weight', $weight, PDO::PARAM_STR);
+        $statement->bindValue(':description', $description, PDO::PARAM_STR);
         $statement->bindValue(':assessmentTypeID', $assessmentTypeID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
     }
@@ -50,7 +51,7 @@ class SectionQueries
 
     public function getAll()
     {
-        $sqlQuery = 'SELECT name FROM Assessment_type';
+        $sqlQuery = 'SELECT name FROM Section';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->execute(); // execute the PDO statement
         $dataSet = [];

@@ -37,9 +37,9 @@ class DomainQueries
         $statement->execute(); // execute the PDO statement
     }
 
-    public function GetDomainByName($domainName)
+    public function GetDomainID($domainName)
     {
-        $sqlQuery = 'SELECT domain_name 
+        $sqlQuery = 'SELECT work_domain_ID 
                         FROM Work_domain 
                         WHERE domain_name = :domainName';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement

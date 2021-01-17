@@ -1,0 +1,58 @@
+<?php require('template/header.phtml') ?>
+<div class = "container">
+    <h2>Add info to database</h2>
+    <?php
+    if(isset($_COOKIE["workDomName"]))
+    {
+        echo '<div class = "d-none" id = "workDomain">';
+    }
+    else
+    {
+        echo '<div id = "workDomain">';
+    }
+
+    ?>
+        <form class="form-group" method = "post" action="../addToDatabase.php">
+            <label for="sections">Select Or Add Work Domain</label>
+            <input class="form-control" type="text" name = "workDomToAdd" placeholder="Insert Work Domain If wanted">
+            <select name = "workDomName" multiple class="form-control">
+                <?php
+                    foreach($view->dom as $currentDomain)
+                    {
+                        echo '<option>'.$currentDomain->getDomain(). '</option>';
+                    }
+                ?>
+            </select>
+            <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <?php
+        if(isset($_COOKIE["workDomName"]))
+        {
+            echo '<div id = "section">';
+        }
+        else
+        {
+            echo '<div class = "d-none" id = "section">';
+        }
+
+    ?>
+        <form class="form-group" method = "post" action="../addToDatabase.php">
+            <label for="sections">Select Or Add Assessment Type</label>
+            <input class="form-control" type="text" name = "assTypeToAdd" placeholder="Insert new Assessment Type Here if wanted">
+            <select name = "assTypes" multiple class="form-control">
+                <?php
+                foreach($view->dom as $currentDomain)
+                {
+                    echo '<option>'.$currentDomain->getDomain(). '</option>';
+                }
+                ?>
+            </select>
+            <input class="form-control" type="text" name = "assTypeDesc" placeholder="Add a brief Description here">
+            <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <a href="../fuckTheCookies.php" class="btn btn-primary">Delete Cookies</a>
+</div>
+
+<?php require('template/footer.phtml') ?>
