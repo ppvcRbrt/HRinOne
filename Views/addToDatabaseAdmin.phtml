@@ -186,7 +186,7 @@
             }
             ?>
                 <label>And please specify the assessment type</label>
-                <select name = "assessmentTypeNameSect" multiple class="form-control">
+                <select name = "selectAssessmentTypeName" multiple class="form-control">
                     <?php
                     foreach($view->assess as $currentAssessmentType)
                     {
@@ -194,12 +194,12 @@
                     }
                     ?>
                 </select>
-                <button type="submit" name = "selectAssessmentType" class="btn btn-primary">Select Assessment Type</button>
+                <button type="submit" name = "selectAssessmentTypeSubmit" class="btn btn-primary">Select Assessment Type</button>
             </form>
 
-            <!-- Section Addition here -->
+            <!-- Max no of sections for this assessment -->
             <?php
-            if(isset($_COOKIE["workDomSelected"]) and isset($_COOKIE["assessmentTypeSelected"]))
+            if(isset($_COOKIE["workDomSelected"]) and isset($_COOKIE["assessmentTypeSelected"]) and !isset($_COOKIE["maxNoOfSections"]))
             {
                 echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">';
             }
@@ -208,13 +208,62 @@
                 echo '<form class="form-group d-none" method = "post" action="../addToDatabaseAdmin.php">';
             }
             ?>
-            <form class="form-group d-none" method = "post" action="../addToDatabaseAdmin.php">
-                <label for="assTypeToAddName">Section Name: </label>
-                <input class="form-control" type="text" name = "assTypeToAddName" placeholder="Section Name">
-                <label for="assTypeToAddDesc">Section Description: </label>
-                <textarea class="form-control" id="assTypeToAddDesc" rows="2"></textarea>
-                <button type="submit" name = "addSection" class="btn btn-primary">Add</button>
+                <label for="maxSection">Maxmimum sections for this assessment type: </label>
+                <input class="form-control" type="number" name = "maxSection" placeholder="Insert Maximum Sections Here">
+                <button type="submit" name = "maxInsertSubmit" class="btn btn-primary">Insert Maximum sections</button>
+
             </form>
+
+            <!-- Section Addition here -->
+            <?php
+            if(isset($_COOKIE["assessmentTypeSelected"]) and isset($_COOKIE["maxNoOfSections"]))
+            {
+                for($x=0;$x<$_COOKIE["maxNoOfSections"];$x++)
+                {
+                    $currentSect = $x + 1;
+                    if(!isset($_SESSION["nameSection".$x]))
+                    {
+                        echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+                                <label for="sectionName">Section '. $currentSect .' Name: </label>
+                                <input class="form-control" type="text" name = "nameSection'. $x .'" placeholder="Section Name">
+                                
+                                <label>Max Score For Section '.$currentSect.'</label>
+                                <input class="form-control" type="number" name = "maxScoreSection'. $x .'" placeholder="Max Score For Section">
+
+                                <label for="sectionDesc">Section '. $currentSect .' Description: </label>
+                                <textarea class="form-control" id="sectionDesc" name="descSection'. $x .'" rows="2"></textarea>
+                                
+                                <button type="submit" name = "addSection" class="btn btn-primary">Add</button>
+                                </br>
+                                </br>';
+                    }
+                    else
+                    {
+                        echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+                                <label for="sectionName">Section '. $currentSect .' Name: </label>
+                                <input class="form-control" type="text" name = "nameSection'. $x .'" placeholder="'.$_SESSION["currentSectionInfo".$x][0].'" readonly>
+                                
+                                <label>Max Score For Section '.$currentSect.'</label>
+                                <input class="form-control" type="number" name = "maxScoreSection'. $x .'" placeholder="'.$_SESSION["currentSectionInfo".$x][1].'" readonly>
+
+                                <label for="sectionDesc">Section '. $currentSect .' Description: </label>
+                                <textarea class="form-control" id="sectionDesc" name="descSection'. $x .'" rows="2" placeholder="'.$_SESSION["currentSectionInfo".$x][2].'" readonly></textarea>      
+                            
+                                </br>
+                                </br>';
+                    }
+                    $sectNameNo = count($_SESSION['sectionNames']);
+                    if($x == $sectNameNo -1)
+                    {
+                        echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+                                
+                                </form>';
+                    }
+
+                }
+            }
+            ?>
+
         </div>
 
         <!-- Add Question -->

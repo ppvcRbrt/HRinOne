@@ -36,6 +36,8 @@ class SectionQueries
         $statement->bindValue(':description', $description, PDO::PARAM_STR);
         $statement->bindValue(':assessmentTypeID', $assessmentTypeID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
+        $statement->debugDumpParams();
+
     }
 
     public function GetSectionIDByName($name)
