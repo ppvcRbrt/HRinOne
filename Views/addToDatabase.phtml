@@ -52,7 +52,7 @@
             <input class="form-control" type="text" name = "assTypeDesc" placeholder="Add a brief Description here">
             <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
+     </div>
     <?php
     if(!empty($_COOKIE["assessmentTypeName"]) and empty($_COOKIE["sectionName"]))
     {
@@ -107,7 +107,7 @@
 
 
 
-<?php
+        <?php
         if(!empty($_COOKIE["maxQuestion"]) and !empty($_COOKIE["maxScore"]) and empty($_COOKIE["question"]))
         {
             echo '<div id = "questions">';
@@ -125,7 +125,7 @@
                 <?php
                     for($x=0;$x<$_COOKIE["maxQuestion"];$x++)
                     {
-                        echo '<input class="form-control" list="questionsToChoose'.$x.'" name="questionForSect"/>';
+                        echo '<input class="form-control" list="questionsToChoose'.$x.'" name="question'.$x.'"/>';
                         echo '<datalist id="questionsToChoose'.$x.'">';
                         foreach($view->questions as $currentQuestion)
                         {
@@ -135,11 +135,8 @@
                     }
                 ?>
             </form>
-
-
-    <input class="form-control" type="text" name = "sectionDesc" list = "questions">
-    <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
-            </div>
+            <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
+        </div>
     <a href="../fuckTheCookies.php" class="btn btn-primary">Delete Cookies</a>
 
 

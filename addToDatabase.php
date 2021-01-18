@@ -18,6 +18,16 @@ $view->assess = $asType->getAll();
 $view->sections = $sectQuery->getAll();
 $view->questions = $quesQuery->getAll();
 
+function getInputNames($maxQuestions)
+{
+    $inputNames = [];
+    for($x=0;$x<$maxQuestions;$x++)
+    {
+        array_push($inputNames,"question", (string)$x);
+    }
+    return $inputNames;
+}
+
 if(isset($_POST["submit"]))
 {
     if(!empty($_POST["workDomName"]))
@@ -58,8 +68,14 @@ if(isset($_POST["submit"]))
     {
         setcookie("maxQuestion", $_POST["maxQuestion"]);
         setcookie("maxScore", $_POST["maxScore"]);
+        $inputs = getInputNames($_COOKIE["maxQuestion"]);
     }
+
+
     header("location:addToDatabase.php");
+    exit();
+
+
 }
 
 require_once("Views/addToDatabase.phtml");
