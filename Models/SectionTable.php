@@ -3,7 +3,7 @@
 class SectionTable
 {
 
-    protected $_section_ID, $_name, $_weight, $_assessment_type_ID; //SectionTable Table
+    protected $_section_ID, $_name, $description, $_weight, $_assessment_type_ID; //SectionTable Table
 
     public function __construct($dbRow)
     {

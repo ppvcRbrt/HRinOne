@@ -89,5 +89,28 @@ class AssessmentQueries
         return $dataSet;
     }
 
+    /**
+     * This needs to be tested before deployment
+     */
+
+
+    /**
+     * This method should get assessment details given a work domain name
+     */
+    public function getAssessmentDetails($workDomainName)
+    {
+        $sqlQuery = 'SELECT Assessment_type.name, description
+                     FROM Assessment_type, Work_domain
+                     WHERE  Work_domain.work_domain_ID = Assessment_type.work_domain_ID
+                     AND Work_domain.domain_name = :workDomainName';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':workDomainName', $workDomainName, PDO::PARAM_STR);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new AssessmentTable($row);
+        }
+        return $dataSet;
+    }
 
 }

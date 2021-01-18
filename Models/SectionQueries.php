@@ -67,5 +67,32 @@ class SectionQueries
         return $dataSet;
     }
 
+    /**
+     * This needs to be tester before deployment
+     */
+
+    /**
+     * THE SQL NEEDS ADJUSTMENTS, IT DOESN'T WORK.
+     * This method should get section details based on assessment type name and work domain name
+     */
+    public function getSectionDetails($assessmentTypeName, $workDomainName)
+    {
+        $sqlQuery = 'SELECT Section.name, Section.description, Section.weight
+                     FROM Assessment_type, Work_domain,Section
+                     WHERE Section.assessment_type_ID = Assessment_type.assessment_type_ID
+                     AND Assessment_type.name= :assessmentTypeName
+                     AND Work_domain.work_domain_ID = Assessment_type.work_domain_ID
+                     AND Work_domain.domain_name = :workDomainName';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':assessmentTypeName', $assessmentTypeName, PDO::PARAM_STR);
+        $statement->bindValue(':workDomainName', $workDomainName, PDO::PARAM_STR);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new SectionTable($row);
+        }
+        return $dataSet;
+    }
+
 
 }
