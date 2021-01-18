@@ -15,8 +15,10 @@ class QuestionQueries
 
     public function DeleteQuestion($question)
     {
-        $sqlQuery = 'DELETE FROM Question
-                        WHERE name = :name';
+        $sqlQuery = 'LOCK TABLE Question WRITE;
+                     DELETE FROM Question
+                        WHERE name = :name;
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $question, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
@@ -24,8 +26,10 @@ class QuestionQueries
 
     public function InsertQuestion($question, $sectionID)
     {
-        $sqlQuery = 'INSERT INTO Question (question, section_ID) 
-                        VALUES (:question, :sectionID)';
+        $sqlQuery = 'LOCK TABLE Question WRITE;
+                     INSERT INTO Question (question, section_ID)
+                        VALUES (:question, :sectionID);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':question', $question, PDO::PARAM_STR);
         $statement->bindValue(':sectionID', $sectionID, PDO::PARAM_STR);

@@ -21,8 +21,10 @@ class IndicatorsQueries
 
     public function DeleteIndicator($indicatorID)
     {
-        $sqlQuery = 'DELETE FROM Indicators
-                        WHERE indicator_ID = :indicatorID';
+        $sqlQuery = 'LOCK TABLE Indicator WRITE;
+                     DELETE FROM Indicator
+                        WHERE indicator_ID = :indicatorID;
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':indicatorID', $indicatorID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
@@ -30,8 +32,10 @@ class IndicatorsQueries
 
     public function InsertIndicator($description, $feedback, $score, $weight, $sectionID)
     {
-        $sqlQuery = 'INSERT INTO Indicators (indicator_description,feedback,score,weight,section_ID) 
-                        VALUES (:description,:feedback,:score,:weight,:section_ID)';
+        $sqlQuery = 'LOCK TABLE Indicator WRITE;
+                     INSERT INTO Indicator (indicator_description,feedback,score,weight,section_ID) 
+                        VALUES (:description,:feedback,:score,:weight,:section_ID);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':description', $description, PDO::PARAM_STR);
         $statement->bindValue(':feedback', $feedback, PDO::PARAM_STR);

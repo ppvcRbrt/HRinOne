@@ -31,5 +31,26 @@ class UserQueries
         return $dataSet;
     }
 
+    /**
+     * This function is used to return the name of an User based
+     * on its ID.
+     *
+     * @param $ID
+     * @return array
+     */
+    public function getName($ID)
+    {
+        $sqlQuery = 'SELECT name FROM Users 
+                     WHERE name = :ID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':ID', $ID, PDO::PARAM_STR);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new UserTable($row);
+        }
+        return $dataSet;
+    }
+
 
 }

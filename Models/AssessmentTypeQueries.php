@@ -15,8 +15,10 @@ class AssessmentTypeQueries
 
     public function DeleteAssessmentType($typeName)
     {
-        $sqlQuery = 'DELETE FROM Assessment_type
-                        WHERE name = :name';
+        $sqlQuery = 'LOCK TABLE Assessment_type WRITE;
+                     DELETE FROM Assessment_type
+                        WHERE name = :name;
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $typeName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
@@ -24,8 +26,10 @@ class AssessmentTypeQueries
 
     public function InsertAssessmentType($name, $description, $workDomainID)
     {
-        $sqlQuery = 'INSERT INTO Assessment_type (name, description, work_domain_ID) 
-                        VALUES (:name, :description, :workDomainID)';
+        $sqlQuery = 'LOCK TABLE Assessment_type WRITE;
+                     INSERT INTO Assessment_type (name, description, work_domain_ID) 
+                        VALUES (:name, :description, :workDomainID);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->bindValue(':description', $description, PDO::PARAM_STR);

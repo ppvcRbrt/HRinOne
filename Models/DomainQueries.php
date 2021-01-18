@@ -21,8 +21,10 @@ class DomainQueries
 
     public function DeleteDomain($domainName)
     {
-        $sqlQuery = 'DELETE FROM Work_domain
-                        WHERE domain_name = :domainName';
+        $sqlQuery = 'LOCK TABLE Work_domain WRITE;
+                     DELETE FROM Work_domain
+                        WHERE domain_name = :domainName;
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':domainName', $domainName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
@@ -30,8 +32,10 @@ class DomainQueries
 
     public function InsertDomain($domainName)
     {
-        $sqlQuery = 'INSERT INTO Work_domain (domain_name) 
-                        VALUES (:domainName)';
+        $sqlQuery = 'LOCK TABLE Work_domain WRITE;
+                     INSERT INTO Work_domain (domain_name) 
+                        VALUES (:domainName);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':domainName', $domainName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement

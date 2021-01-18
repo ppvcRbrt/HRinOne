@@ -15,8 +15,10 @@ class AssessmentQueries
 
     public function DeleteAssessment($name)
     {
-        $sqlQuery = 'DELETE FROM Assessment
-                        WHERE name = :name';
+        $sqlQuery = 'LOCK TABLE Assessment WRITE;;
+                     DELETE FROM Assessment
+                        WHERE name = :name;
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
@@ -24,8 +26,10 @@ class AssessmentQueries
 
     public function InsertAssessment($name, $description, $candidateID, $assessmentTypeID)
     {
-        $sqlQuery = 'INSERT INTO Assessment (name, description, candidate_ID, assessment_type_ID) 
-                        VALUES (:name, :description, :candidateID, :assessmentTypeID)';
+        $sqlQuery = 'LOCK TABLE Assessment WRITE;
+                     INSERT INTO Assessment (name, description, candidate_ID, assessment_type_ID) 
+                        VALUES (:name, :description, :candidateID, :assessmentTypeID);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->bindValue(':description', $description, PDO::PARAM_STR);

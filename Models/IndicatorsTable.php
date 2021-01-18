@@ -5,7 +5,6 @@ class IndicatorsTable
 
     protected $_indicator_ID, $name, $_indicator_description, $_feedback, $_score, $_weight, $question_ID; //Indicators table
 
-
     public function __construct($dbRow)
     {
 

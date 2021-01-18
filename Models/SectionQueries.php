@@ -15,8 +15,10 @@ class SectionQueries
 
     public function DeleteSection($sectionName)
     {
-        $sqlQuery = 'DELETE FROM Section
-                        WHERE name = :name';
+        $sqlQuery = 'LOCK TABLE Section WRITE;
+                     DELETE FROM Section
+                        WHERE name = :name;
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $sectionName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
@@ -24,8 +26,10 @@ class SectionQueries
 
     public function InsertSection($name, $description, $weight, $assessmentTypeID)
     {
-        $sqlQuery = 'INSERT INTO Section (name, weight, description, assessment_type_ID) 
-                        VALUES (:name, :description, :weight, :assessmentTypeID)';
+        $sqlQuery = 'LOCK TABLE Section WRITE;
+                     INSERT INTO Section (name, weight, description, assessment_type_ID) 
+                        VALUES (:name, :description, :weight, :assessmentTypeID);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->bindValue(':weight', $weight, PDO::PARAM_STR);
