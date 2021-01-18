@@ -41,16 +41,10 @@ class UserQueries
     public function getName($ID)
     {
         $sqlQuery = 'SELECT name FROM Users 
-                     WHERE name = :ID';
+                     WHERE ID = :ID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':ID', $ID, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
-        $dataSet = [];
-        while ($row = $statement->fetch()) {
-            $dataSet[] = new UserTable($row);
-        }
-        return $dataSet;
+        return $statement->fetch();
     }
-
-
 }
