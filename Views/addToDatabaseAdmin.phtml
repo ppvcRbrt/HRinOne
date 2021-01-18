@@ -117,7 +117,8 @@
         }
             ?>
             <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
-                <label>In order to add an assessment type please specify which work domain you would like to add the assessment type for</label>
+                <p>In order to add an assessment type please specify which work domain you would like to add the assessment type for</p>
+                <label>Work Domains: </label>
                 <select name="workDom" multiple class="form-control">
                     <?php
                     foreach($view->dom as $currentDomain)
@@ -150,7 +151,17 @@
             echo '<div class="tab-pane fade" id="addSection" role="tabpanel" aria-labelledby="sectionAddPill">';
         }
         ?>
-            <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+            <!-- Work domain Select -->
+            <?php
+                if(isset($_COOKIE["workDomSelected"]))
+                {
+                   echo '<form class="form-group d-none" method = "post" action="../addToDatabaseAdmin.php">';
+                }
+                else
+                {
+                    echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">';
+                }
+            ?>
                 <label>In order to add a section please specify the work domain</label>
                 <select name = "workDomNameSect" multiple class="form-control">
                     <?php
@@ -160,19 +171,47 @@
                     }
                     ?>
                 </select>
-                <label>And please specify the assessment type</label>
+                <button type="submit" name = "selectWorkDomain" class="btn btn-primary">Select Work Domain</button>
+            </form>
 
-                <select name = "assessmentTypeName" multiple class="form-control">
+            <!-- Assessment Type Select -->
+            <?php
+            if(isset($_COOKIE["workDomSelected"]) and !isset($_COOKIE["assessmentTypeSelected"]))
+            {
+                echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">';
+            }
+            else
+            {
+                echo '<form class="form-group d-none" method = "post" action="../addToDatabaseAdmin.php">';
+            }
+            ?>
+                <label>And please specify the assessment type</label>
+                <select name = "assessmentTypeNameSect" multiple class="form-control">
                     <?php
-                    foreach($view->a as $currentDomain)
+                    foreach($view->assess as $currentAssessmentType)
                     {
-                        echo '<option>'.$currentDomain->getDomain(). '</option>';
+                        echo '<option>'.$currentAssessmentType->getName(). '</option>';
                     }
                     ?>
                 </select>
-                <label for="assTypeToAddName">Assessment Type Name: </label>
-                <input class="form-control" type="text" name = "assTypeToAddName" placeholder="Assessment Type Name">
-                <label for="assTypeToAddDesc">Assessment Type Description: </label>
+                <button type="submit" name = "selectAssessmentType" class="btn btn-primary">Select Assessment Type</button>
+            </form>
+
+            <!-- Section Addition here -->
+            <?php
+            if(isset($_COOKIE["workDomSelected"]) and isset($_COOKIE["assessmentTypeSelected"]))
+            {
+                echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">';
+            }
+            else
+            {
+                echo '<form class="form-group d-none" method = "post" action="../addToDatabaseAdmin.php">';
+            }
+            ?>
+            <form class="form-group d-none" method = "post" action="../addToDatabaseAdmin.php">
+                <label for="assTypeToAddName">Section Name: </label>
+                <input class="form-control" type="text" name = "assTypeToAddName" placeholder="Section Name">
+                <label for="assTypeToAddDesc">Section Description: </label>
                 <textarea class="form-control" id="assTypeToAddDesc" rows="2"></textarea>
                 <button type="submit" name = "addSection" class="btn btn-primary">Add</button>
             </form>
@@ -194,8 +233,41 @@
             echo '<div class="tab-pane fade" id="addQuestion" role="tabpanel" aria-labelledby="questionAddPill">';
         }
         ?>
-        <div class="tab-pane fade" id="addQuestion" role="tabpanel" aria-labelledby="questionAddPill">
-            <button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>
+            <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+                <p>In order to add questions please select the domain, assessment type and section of the question </p>
+
+                <label>Work Domains:</label>
+                <select name = "workDomNameQuestion" multiple class="form-control">
+                    <?php
+                    foreach($view->dom as $currentDomain)
+                    {
+                        echo '<option>'.$currentDomain->getDomain(). '</option>';
+                    }
+                    ?>
+                </select>
+
+                <label> Assessment Types:</label>
+                <select name = "assessmentTypeNameQuestion" multiple class="form-control">
+                    <?php
+                    foreach($view->assess as $currentAssessmentType)
+                    {
+                        echo '<option>'.$currentAssessmentType->getName(). '</option>';
+                    }
+                    ?>
+                </select>
+                <label> Sections:</label>
+                <select name = "SectionNameQuestion" multiple class="form-control">
+                    <?php
+                    foreach($view->sections as $currentSection)
+                    {
+                        echo '<option>'.$currentSection->getName(). '</option>';
+                    }
+                    ?>
+                </select>
+                <label>Enter your Question</label>
+                <textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add"></textarea>
+                <button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>
+            </form>
         </div>
 </div>
 <a href="../fuckTheCookies.php" class="btn btn-primary">Delete Cookies</a>
