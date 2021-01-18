@@ -44,6 +44,7 @@ if(isset($_POST["submit"]))
         setcookie("assessmentTypeDesc", $_POST["assTypeDesc"]);
         header("location:addToDatabase.php");
     }
+
     if(!empty($_POST["section"]))
     {
         setcookie("sectionName", $_POST["section"]);
@@ -52,11 +53,11 @@ if(isset($_POST["submit"]))
     {
         $sectQuery->InsertSection($_POST["sectionName"],$_POST["sectionDesc"], 100, $_COOKIE["assessmentID"]);
     }
+
     if(!empty($_POST["maxQuestion"]) and !empty($_POST["maxScore"]))
     {
         setcookie("maxQuestion", $_POST["maxQuestion"]);
         setcookie("maxScore", $_POST["maxScore"]);
-        header("location:addToDatabase.php");
     }
     header("location:addToDatabase.php");
 }

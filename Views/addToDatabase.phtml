@@ -122,19 +122,23 @@
 
         ?>
             <form class="form-group" method = "post" action="../addToDatabase.php">
-                <datalist id="questions">
-                    <?php
+                <?php
+                    for($x=0;$x<$_COOKIE["maxQuestion"];$x++)
+                    {
+                        echo '<input class="form-control" list="questionsToChoose'.$x.'" name="questionForSect"/>';
+                        echo '<datalist id="questionsToChoose'.$x.'">';
                         foreach($view->questions as $currentQuestion)
                         {
-                            echo  "<option value='".$currentQuestion->getQuestion()."'/>";
+                            echo  "<option>".$currentQuestion->getQuestion()."</option>";
                         }
-                        ?>
-                </datalist>
-
-                <input class="form-control" type="text" name = "sectionDesc" list = "questions">
-                <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
+                        echo '</datalist>';
+                    }
+                ?>
             </form>
 
+
+    <input class="form-control" type="text" name = "sectionDesc" list = "questions">
+    <button type="submit" name = "submit" class="btn btn-primary">Submit</button>
             </div>
     <a href="../fuckTheCookies.php" class="btn btn-primary">Delete Cookies</a>
 
