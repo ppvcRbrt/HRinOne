@@ -290,7 +290,14 @@
                     <?php
                     foreach($view->dom as $currentDomain)
                     {
-                        echo '<option>'.$currentDomain->getDomain(). '</option>';
+                        if($currentDomain->getDomain() == $_SESSION["selectedForAddQuestion"][0])
+                        {
+                            echo '<option selected>'.$currentDomain->getDomain(). '</option>';
+                        }
+                        else
+                        {
+                            echo '<option>'.$currentDomain->getDomain(). '</option>';
+                        }
                     }
                     ?>
                 </select>
@@ -300,7 +307,14 @@
                     <?php
                     foreach($view->assess as $currentAssessmentType)
                     {
-                        echo '<option>'.$currentAssessmentType->getName(). '</option>';
+                        if($currentAssessmentType->getName() == $_SESSION["selectedForAddQuestion"][1])
+                        {
+                            echo '<option selected>' . $currentAssessmentType->getName() . '</option>';
+                        }
+                        else
+                        {
+                            echo '<option>' . $currentAssessmentType->getName() . '</option>';
+                        }
                     }
                     ?>
                 </select>
@@ -309,7 +323,14 @@
                     <?php
                     foreach($view->sections as $currentSection)
                     {
-                        echo '<option>'.$currentSection->getName(). '</option>';
+                        if($currentSection->getName() == $_SESSION["selectedForAddQuestion"][2])
+                        {
+                            echo '<option selected>' . $currentSection->getName() . '</option>';
+                        }
+                        else
+                        {
+                            echo '<option>' . $currentSection->getName() . '</option>';
+                        }
                     }
                     ?>
                 </select>
