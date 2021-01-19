@@ -37,6 +37,7 @@ class AssessmentTypeQueries
         $statement->execute(); // execute the PDO statement
     }
 
+
     public function GetAssessmentTypeID($name)
     {
         $sqlQuery = 'SELECT assessment_type_ID 
@@ -48,6 +49,23 @@ class AssessmentTypeQueries
         return $statement->fetch();
     }
 
+    public function getAssessmentTypeByWorkDom($workDomName)
+    {
+        $sqlQuery = 'SELECT Assessment_type.name 
+                        FROM Assessment_type, Work_domain
+                        WHERE Assessment_type.work_domain_ID = Work_domain.work_domain_ID
+                        AND Work_domain.domain_name = :domainName';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':domainName', $workDomName, PDO::PARAM_STR);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new AssessmentTypeTable($row);
+        }
+        return $dataSet;
+
+
+    }
     public function getAll()
     {
         $sqlQuery = 'SELECT name FROM Assessment_type';
