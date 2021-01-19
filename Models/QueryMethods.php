@@ -1,5 +1,5 @@
 <?php
-class QueryMethods{
+class QueryMethods {
 
     /**
      * Function that helps us bind multiple values to a statement

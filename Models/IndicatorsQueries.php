@@ -3,6 +3,11 @@
 require_once('Database.php');
 require_once('IndicatorsTable.php');
 
+/**
+ * Class IndicatorsQueries. This class is used to manipulate data in the Indicator table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class IndicatorsQueries
 {
     protected $_dbInstance;

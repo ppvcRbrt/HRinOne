@@ -2,10 +2,16 @@
 require_once('Database.php');
 require_once('UserTable.php');
 
+/**
+ * Class UserQueries. This class is used to manipulate data in the User table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class UserQueries
 {
     protected $_dbInstance;
     protected $_dbHandle;
+
 
     public function __construct()
     {

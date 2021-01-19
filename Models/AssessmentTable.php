@@ -8,6 +8,9 @@ class AssessmentTable
 {
     protected $_assessment_ID, $_name, $_description, $_candidate_ID, $_assessment_type_ID;
 
+    /**
+     * Constructor of the AssessmentTable class
+     */
     public function __construct($dbRow)
     {
 

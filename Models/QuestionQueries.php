@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('QuestionTable.php');
 
+/**
+ * Class QuestionQueries. This class is used to manipulate data in the Question table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class QuestionQueries
 {
     protected $_dbInstance;
@@ -13,6 +18,11 @@ class QuestionQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * This function is used to delete a question given its name.
+     *
+     * @param $question
+     */
     public function DeleteQuestion($question)
     {
         $sqlQuery = 'LOCK TABLE Question WRITE;
@@ -24,6 +34,13 @@ class QuestionQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to insert a question into the database using the actual
+     * content of the question and the section ID which it is part from.
+     *
+     * @param $question
+     * @param $sectionID
+     */
     public function InsertQuestion($question, $sectionID)
     {
         $sqlQuery = 'LOCK TABLE Question WRITE;
@@ -36,6 +53,12 @@ class QuestionQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to gather a question from the database based on its name.
+     *
+     * @param $question
+     * @return mixed
+     */
     public function GetQuestionID($question)
     {
         $sqlQuery = 'SELECT question 
@@ -47,6 +70,11 @@ class QuestionQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather all the questions from the table.
+     *
+     * @return array
+     */
     public function getAll()
     {
         $sqlQuery = 'SELECT question FROM Question';

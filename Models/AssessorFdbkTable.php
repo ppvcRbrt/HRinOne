@@ -8,6 +8,9 @@ class AssessorFdbkTable
 
     protected $_feedback_ID, $_question_ID, $_feedback;
 
+    /**
+     * Constructor of the AssessorFdbkTable class
+     */
     public function __construct($dbRow)
     {
 
