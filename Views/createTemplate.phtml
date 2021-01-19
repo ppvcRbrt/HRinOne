@@ -1,0 +1,94 @@
+<?php require_once("template/header.phtml"); ?>
+<div class = "container">
+    <?php
+        if(isset($_GET['candID']))
+        {
+            echo '<div class = "row justify-content-center">';
+            echo '<h2>Currently Creating template for '.$view->candName[0].'</h2>';
+            echo '</div>';
+
+            echo '<div class = "row justify-content-center">';
+            echo '<h3>His work domain: '.$view->candDom[0].'</h3>';
+            echo '</div>';
+
+        }
+        else if(isset($_COOKIE["candidateID"]))
+        {
+            if(!empty($_COOKIE["candidateID"]))
+                echo '<div class = "row justify-content-center">';
+                echo '<h2>Currently Creating template for '.$view->candName[0].'</h2>';
+                echo '</div>';
+
+                echo '<div class = "row justify-content-center">';
+                echo '<h3>His work domain: '.$view->candDom[0].'</h3>';
+                echo '</div>';
+        }
+        else
+        {
+            echo '<div class = "row justify-content-center">';
+            echo '<h2>Here you can create a template based on the information in the database</h2>';
+            echo '</div>';
+        }
+    ?>
+    <?php
+        if(!empty($_COOKIE["candName"]))
+        {
+            echo '<div class = "d-none">';
+        }
+        else
+            echo '<div>';
+    ?>
+        <form class="form-group" method = "post" action="../createTemplate.php">
+            <label>Please enter candidate's name to search through all candidates</label>
+            <input class="form-control" type="text" name = "candName" placeholder="Please Enter candidate name">
+            <button type="submit" name = "search" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    <?php
+    if(empty($_COOKIE["assessmentType"]) and !empty($_COOKIE["candName"]) and !empty($_COOKIE["candidateID"]) and !empty($_COOKIE["domain"]))
+    {
+        echo '<div>';
+    }
+    else
+    {
+        echo '<div class = "d-none">';
+    }
+
+    ?>
+        <form class="form-group" method = "post" action="../createTemplate.php">
+            <label> Assessment Types:</label>
+            <select name = "assessmentTypes" multiple class="form-control">
+                <?php
+                foreach($view->assessmentTy as $currentType)
+                {
+                    echo '<option>'.$currentType->getName(). '</option>';
+                }
+                ?>
+            </select>
+            <button type="submit" name = "selectedAssessmentType" class="btn btn-primary">Select Assessment Type</button>
+        </form>
+    </div>
+
+
+
+        <?php
+        if(!empty($_COOKIE["assessmentType"]) and !empty($_COOKIE["candName"]) and empty($_COOKIE["maxSections"]))
+        {
+            echo '<div>';
+        }
+        else {
+            echo '<div class = "d-none">';
+        }
+        ?>
+        <form class="form-group" method = "post" action="../createTemplate.php">
+            <label>Please Enter How Many Sections you would like</label>
+            <input class="form-control" type="number" name = "maxSections" placeholder="Please Enter Maximum section no">
+            <button type="submit" name = "maxPost" class="btn btn-primary">Enter Maximum Sections</button>
+        </form>
+    </div>
+    <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
+
+</div>
+
+<?php require_once("template/footer.phtml");

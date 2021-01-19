@@ -8,4 +8,5 @@ if (isset($_SERVER['HTTP_COOKIE'])) {
         setcookie($name, '', time()-1000);
         setcookie($name, '', time()-1000, '/');
     }
+    require_once("index.php");
 }

@@ -7,6 +7,7 @@ if($_SESSION['loggedIn']) { //php will check if user is logged in
     //echo hello username and give the user the option to logout
     echo '<h1>Here are your options based on your pre-set privileges</h1>';
     echo '<row class = "justify-content-center">
+              <a href="../addToDatabaseAdmin.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add Items to database</a>
               <a href="../generateFeedback.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Generate Feedback</a>
               <a href="../logout.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Logout</a>
             </row>';
