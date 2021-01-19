@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('SectionTable.php');
 
+/**
+ * Class AssessmentQueries. This class represents the queries for manipulating data
+ * regarding section queries.
+ */
+
 class SectionQueries
 {
     protected $_dbInstance;
@@ -13,6 +18,11 @@ class SectionQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * This function is intended to delete a section based on its name
+     *
+     * @param $sectionName
+     */
     public function DeleteSection($sectionName)
     {
         $sqlQuery = 'LOCK TABLE Section WRITE;
@@ -24,6 +34,15 @@ class SectionQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is intended to be used to insert a new section into the database using the
+     * required information (section name, description, score weight and assessment type ID
+     *
+     * @param $name
+     * @param $description
+     * @param $weight
+     * @param $assessmentTypeID
+     */
     public function InsertSection($name, $description, $weight, $assessmentTypeID)
     {
         $sqlQuery = 'LOCK TABLE Section WRITE;
@@ -39,6 +58,12 @@ class SectionQueries
 
     }
 
+    /**
+     * This method is used to gather a section ID using its name
+     *
+     * @param $name
+     * @return mixed
+     */
     public function GetSectionIDByName($name)
     {
         $sqlQuery = 'SELECT section_ID 
