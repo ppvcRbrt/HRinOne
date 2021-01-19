@@ -30,6 +30,17 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
     }
 
+
+    /**
+     * This function is used to insert a new indicator in the database given its details
+     * (Indicator description, feedback, score, witght and section ID)
+     *
+     * @param $description
+     * @param $feedback
+     * @param $score
+     * @param $weight
+     * @param $sectionID
+     */
     public function InsertIndicator($description, $feedback, $score, $weight, $sectionID)
     {
         $sqlQuery = 'LOCK TABLE Indicator WRITE;
@@ -45,6 +56,13 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
     }
 
+
+    /**
+     * This function is used to gather information about indicators based on a section name.
+     *
+     * @param $sectionName
+     * @return array
+     */
     public function GetIndicator($sectionName)
     {
         $sqlQuery = 'SELECT feedback, score, Indicators.weight, Indicators.section_ID 

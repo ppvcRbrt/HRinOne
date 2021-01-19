@@ -3,6 +3,11 @@
 require_once('Database.php');
 require_once('DomainTable.php');
 
+/**
+ * Class DomainQueries. This class is used to manipulate data in the Work_domain table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class DomainQueries
 {
     protected $_dbInstance;
@@ -30,6 +35,12 @@ class DomainQueries
         $statement->execute(); // execute the PDO statement
     }
 
+
+    /**
+     * This function is used to add a new domain into the database given its name.
+     *
+     * @param $domainName
+     */
     public function InsertDomain($domainName)
     {
         $sqlQuery = 'LOCK TABLE Work_domain WRITE;
@@ -41,6 +52,12 @@ class DomainQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to gather a work domain ID given its name.
+     *
+     * @param $domainName
+     * @return mixed
+     */
     public function GetDomainID($domainName)
     {
         $sqlQuery = 'SELECT work_domain_ID 
@@ -52,6 +69,11 @@ class DomainQueries
     return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather all work domain names from the database.
+     *
+     * @return array
+     */
     public function getAll()
     {
         $sqlQuery = 'SELECT domain_name FROM Work_domain';

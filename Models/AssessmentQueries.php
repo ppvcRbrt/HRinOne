@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('AssessmentTable.php');
 
+/**
+ * Class AssessmentQueries. This class is used to manipulate data in the Assessment table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class AssessmentQueries
 {
     protected $_dbInstance;
@@ -13,6 +18,11 @@ class AssessmentQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * This function is used to delete an assesment given its name.
+     *
+     * @param $name
+     */
     public function DeleteAssessment($name)
     {
         $sqlQuery = 'LOCK TABLE Assessment WRITE;;
@@ -24,6 +34,16 @@ class AssessmentQueries
         $statement->execute(); // execute the PDO statement
     }
 
+
+    /**
+     * This function is used to insert an assessment into the database given the required informatio
+     * (assessment name, description, candidateID and the assesment type ID).
+     *
+     * @param $name
+     * @param $description
+     * @param $candidateID
+     * @param $assessmentTypeID
+     */
     public function InsertAssessment($name, $description, $candidateID, $assessmentTypeID)
     {
         $sqlQuery = 'LOCK TABLE Assessment WRITE;
@@ -38,6 +58,12 @@ class AssessmentQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to gather the assessment ID given its name.
+     *
+     * @param $name
+     * @return mixed
+     */
     public function GetAssessmentID($name)
     {
         $sqlQuery = 'SELECT assessment_ID 
@@ -49,6 +75,12 @@ class AssessmentQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather an assessment name given its ID.
+     *
+     * @param $assessmentID
+     * @return array
+     */
     public function getAssessmentName($assessmentID)
     {
         $sqlQuery = 'SELECT name FROM Assessment
@@ -63,6 +95,12 @@ class AssessmentQueries
         return $dataSet;
     }
 
+    /**
+     * This method is used to gather an assessment description using its ID.
+     *
+     * @param $assessmentID
+     * @return array
+     */
     public function getAssessmentDescription($assessmentID)
     {
         $sqlQuery = 'SELECT description FROM Assessment
@@ -77,6 +115,11 @@ class AssessmentQueries
         return $dataSet;
     }
 
+    /**
+     * This function is used to gather all names from the Assessment table.
+     *
+     * @return array
+     */
     public function getAll()
     {
         $sqlQuery = 'SELECT name FROM Assessment';

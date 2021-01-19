@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class FeedbackTable : This class will allow us to get individual columns from Feedback Queries
+ * Class AssessmentTypeTable : This class will allow us to get individual columns from AssessmentType Queries
  */
 class AssessmentTypeTable
 {
