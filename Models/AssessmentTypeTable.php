@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class FeedbackTable : This class will allow us to get individual columns from Feedback Queries
+ * Class AssessmentTypeTable: This class will allow us to get individual columns from Assessment type queries
  */
 class AssessmentTypeTable
 {
@@ -10,12 +10,10 @@ class AssessmentTypeTable
 
     public function __construct($dbRow)
     {
-
         $this->_assessment_type_ID = $dbRow['assessment_type_ID']?? null;
         $this->_name = $dbRow['name']?? null;
         $this->_description = $dbRow['description']?? null;
         $this->_work_domain_ID = $dbRow['work_domain_ID']?? null;
-
     }
 
     public function getAssessmentTypeID()

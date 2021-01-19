@@ -2,6 +2,10 @@
 require_once('Database.php');
 require_once('CandidateInfoTable.php');
 
+/**
+ * Class CandidateInfoQueries : This class will allow us to manipulate data regarding candidates
+ */
+
 class CandidateInfoQueries
 {
     protected $_dbInstance;
@@ -12,7 +16,12 @@ class CandidateInfoQueries
         $this->_dbInstance = Database::getInstance();
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
-    // normalizare plm normalized = (x-min(x))/(max(x)-min(x))
+
+
+    /**
+     * Normalisation -> (x-min(x))/(max(x)-min(x))
+     */
+
     /**
      * Function to query and return all info from table
      * @return array: will return an array of our rows

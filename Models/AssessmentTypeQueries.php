@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('AssessmentTypeTable.php');
 
+/**
+ * Class AssessmentQueries. This class represents the queries for manipulating data
+ * regarding assessment types.
+ */
+
 class AssessmentTypeQueries
 {
     protected $_dbInstance;
@@ -13,6 +18,12 @@ class AssessmentTypeQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+
+    /**
+     * This function is used to delete an assessment type based on its name.
+     *
+     * @param $typeName
+     */
     public function DeleteAssessmentType($typeName)
     {
         $sqlQuery = 'LOCK TABLE Assessment_type WRITE;
@@ -24,6 +35,15 @@ class AssessmentTypeQueries
         $statement->execute(); // execute the PDO statement
     }
 
+
+    /**
+     * This function is used to insert an assessment type into the database
+     * given the required information (name, description and work domain ID).
+     *
+     * @param $name
+     * @param $description
+     * @param $workDomainID
+     */
     public function InsertAssessmentType($name, $description, $workDomainID)
     {
         $sqlQuery = 'LOCK TABLE Assessment_type WRITE;
@@ -37,6 +57,12 @@ class AssessmentTypeQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This method is used to gather an assessment type ID given its name.
+     *
+     * @param $name
+     * @return mixed
+     */
     public function GetAssessmentTypeID($name)
     {
         $sqlQuery = 'SELECT assessment_type_ID 
@@ -48,6 +74,11 @@ class AssessmentTypeQueries
         return $statement->fetch();
     }
 
+    /**
+     * This method is used to gather all names of the assessment types.
+     *
+     * @return array
+     */
     public function getAll()
     {
         $sqlQuery = 'SELECT name FROM Assessment_type';

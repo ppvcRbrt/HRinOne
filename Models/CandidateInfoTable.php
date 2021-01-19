@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class CandidateInfoTable : This class will allow us to get individual columns from Candidate information queries
+ */
+
 class CandidateInfoTable
 {
 

@@ -7,7 +7,6 @@ class IndicatorsTable
 
     public function __construct($dbRow)
     {
-
         $this->_indicator_ID = $dbRow['indicator_ID']?? null;
         $this->_name = $dbRow['name']??null;
         $this->_indicator_description = $dbRow['indicator_description']?? null;
