@@ -110,7 +110,11 @@ class QuestionQueries
         $statement->bindValue(':assessmentTypeName', $assessmentTypeName, PDO::PARAM_STR);
         $statement->bindValue(':workDomainName', $workDomainName, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
-        return $statement->fetch();
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new QuestionTable($row);
+        }
+        return $dataSet;
     }
 
 

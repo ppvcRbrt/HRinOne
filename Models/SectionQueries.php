@@ -92,6 +92,26 @@ class SectionQueries
         return $dataSet;
     }
 
+
+    public function getSectionsByAssessmentTypeID($assessmentTypeID, $workDomID)
+    {
+        $sqlQuery = 'SELECT Section.name 
+                        FROM Section, Assessment_type, Work_domain
+                        WHERE Section.assessment_type_ID = Assessment_type.assessment_type_ID
+                        AND Assessment_type.work_domain_ID = Work_domain.work_domain_ID
+                        AND Assessment_type.assessment_type_ID = :assessmentTypeID
+                        AND Work_domain.work_domain_ID = :workDomID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':assessmentTypeID', $assessmentTypeID, PDO::PARAM_INT);
+        $statement->bindValue(':workDomID', $workDomID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new SectionTable($row);
+        }
+        return $dataSet;
+    }
+
     /**
      * This needs to be tester before deployment
      */

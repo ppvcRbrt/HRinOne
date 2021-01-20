@@ -88,7 +88,7 @@
         </form>
     </div>
     <?php
-    if(!empty($_COOKIE["maxSections"]))
+    if(!empty($_COOKIE["maxSections"]) and !isset($_SESSION["questions0"]))
     {
         echo '<div>';
     }
@@ -98,27 +98,83 @@
     ?>
         <form class="form-group" method = "post" action="../createTemplate.php">
             <label>Please select Which Sections You Would like added</label>
-
             <?php
                 for($x=0;$x<$_COOKIE["maxSections"];$x++)
                 {
-                    echo '<input list = "sections'.$x.'" class="form-control" type="text" name = "maxSections" placeholder="Please Enter Section">';
+                    echo '<input list = "section" class="form-control" type="text" name = "sectionChoose'.$x.'" placeholder="Please Enter Section">';
+                }
+                ?>
+            <datalist id="section">
+            <?php
+                foreach($view->sections as $currentSect)
+                {
+                    echo '<option>'.$currentSect->getName().'</option>';
                 }
             ?>
-
-            <datalist id="sections">
-                <option value="Chocolate">
-                <option value="Coconut">
-                <option value="Mint">
-                <option value="Strawberry">
-                <option value="Vanilla">
             </datalist>
-
             <button type="submit" name = "sectionSubmit" class="btn btn-primary">Enter</button>
         </form>
         </div>
-    <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
+        <?php
+            if(isset($_SESSION["questions0"]) and !isset($_SESSION["maxQperSect0"]))
+            {
+                echo '<div>';
+            }
+            else
+            {
+                echo '<div class = "d-none">';
+            }
+            ?>
+                <form class="form-group" method = "post" action="../createTemplate.php">
+                    <?php
+                    if(isset($_COOKIE["maxSections"]))
+                    {
+                        for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
+                        {
+                            echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
+                            echo '<input class="form-control" type="number" name = "maxQuestionsPerSect' . $x . '" placeholder="Please Enter Maximum questions per section">';
 
+                        }
+                    }
+                    ?>
+                    <button type="submit" name = "maxQperSectionSubmit" class="btn btn-primary">Enter</button>
+                </form>
+        </div>
+
+        <?php
+        if(isset($_SESSION["questions0"]) and isset($_SESSION["maxQperSect0"]))
+        {
+            echo '<div>';
+        }
+        else
+        {
+            echo '<div class = "d-none">';
+        }
+        ?>
+        <form class="form-group" method = "post" action="../createTemplate.php">
+            <!--Section Header -->
+            <?php
+            for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
+            {
+                echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
+                //
+
+                for($y = 0; $y < (int)$_SESSION["maxQperSect".$x][0]; $y++)
+                {
+                    echo '<input list = "sectionQuestions'.$x.'" class="form-control" type="text" name = "questionPerSect' . $y . '" placeholder="Please Enter Question here">';
+                }
+                echo '<datalist id="sectionQuestions'.$x.'">';
+                for($z = 0; $z < (int)$_SESSION["maxQperSect".$x][0]; $z++)
+                {
+                    echo '<option>'.$_SESSION["questions".$x][$z].'</option>';
+                }
+                echo '</datalist>';
+            }
+            ?>
+            <button type="submit" name = "done" class="btn btn-primary">Enter</button>
+        </form>
+    </div>
+    <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
 </div>
 
 <?php require_once("template/footer.phtml");
