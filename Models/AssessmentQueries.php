@@ -19,7 +19,7 @@ class AssessmentQueries
     }
 
     /**
-     * This function is used to delete an assesment given its name.
+     * This function is used to delete an assessment given its name.
      *
      * @param $name
      */
@@ -37,7 +37,7 @@ class AssessmentQueries
 
     /**
      * This function is used to insert an assessment into the database given the required informatio
-     * (assessment name, description, candidateID and the assesment type ID).
+     * (assessment name, description, candidateID and the assessment type ID).
      *
      * @param $name
      * @param $description
