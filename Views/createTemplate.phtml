@@ -15,6 +15,7 @@
         else if(isset($_COOKIE["candidateID"]))
         {
             if(!empty($_COOKIE["candidateID"]))
+            {
                 echo '<div class = "row justify-content-center">';
                 echo '<h2>Currently Creating template for '.$view->candName[0].'</h2>';
                 echo '</div>';
@@ -22,6 +23,14 @@
                 echo '<div class = "row justify-content-center">';
                 echo '<h3>His work domain: '.$view->candDom[0].'</h3>';
                 echo '</div>';
+            }
+            else
+            {
+                echo '<div class = "row justify-content-center">';
+                echo '<h2>Here you can create a template based on the information in the database</h2>';
+                echo '</div>';
+            }
+
         }
         else
         {
@@ -87,6 +96,7 @@
             <button type="submit" name = "maxPost" class="btn btn-primary">Enter Maximum Sections</button>
         </form>
     </div>
+
     <?php
     if(!empty($_COOKIE["maxSections"]) and !isset($_SESSION["questions0"]))
     {
@@ -114,7 +124,8 @@
             </datalist>
             <button type="submit" name = "sectionSubmit" class="btn btn-primary">Enter</button>
         </form>
-        </div>
+    </div>
+
         <?php
             if(isset($_SESSION["questions0"]) and !isset($_SESSION["maxQperSect0"]))
             {
@@ -127,15 +138,16 @@
             ?>
                 <form class="form-group" method = "post" action="../createTemplate.php">
                     <?php
-                    if(isset($_COOKIE["maxSections"]))
-                    {
-                        for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
+                    if(isset($_SESSION["questions0"]) and !isset($_SESSION["maxQperSect0"]))
+                        if(isset($_COOKIE["maxSections"]))
                         {
-                            echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
-                            echo '<input class="form-control" type="number" name = "maxQuestionsPerSect' . $x . '" placeholder="Please Enter Maximum questions per section">';
+                            for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
+                            {
+                                echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
+                                echo '<input class="form-control" type="number" name = "maxQuestionsPerSect' . $x . '" placeholder="Please Enter Maximum questions per section">';
 
+                            }
                         }
-                    }
                     ?>
                     <button type="submit" name = "maxQperSectionSubmit" class="btn btn-primary">Enter</button>
                 </form>
@@ -154,22 +166,23 @@
         <form class="form-group" method = "post" action="../createTemplate.php">
             <!--Section Header -->
             <?php
-            for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
-            {
-                echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
-                //
+            if(isset($_SESSION["questions0"]) and isset($_SESSION["maxQperSect0"]))
+                for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
+                {
+                    echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
+                    //
 
-                for($y = 0; $y < (int)$_SESSION["maxQperSect".$x][0]; $y++)
-                {
-                    echo '<input list = "sectionQuestions'.$x.'" class="form-control" type="text" name = "questionPerSect' . $y . '" placeholder="Please Enter Question here">';
+                    for($y = 0; $y < (int)$_SESSION["maxQperSect".$x][0]; $y++)
+                    {
+                        echo '<input list = "sectionQuestions'.$x.'" class="form-control" type="text" name = "questionPerSect' . $y . '" placeholder="Please Enter Question here">';
+                    }
+                    echo '<datalist id="sectionQuestions'.$x.'">';
+                    for($z = 0; $z < count($_SESSION["questions".$x]); $z++)
+                    {
+                        echo '<option>'.$_SESSION["questions".$x][$z].'</option>';
+                    }
+                    echo '</datalist>';
                 }
-                echo '<datalist id="sectionQuestions'.$x.'">';
-                for($z = 0; $z < (int)$_SESSION["maxQperSect".$x][0]; $z++)
-                {
-                    echo '<option>'.$_SESSION["questions".$x][$z].'</option>';
-                }
-                echo '</datalist>';
-            }
             ?>
             <button type="submit" name = "done" class="btn btn-primary">Enter</button>
         </form>
