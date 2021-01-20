@@ -87,6 +87,36 @@
             <button type="submit" name = "maxPost" class="btn btn-primary">Enter Maximum Sections</button>
         </form>
     </div>
+    <?php
+    if(!empty($_COOKIE["maxSections"]))
+    {
+        echo '<div>';
+    }
+    else {
+        echo '<div class = "d-none">';
+    }
+    ?>
+        <form class="form-group" method = "post" action="../createTemplate.php">
+            <label>Please select Which Sections You Would like added</label>
+
+            <?php
+                for($x=0;$x<$_COOKIE["maxSections"];$x++)
+                {
+                    echo '<input list = "sections'.$x.'" class="form-control" type="text" name = "maxSections" placeholder="Please Enter Section">';
+                }
+            ?>
+
+            <datalist id="sections">
+                <option value="Chocolate">
+                <option value="Coconut">
+                <option value="Mint">
+                <option value="Strawberry">
+                <option value="Vanilla">
+            </datalist>
+
+            <button type="submit" name = "sectionSubmit" class="btn btn-primary">Enter</button>
+        </form>
+        </div>
     <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
 
 </div>

@@ -335,10 +335,101 @@
                     ?>
                 </select>
                 <label>Enter your Question</label>
-                <textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add"></textarea>
-                <button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>
+                <?php
+                    if (isset($_COOKIE["questionToAdd"]))
+                    {
+                        if(!empty($_COOKIE["questionToAdd"]))
+                        {
+                            echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" readonly>'.$_COOKIE["questionToAdd"].'</textarea>';
+                        }
+                        else
+                        {
+                            echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add"></textarea>';
+                            echo '<button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>';
+                        }
+                    }
+                    else
+                    {
+                        echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add"></textarea>';
+                        echo '<button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>';
+                    }
+                ?>
+            </form>
+            <?php
+            if(isset($_COOKIE["questionToAdd"]))
+                if(!empty($_COOKIE["questionToAdd"]))
+                {
+                    echo '<div class="tab-pane fade show active" role="tabpanel" aria-labelledby="questionAddPill">';
+                }
+                else
+                {
+                    echo '<div class="tab-pane fade" role="tabpanel" aria-labelledby="questionAddPill">';
+                }
+            else
+            {
+                echo '<div class="tab-pane fade" role="tabpanel" aria-labelledby="questionAddPill">';
+            }
+            ?>
+            <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+                <label>Enter the max Score For Question: </label>
+                <?php
+                if(isset($_COOKIE["maxScore"]))
+                {
+                    if(!empty($_COOKIE["maxScore"]))
+                    {
+                        echo '<input class="form-control" type="number" name = "maxScoreQuestion" placeholder="'.$_COOKIE["maxScore"].'" readonly>';
+                    }
+                    else
+                    {
+                        echo '<input class="form-control" type="number" name = "maxScoreQuestion" placeholder="please enter the max score here">';
+                        echo '<button type="submit" name = "maxScore" class="btn btn-primary">Enter The maximum Score</button>';
+                    }
+                }
+                else
+                {
+                    echo '<input class="form-control" type="number" name = "maxScoreQuestion" placeholder="please enter the max score here">';
+                    echo '<button type="submit" name = "maxScore" class="btn btn-primary">Enter The maximum Score</button>';
+                }
+                ?>
             </form>
         </div>
+        <?php
+        if(isset($_COOKIE["maxScore"]))
+            if(!empty($_COOKIE["maxScore"]))
+            {
+                echo '<div class="tab-pane fade show active" role="tabpanel" aria-labelledby="questionAddPill">';
+            }
+            else
+            {
+                echo '<div class="tab-pane fade" role="tabpanel" aria-labelledby="questionAddPill">';
+            }
+        else
+        {
+            echo '<div class="tab-pane fade" role="tabpanel" aria-labelledby="questionAddPill">';
+        }
+        ?>
+            <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+                <?php
+                    if(!empty($_COOKIE["maxScore"]))
+                    {
+                        for($x=0;$x<$_COOKIE["maxScore"];$x++)
+                        {
+                            $userScore = $x +1;
+                            echo '<label>Indicator Score:</label>';
+                            echo '<input class="form-control" type="number" name = "indicatorScore'.$x.'" value = "'.$userScore.'" readonly>';
+                            echo '<label>Please Enter the indicator description for the assessor</label>';
+                            echo '<input class="form-control" type="text" name = "indicatorName'.$x.'" placeholder="please enter indicator description for the assessor here">';
+                            echo '<label>Please Enter the indicator description for the auto-generated feedback</label>';
+                            echo '<input class="form-control" type="text" name = "indicatorFeedback'.$x.'" placeholder="please enter indicator feedback here">';
+                            echo '</br>';
+                            echo '</br>';
+                        }
+                    }
+                ?>
+                <button type="submit" name = "addIndicator" class="btn btn-primary">Finish</button>
+            </form>
+        </div>
+    </div>
 </div>
 <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
 

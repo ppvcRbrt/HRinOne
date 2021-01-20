@@ -3,6 +3,7 @@ require_once('Models/DomainQueries.php');
 require_once('Models/AssessmentTypeQueries.php');
 require_once('Models/SectionQueries.php');
 require_once('Models/QuestionQueries.php');
+require_once('Models/IndicatorsQueries.php');
 
 session_start();
 
@@ -13,6 +14,7 @@ $domainQuery = new DomainQueries();
 $asTypeQuery = new AssessmentTypeQueries();
 $sectQuery = new SectionQueries();
 $quesQuery = new QuestionQueries();
+$indQuery = new IndicatorsQueries();
 
 //get all so that the user can see all the different options
 $view->dom = $domainQuery->getAll();
@@ -173,6 +175,7 @@ $view->questions = $quesQuery->getAll();
     {
         setcookie("currentPage", "QuestionPage");
         setcookie("sectionAdded", "false");
+        setcookie("questionToAdd", $_POST["questionToAdd"]);
 
         $selectedForQuestion = [$_POST["workDomNameQuestion"],$_POST["assessmentTypeNameQuestion"], $_POST["SectionNameQuestion"]];
         $_SESSION["selectedForAddQuestion"] = $selectedForQuestion;
@@ -180,5 +183,49 @@ $view->questions = $quesQuery->getAll();
         $quesQuery->InsertQuestion($_POST["questionToAdd"],(int)$secID);
         header("location:addToDatabaseAdmin.php");
         exit();
+    }
+
+    if(isset($_POST["maxScore"]))
+    {
+        setcookie("currentPage", "QuestionPage");
+        setcookie("sectionAdded", "false");
+        if(!empty($_POST["maxScoreQuestion"]))
+        {
+            setcookie("maxScore", $_POST["maxScoreQuestion"]);
+        }
+        header("location:addToDatabaseAdmin.php");
+        exit();
+    }
+    if(isset($_POST["addIndicator"]))
+    {
+        setcookie("currentPage", "QuestionPage");
+        setcookie("sectionAdded", "false");
+        $indNames = array();
+        $indFeedback = array();
+        $indScore = array();
+        $isEnd = 0;
+        if(!empty($_COOKIE["maxScore"]))
+        {
+            $id = $quesQuery->GetQuestionID($_COOKIE["questionToAdd"]);
+            for($x = 0;$x<$_COOKIE["maxScore"]; $x++)
+            {
+                array_push($indNames, "indicatorName".$x);
+                array_push($indFeedback, "indicatorFeedback".$x);
+                array_push($indScore, "indicatorScore".$x);
+                $indWeight = 100/(int)$_COOKIE["maxScore"];
+                if(isset($_POST[$indNames[$x]]))
+                {
+                    $indQuery->InsertIndicator($_POST[$indNames[$x]],$_POST[$indFeedback[$x]],$_POST[$indScore[$x]],(string)$indWeight,(int)$id[0]);
+                }
+                $isEnd++;
+            }
+            if($isEnd == (int)$_COOKIE["maxScore"])
+            {
+                setcookie("maxScore", "");
+                setcookie("questionToAdd", "");
+                header("location:addToDatabaseAdmin.php");
+                exit();
+            }
+        }
     }
 require("Views/addToDatabaseAdmin.phtml");

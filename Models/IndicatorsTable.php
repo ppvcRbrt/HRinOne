@@ -14,7 +14,7 @@ class IndicatorsTable
         $this->_feedback = $dbRow['feedback']?? null;
         $this->_score = $dbRow['score']?? null;
         $this->_weight = $dbRow['weight']?? null;
-        $this->question_ID = $dbRow['section_ID']?? null;
+        $this->question_ID = $dbRow['question_ID']?? null;
     }
 
     public function getIndicatorID()

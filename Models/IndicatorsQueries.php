@@ -30,18 +30,18 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
     }
 
-    public function InsertIndicator($description, $feedback, $score, $weight, $sectionID)
+    public function InsertIndicator($description, $feedback, $score, $weight, $questionID)
     {
         $sqlQuery = 'LOCK TABLE Indicator WRITE;
-                     INSERT INTO Indicator (indicator_description,feedback,score,weight,section_ID) 
-                        VALUES (:description,:feedback,:score,:weight,:section_ID);
+                     INSERT INTO Indicator (indicator_description,feedback,score,weight,question_ID) 
+                        VALUES (:description,:feedback,:score,:weight,:question_ID);
                      UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':description', $description, PDO::PARAM_STR);
         $statement->bindValue(':feedback', $feedback, PDO::PARAM_STR);
         $statement->bindValue(':score', $score, PDO::PARAM_STR);
         $statement->bindValue(':weight', $weight, PDO::PARAM_STR);
-        $statement->bindValue(':section_ID', $sectionID, PDO::PARAM_STR);
+        $statement->bindValue(':question_ID', $questionID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
     }
 

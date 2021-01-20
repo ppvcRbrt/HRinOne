@@ -38,9 +38,9 @@ class QuestionQueries
 
     public function GetQuestionID($question)
     {
-        $sqlQuery = 'SELECT question 
+        $sqlQuery = 'SELECT question_ID 
                         FROM Question 
-                        WHERE name = :name';
+                        WHERE question = :name';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $question, PDO::PARAM_STR);
         $statement->execute(); // execute the PDO statement
