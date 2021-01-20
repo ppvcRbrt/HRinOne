@@ -5,11 +5,13 @@ class IndicatorsTable
 
     protected $_indicator_ID, $name, $_indicator_description, $_feedback, $_score, $_weight, $question_ID; //Indicators table
 
+    /**
+     * Constructor of the IndicatorsTable class
+     */
     public function __construct($dbRow)
     {
-
         $this->_indicator_ID = $dbRow['indicator_ID']?? null;
-        $this->_name = $dbRow['name']??null;
+        $this->_name = $dbRow['name']?? null;
         $this->_indicator_description = $dbRow['indicator_description']?? null;
         $this->_feedback = $dbRow['feedback']?? null;
         $this->_score = $dbRow['score']?? null;

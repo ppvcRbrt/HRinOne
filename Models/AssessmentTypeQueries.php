@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('AssessmentTypeTable.php');
 
+/**
+ * Class AssessmentTypeQueries. This class is used to manipulate data in the Assessment_type table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class AssessmentTypeQueries
 {
     protected $_dbInstance;
@@ -13,6 +18,11 @@ class AssessmentTypeQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * This method is used to delete an assessment type given its name.
+     *
+     * @param $typeName
+     */
     public function DeleteAssessmentType($typeName)
     {
         $sqlQuery = 'LOCK TABLE Assessment_type WRITE;
@@ -24,6 +34,13 @@ class AssessmentTypeQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to insert an assessment type given the necessary information (name, descritpion and work domain ID)
+     *
+     * @param $name
+     * @param $description
+     * @param $workDomainID
+     */
     public function InsertAssessmentType($name, $description, $workDomainID)
     {
         $sqlQuery = 'LOCK TABLE Assessment_type WRITE;
@@ -37,7 +54,12 @@ class AssessmentTypeQueries
         $statement->execute(); // execute the PDO statement
     }
 
-
+    /**
+     * This function is used to gather an assessment type ID given its name.
+     *
+     * @param $name
+     * @return mixed
+     */
     public function GetAssessmentTypeID($name)
     {
         $sqlQuery = 'SELECT assessment_type_ID 
@@ -49,6 +71,12 @@ class AssessmentTypeQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather an assessment type name given a work domain name.
+     *
+     * @param $workDomName
+     * @return array
+     */
     public function getAssessmentTypeByWorkDom($workDomName)
     {
         $sqlQuery = 'SELECT Assessment_type.name 
@@ -63,9 +91,13 @@ class AssessmentTypeQueries
             $dataSet[] = new AssessmentTypeTable($row);
         }
         return $dataSet;
-
-
     }
+
+    /**
+     * This function is used to gather all assessment type names.
+     *
+     * @return array
+     */
     public function getAll()
     {
         $sqlQuery = 'SELECT name FROM Assessment_type';

@@ -5,10 +5,11 @@ class CandidateInfoTable
 
     protected $_candidate_ID, $_name, $_email, $_refno, $_work_domain_ID; //Candidate_information table
 
-
+    /**
+     * Constructor of the CandidateInfoTable class
+     */
     public function __construct($dbRow)
     {
-
         $this->_candidate_ID = $dbRow['candidate_ID']?? null;
         $this->_name = $dbRow['name']?? null;
         $this->_email= $dbRow['email']?? null;

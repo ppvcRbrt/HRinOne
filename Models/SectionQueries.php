@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('SectionTable.php');
 
+/**
+ * Class SectionQueries. This class is used to manipulate data in the Section table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class SectionQueries
 {
     protected $_dbInstance;
@@ -13,6 +18,11 @@ class SectionQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * Thisn function is used to delete a section using its name.
+     *
+     * @param $sectionName
+     */
     public function DeleteSection($sectionName)
     {
         $sqlQuery = 'LOCK TABLE Section WRITE;
@@ -24,6 +34,15 @@ class SectionQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to insert a new section into the database using its details
+     * (name, description, weight and the assessment type ID)
+     *
+     * @param $name
+     * @param $description
+     * @param $weight
+     * @param $assessmentTypeID
+     */
     public function InsertSection($name, $description, $weight, $assessmentTypeID)
     {
         $sqlQuery = 'LOCK TABLE Section WRITE;
@@ -39,6 +58,12 @@ class SectionQueries
 
     }
 
+    /**
+     * This function is used to gather a section ID given its name.
+     *
+     * @param $name
+     * @return mixed
+     */
     public function GetSectionIDByName($name)
     {
         $sqlQuery = 'SELECT section_ID 
@@ -50,6 +75,11 @@ class SectionQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather all section names from the Section table.
+     *
+     * @return array
+     */
     public function getAll()
     {
         $sqlQuery = 'SELECT name FROM Section';

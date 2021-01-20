@@ -2,6 +2,11 @@
 require_once('Database.php');
 require_once('CandidateInfoTable.php');
 
+/**
+ * Class CandidateInfoQueries. This class is used to manipulate data in the Candidate_information table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class CandidateInfoQueries
 {
     protected $_dbInstance;
@@ -12,7 +17,7 @@ class CandidateInfoQueries
         $this->_dbInstance = Database::getInstance();
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
-    // normalizare plm normalized = (x-min(x))/(max(x)-min(x))
+    // Normalized = (x-min(x))/(max(x)-min(x))
 
     /**
      * Function to query and return all info from table
@@ -28,7 +33,13 @@ class CandidateInfoQueries
         return $statement->fetch();
     }
 
-
+    /**
+     * This function is used to search for a candidate by returning its details by matching
+     * his name against the Candidate_info table.
+     *
+     * @param $candidateName
+     * @return array
+     */
     public function getCandIDByName($candidateName)
     {
         $sqlQuery = "SELECT MATCH(name) AGAINST((:candName'*') IN BOOLEAN MODE) score, candidate_ID, name  
@@ -46,6 +57,13 @@ class CandidateInfoQueries
         return $dataSet;
     }
 
+    /**
+     * This method is used to gather a Work domain name given a candidate ID. Basically,
+     * this helps us search for candidates who have a certain work domain.
+     *
+     * @param $candidateID
+     * @return mixed
+     */
     public function getCandidateWorkDomName($candidateID)
     {
         $sqlQuery = 'SELECT Work_domain.domain_name 
@@ -58,9 +76,15 @@ class CandidateInfoQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather an assessment type given a certain candidate ID. Basically,
+     * this helps us search for candidates which have a generated template with a certain assessment type.
+     *
+     * @param $candidateID
+     * @return array
+     */
     public function getCandidateAssTypes($candidateID)
     {
-
         $sqlQuery = 'SELECT Assessment_type.name 
                         FROM Assessment_type, Work_domain, Candidate_info 
                         WHERE Work_domain.work_domain_ID = Candidate_info.work_domain_ID

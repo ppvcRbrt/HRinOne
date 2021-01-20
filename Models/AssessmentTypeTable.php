@@ -1,13 +1,16 @@
 <?php
 
 /**
- * Class FeedbackTable : This class will allow us to get individual columns from Feedback Queries
+ * Class AssessmentTypeTable : This class will allow us to get individual columns from AssessmentType Queries
  */
 class AssessmentTypeTable
 {
 
     protected $_assessment_type_ID, $_name, $_description, $_work_domain_ID;
 
+    /**
+     * Constructor of the AssessmentTypeTable class
+     */
     public function __construct($dbRow)
     {
 

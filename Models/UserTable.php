@@ -8,6 +8,9 @@ class UserTable
 
     protected $_user_ID, $_name, $_email, $_password, $_user_category_ID;
 
+    /**
+     * Constructor of the UserTable class
+     */
     public function __construct($dbRow)
     {
         $this->_user_ID = $dbRow['ID']?? null;

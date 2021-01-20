@@ -3,6 +3,11 @@
 require_once('Database.php');
 require_once('AssessorFdbkTable.php');
 
+/**
+ * Class FeedbackQueries. This class is used to manipulate data in the Feedback table
+ * and it contains SQL queries to aid this requirement.
+ */
+
 class FeedbackQueries
 {
     protected $_dbInstance;
