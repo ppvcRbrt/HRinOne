@@ -33,7 +33,7 @@ class IndicatorsQueries
     public function InsertIndicator($description, $feedback, $score, $weight, $questionID)
     {
         $sqlQuery = 'LOCK TABLE Indicator WRITE;
-                     INSERT INTO Indicator (indicator_description,feedback,score,weight,question_ID) 
+                     INSERT INTO Indicator (description,feedback,score,weight,question_ID) 
                         VALUES (:description,:feedback,:score,:weight,:question_ID);
                      UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
