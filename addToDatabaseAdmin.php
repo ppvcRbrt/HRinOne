@@ -4,6 +4,7 @@ require_once('Models/AssessmentTypeQueries.php');
 require_once('Models/SectionQueries.php');
 require_once('Models/QuestionQueries.php');
 require_once('Models/IndicatorsQueries.php');
+require_once('Models/CandidateInfoQueries.php');
 
 session_start();
 
@@ -15,6 +16,7 @@ $asTypeQuery = new AssessmentTypeQueries();
 $sectQuery = new SectionQueries();
 $quesQuery = new QuestionQueries();
 $indQuery = new IndicatorsQueries();
+$candidQuery = new CandidateInfoQueries();
 
 //get all so that the user can see all the different options
 $view->dom = $domainQuery->getAll();
@@ -35,6 +37,20 @@ $view->questions = $quesQuery->getAll();
         header("location:addToDatabaseAdmin.php");
         exit();
     }
+
+    if (isset($_POST["addDelegate"]))
+    {
+        if(!empty($_POST["candidateName"]) and !empty($_POST["candidateEmail"])) {
+            setcookie("currentPage", "delegatePage");
+            setcookie("sectionAdded", "false");
+            $refno = time() . rand(10*45, 100*98);
+            $domID = $domainQuery->GetDomainID($_POST["workDomForCandid"]);
+            $candidQuery->InsertCandidate($_POST["candidateName"],$_POST["candidateEmail"],$refno,$domID[0]);
+            header("location:addToDatabaseAdmin.php");
+            exit();
+        }
+    }
+
 
     //if the user clicked on the Add button under "Add Assessment Type" Pill we set a cookie with the current page and
     //we also set a cookie with the section
@@ -180,7 +196,7 @@ $view->questions = $quesQuery->getAll();
         $selectedForQuestion = [$_POST["workDomNameQuestion"],$_POST["assessmentTypeNameQuestion"], $_POST["SectionNameQuestion"]];
         $_SESSION["selectedForAddQuestion"] = $selectedForQuestion;
         $secID = $sectQuery->GetSectionIDByName($_POST["SectionNameQuestion"]);
-        $quesQuery->InsertQuestion($_POST["questionToAdd"],(int)$secID);
+        $quesQuery->InsertQuestion($_POST["questionToAdd"],(int)$secID[0]);
         header("location:addToDatabaseAdmin.php");
         exit();
     }

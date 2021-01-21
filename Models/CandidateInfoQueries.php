@@ -19,6 +19,20 @@ class CandidateInfoQueries
     }
     // Normalized = (x-min(x))/(max(x)-min(x))
 
+    public function InsertCandidate($name, $email, $refno, $workDomID)
+    {
+        $sqlQuery = 'LOCK TABLE Candidate_info WRITE;
+                     INSERT INTO Candidate_info (name, email, ref_no, work_domain_ID) 
+                        VALUES (:name, :email, :refno, :workDomainID);
+                     UNLOCK TABLES';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':name', $name, PDO::PARAM_STR);
+        $statement->bindValue(':email', $email, PDO::PARAM_STR);
+        $statement->bindValue(':refno', $refno, PDO::PARAM_STR);
+        $statement->bindValue(':workDomainID', $workDomID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+    }
+
     /**
      * Function to query and return all info from table
      * @return array: will return an array of our rows

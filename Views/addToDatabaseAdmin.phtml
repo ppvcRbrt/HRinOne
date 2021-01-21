@@ -25,6 +25,24 @@
         <li class="nav-item">
             <?php
             if(isset($_COOKIE["currentPage"]))
+                if($_COOKIE["currentPage"] == "delegatePage")
+                {
+                    echo '<a class="nav-link active" id = "delegateAddPill" data-toggle="pill" href="#addDelegate" role="tab" aria-controls="addDelegate" aria-selected="true">Add Delegates</a>';
+                }
+                else
+                {
+                    echo '<a class="nav-link" id = "delegateAddPill" data-toggle="pill" href="#addDelegate" role="tab" aria-controls="addDelegate" aria-selected="false">Add Delegates</a>';
+                }
+            else
+            {
+                echo '<a class="nav-link" id = "delegateAddPill" data-toggle="pill" href="#addDelegate" role="tab" aria-controls="addDelegate" aria-selected="false">Add Delegates</a>';
+            }
+            ?>
+
+        </li>
+        <li class="nav-item">
+            <?php
+            if(isset($_COOKIE["currentPage"]))
                 if($_COOKIE["currentPage"] == "AssessmentTypePage")
                 {
                     echo '<a class="nav-link active" id = "assTypeAddPill" data-toggle="pill" href="#addAssType" role="tab" aria-controls="addAssType" aria-selected="true">Add Assessment Types</a> ';
@@ -72,7 +90,6 @@
                 echo '<a class="nav-link" id = "questionAddPill" data-toggle="pill" href="#addQuestion" role="tab" aria-controls="addQuestion" aria-selected="false">Add Questions</a>';
             }
             ?>
-
         </li>
     </ul>
 
@@ -429,6 +446,43 @@
                 <button type="submit" name = "addIndicator" class="btn btn-primary">Finish</button>
             </form>
         </div>
+    </div>
+    <!-- Add delegate -->
+        <?php
+        if(isset($_COOKIE["currentPage"]))
+            if($_COOKIE["currentPage"] == "delegatePage")
+            {
+                echo '<div class="tab-pane fade show active" id="addDelegate" role="tabpanel" aria-labelledby="delegateAddPill">';
+            }
+            else
+            {
+                echo '<div class="tab-pane fade" id="addDelegate" role="tabpanel" aria-labelledby="delegateAddPill">';
+            }
+        else
+        {
+            echo '<div class="tab-pane fade" id="addDelegate" role="tabpanel" aria-labelledby="delegateAddPill">';
+        }
+        ?>
+        <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
+            <label>Please Select The candidate's work domain</label>
+            <select name = "workDomForCandid" multiple class="form-control">
+                <?php
+                foreach($view->dom as $currentDomain)
+                {
+                    echo '<option>'.$currentDomain->getDomain(). '</option>';
+                }
+                ?>
+            </select>
+            <label>
+                Candidate Name:
+            </label>
+            <input class="form-control" type="text" name = "candidateName" placeholder="please enter candidate name here">
+            <label>
+                Candidate E-mail:
+            </label>
+            <input class="form-control" type="text" name = "candidateEmail" placeholder="please enter candidate e-mai here">
+            <button type="submit" name = "addDelegate" class="btn btn-primary">Add</button>
+        </form>
     </div>
 </div>
 <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>

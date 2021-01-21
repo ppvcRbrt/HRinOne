@@ -45,6 +45,22 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    public function getIndicatorsByQuesID($questionID)
+    {
+        $sqlQuery = 'SELECT indicator_ID 
+                        FROM Indicator, Question 
+                        WHERE Indicator.question_ID = Question.question_ID 
+                        AND Question.question_ID= :questionID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':questionID', $questionID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new IndicatorsTable($row);
+        }
+        return $dataSet;
+    }
+
     public function GetIndicator($sectionName)
     {
         $sqlQuery = 'SELECT feedback, score, Indicators.weight, Indicators.section_ID 

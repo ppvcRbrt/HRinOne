@@ -5,6 +5,8 @@ require_once('Models/SectionQueries.php');
 require_once('Models/QuestionQueries.php');
 require_once('Models/CandidateInfoQueries.php');
 require_once('Models/AssessmentQueries.php');
+require_once('Models/AssessmentInfoQueries.php');
+require_once('Models/IndicatorsQueries.php');
 
 session_start();
 
@@ -15,6 +17,8 @@ $sectionQueries = new SectionQueries();
 $domainQueries = new DomainQueries();
 $questionQueries = new QuestionQueries();
 $assessmentQuery = new AssessmentQueries();
+$assessmentInfoQuery = new AssessmentInfoQueries();
+$indicatorQuery = new IndicatorsQueries();
 
 if(isset($_POST["search"]))
 {
@@ -84,18 +88,20 @@ if(isset($_POST["sectionSubmit"]))
     $maxSectsForQuestionInput = $_COOKIE["maxSections"];
     $x = 0;
     $_SESSION["sectionHeader"] = array();
+    $_SESSION["sectionIDs"] = array();
     foreach($_SESSION["sectionNames"] as $currentSectName)
     {
-        $_SESSION["questions".$x] = array();
+        $_SESSION["questionPerSect".$x] = array();
         if(isset($_POST[$currentSectName]))
         {
             array_push($_SESSION["sectionHeader"],$_POST[$currentSectName]);
-            //select query goes here
+            $currentSecID = $sectionQueries->GetSectionIDByName($_POST[$currentSectName]);
+            array_push($_SESSION["sectionIDs"],$currentSecID[0]);
             $questions = $questionQueries->GetQuestionsByInfo($_POST[$currentSectName],$_COOKIE["assessmentType"],$_COOKIE["domain"]);
             foreach($questions as $currentQuestion)
             {
                 $name = $currentQuestion->getQuestion();
-                array_push($_SESSION["questions".$x], $name);
+                array_push($_SESSION["questionPerSect".$x], $name);
             }
             $x++;
         }
@@ -128,23 +134,42 @@ if(isset($_POST["maxQperSectionSubmit"]))
 if(isset($_POST["done"]))
 {
     $assessmentQuery->InsertAssessment("","",(int)$_COOKIE["candidateID"],(int)$_COOKIE["assessmentTypeID"]);
-    setcookie("candName","");
-    setcookie("domain","");
-    setcookie("candidateID","");
-    setcookie("domainID","");
-    setcookie("assessmentType","");
-    setcookie("assessmentTypeID","");
+    $assessmentID = $assessmentQuery->GetAssessmentID((int)$_COOKIE["candidateID"]);
+    $isDone = 0;
     for($x = 0; $x < (int)$_COOKIE["maxSections"];$x++)
     {
-        unset($_SESSION["maxQperSect".$x]);
-        unset($_SESSION['questions'.$x]);
-    }
-    setcookie("maxSections","");
-    unset($_SESSION['sectionNames']);
-    unset($_SESSION['sectionHeader']);
+        for($y=0; $y< (int)$_SESSION["maxQperSect".$x]; $y++);
+        {
+            $questionID = $questionQueries->GetQuestionID($_POST["question".$y."PerSect".$x]);
+            $indicators = $indicatorQuery->getIndicatorsByQuesID($questionID[0]);
+            //for($w=0; $w < count($_SESSION["questionPerSect".$x]); $w++)
+            for($z = 0; $z < count($indicators); $z++)
+            {
+                $assessmentInfoQuery->InsertAssessmentInfo($assessmentID[0],$_SESSION["sectionIDs"][$x],$questionID[0],$indicators[$z]->getIndicatorID());
+            }
 
-    header("location:createTemplate.php");
-    exit();
+        }
+        $isDone++;
+    }
+    if($isDone == (int)$_COOKIE["maxSections"])
+    {
+        setcookie("candName","");
+        setcookie("domain","");
+        setcookie("candidateID","");
+        setcookie("domainID","");
+        setcookie("assessmentType","");
+        setcookie("assessmentTypeID","");
+        for($x = 0; $x < (int)$_COOKIE["maxSections"];$x++)
+        {
+            unset($_SESSION["maxQperSect".$x]);
+            unset($_SESSION['questions'.$x]);
+        }
+        setcookie("maxSections","");
+        unset($_SESSION['sectionNames']);
+        unset($_SESSION['sectionHeader']);
+        header("location:createTemplate.php");
+        exit();
+    }
 }
 
 require("Views/createTemplate.phtml");
