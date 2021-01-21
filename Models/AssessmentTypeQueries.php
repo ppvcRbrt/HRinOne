@@ -71,6 +71,17 @@ class AssessmentTypeQueries
         return $statement->fetch();
     }
 
+    public function GetAssessmentTypeName($assessmentTypeID)
+    {
+        $sqlQuery = 'SELECT name 
+                        FROM Assessment_type 
+                        WHERE assessment_type_ID = :assessmentTypeID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':assessmentTypeID', $assessmentTypeID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
+
     /**
      * This function is used to gather an assessment type name given a work domain name.
      *

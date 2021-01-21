@@ -115,6 +115,20 @@ class AssessmentQueries
         return $dataSet;
     }
 
+    public function getAssessmentTypeIDForCandidate($candID)
+    {
+        $sqlQuery = 'SELECT assessment_type_ID FROM Assessment
+                     WHERE candidate_ID = :candID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':candID', $candID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new AssessmentTable($row);
+        }
+        return $dataSet;
+    }
+
     /**
      * This function is used to gather all names from the Assessment table.
      *

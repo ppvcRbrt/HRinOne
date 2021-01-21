@@ -4,11 +4,24 @@
         <h2>Here are your candidates</h2>
     </div>
     <?php
-        if(!empty($view->candID))
+    if(isset($_COOKIE["candName"]))
+        if(!empty($_COOKIE["candName"]))
         {
-            foreach ($view->candID as $currentID) {
+            if(!empty($view->candID))
+            {
+                foreach ($view->candID as $currentID) {
+                    echo '<div>';
+                    echo '<a href="../createTemplate.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+                    echo '</div>';
+                }
+            }
+        }
+    if(isset($_COOKIE["candNameAssessor"]))
+        if(!empty($view->candIDAssessor))
+        {
+            foreach ($view->candIDAssessor as $currentID) {
                 echo '<div>';
-                echo '<a href="../createTemplate.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+                echo '<a href="../assessorView.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
                 echo '</div>';
             }
         }
