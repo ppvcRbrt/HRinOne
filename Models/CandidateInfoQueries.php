@@ -17,8 +17,17 @@ class CandidateInfoQueries
         $this->_dbInstance = Database::getInstance();
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
-    // Normalized = (x-min(x))/(max(x)-min(x))
 
+    /**
+     * This function is used to insert candidate information into the database.
+     * Required information is represented by the candidate name, email, reference number
+     * and work domain ID.
+     *
+     * @param $name
+     * @param $email
+     * @param $refno
+     * @param $workDomID
+     */
     public function InsertCandidate($name, $email, $refno, $workDomID)
     {
         $sqlQuery = 'LOCK TABLE Candidate_info WRITE;

@@ -2,6 +2,11 @@
 require('FeedbackGenerator.php');
 require('FeedbackQueries.php');
 
+/**
+ * Class StaticPageGenerator. This class represents the ability to set certain properties
+ * to the PDF-generated page, such as adding text from a file, setting image formats and overall design.
+ */
+
 class StaticPageGenerator
 {
     function CoverPage($pdf)

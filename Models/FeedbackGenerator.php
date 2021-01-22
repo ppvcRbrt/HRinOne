@@ -1,6 +1,11 @@
 <?php
 require("./fpdf_protection.php");
 
+/**
+ * Class FeedbackGenerator. This class represents the backend functionality
+ * behind generating a PDF document.
+ */
+
 class FeedbackGenerator extends FPDF_Protection {
     public $fontSize = 12;
     public $cellHeight = 6; //i recommend setting cell height to half of fontsize so when filled with colour it looks noice

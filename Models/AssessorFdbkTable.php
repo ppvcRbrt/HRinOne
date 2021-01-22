@@ -13,9 +13,7 @@ class AssessorFdbkTable
      */
     public function __construct($dbRow)
     {
-
         $this->_feedback_ID = $dbRow['feedback_ID']?? null;
-
         $this->_question_ID = $dbRow['question_ID']?? null;
         $this->_feedback = $dbRow['feedback']?? null;
     }

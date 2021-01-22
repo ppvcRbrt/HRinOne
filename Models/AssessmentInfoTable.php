@@ -11,7 +11,6 @@ class AssessmentInfoTable
     /**
      * Constructor of the AssessmentInfoTable class
      */
-
     public function __construct($dbRow)
     {
         $this->_assessment_info_ID = $dbRow['assessment_info_ID']?? null;

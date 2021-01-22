@@ -3,7 +3,7 @@ require_once('Database.php');
 require_once('AssessmentInfoTable.php');
 
 /**
- * Class AssessmentQueries. This class is used to manipulate data in the Assessment table
+ * Class AssessmentInfoQueries. This class is used to manipulate data in the Assessment Info table
  * and it contains SQL queries to aid this requirement.
  */
 
@@ -18,6 +18,14 @@ class AssessmentInfoQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * This method is used to gather Assessment information about a candidate
+     * using its ID and an assessment type ID.
+     *
+     * @param $candID
+     * @param $assessmentTypeID
+     * @return array
+     */
     public function getInfoByCandID($candID, $assessmentTypeID)
     {
         $sqlQuery = 'SELECT Assessment_info.section_ID, Assessment_info.question_ID, Assessment_info.indicator_ID, Assessment.assessment_type_ID 
@@ -37,6 +45,15 @@ class AssessmentInfoQueries
         return $dataSet;
     }
 
+    /**
+     * This method is used to insert assessment information into the database and it
+     * required the assessment ID, section ID, question ID and the indicator ID.
+     *
+     * @param $assessmentID
+     * @param $sectionID
+     * @param $questionID
+     * @param $indicatorID
+     */
     public function InsertAssessmentInfo($assessmentID, $sectionID, $questionID, $indicatorID)
     {
         $sqlQuery = 'LOCK TABLE Assessment_info WRITE;

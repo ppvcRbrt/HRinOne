@@ -30,6 +30,19 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to insert an indicator into the database,
+     * which is based on a question. Therefore, the required information
+     * to insert an indicator is represented by the indicator description,
+     * the feedback that it should generate, the score, score weight and the
+     * question ID which the indicator is linked with.
+     *
+     * @param $description
+     * @param $feedback
+     * @param $score
+     * @param $weight
+     * @param $questionID
+     */
     public function InsertIndicator($description, $feedback, $score, $weight, $questionID)
     {
         $sqlQuery = 'LOCK TABLE Indicator WRITE;
@@ -45,6 +58,13 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * This function is used to gather an Indicator ID which is linked
+     * with a question. Therefore, specifying a question ID is mandatory.
+     *
+     * @param $questionID
+     * @return array
+     */
     public function getIndicatorsByQuesID($questionID)
     {
         $sqlQuery = 'SELECT indicator_ID 
@@ -61,6 +81,13 @@ class IndicatorsQueries
         return $dataSet;
     }
 
+    /**
+     * This function is used to gather the score from an indicator, given
+     * the indicator ID.
+     *
+     * @param $indicatorID
+     * @return mixed
+     */
     public function getIndicatorScoreByID($indicatorID)
     {
         $sqlQuery = 'SELECT score FROM Indicator
@@ -71,6 +98,13 @@ class IndicatorsQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather information about indicators,
+     * where we are given a section name.
+     *
+     * @param $sectionName
+     * @return array
+     */
     public function GetIndicator($sectionName)
     {
         $sqlQuery = 'SELECT feedback, score, Indicators.weight, Indicators.section_ID 

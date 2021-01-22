@@ -70,6 +70,12 @@ class QuestionQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather a question from the database given its ID.
+     *
+     * @param $questionID
+     * @return mixed
+     */
     public function getQuestionName($questionID)
     {
         $sqlQuery = 'SELECT question 
