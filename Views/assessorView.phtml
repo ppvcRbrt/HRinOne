@@ -75,15 +75,22 @@ require_once("template/header.phtml");
         $sectionQuery = new SectionQueries();
 
         $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
+        $sectionDesc = $sectionQuery->getSectionDescByID($currentSectionID);
         $allQuestions = $function->getAllQuestionsWithSections();
 
         echo '<div>';
-        echo '<h2>Section: '.$sectionName[0].'</h2>';
+        echo '<h2>'.$sectionName[0].'</h2>';
+        echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
+        echo '<form class="form-group" method = "post" action="../assessorView.php">';
         $function->getQuestionForSection($allQuestions, $currentSectionID);
+        echo '</form>';
         echo '</div>';
     }
     ?>
     </div>
-    <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
+    <a href="#" class="btn btn-primary">Back</a>
+    <a href="#" class="btn btn-primary">Next</a>
+
+<a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
 </div>
 <?php require_once("template/footer.phtml"); ?>

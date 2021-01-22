@@ -11,7 +11,10 @@ class assessorViewFunctions
             unset($multiDimArray[$indicatorID]);
             $indicatorScore = $indicatorQuery->getIndicatorScoreByID($indicatorID);
             if(isset($indicatorScore[0]))
-                echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';
+                echo'<label class="btn btn-secondary active">
+                        <input type="radio" name="options" id="option'.$indicatorScore[0].'" autocomplete="off" value = "'.$indicatorScore[0].'">'.$indicatorScore[0].'
+                    </label>';
+               // echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';
         }
     }
 
@@ -25,8 +28,14 @@ class assessorViewFunctions
             unset($multiDimArray[$questionID]);
             $questionName = $questionQuery->getQuestionName($questionID);
             if(isset($questionName[0]))
-                echo '<p>Question Name: '. $questionName[0] . '</p>';
-            $this->getIndicatorForQuestion($allIndicators, $questionID);
+                if(!empty($questionName[0]))
+                    echo '<p>Question Name: '. $questionName[0] . '</p>';
+                    echo '<div id = "question'.$x.'" class = "row justify-content-center">';
+                    echo '<div class="btn-group btn-group-toggle h-50" data-toggle="buttons">';
+                    $this->getIndicatorForQuestion($allIndicators, $questionID);
+                    echo '</div>';
+                    echo '</div>';
+
         }
     }
     function getAllQuestionsWithSections()

@@ -101,6 +101,15 @@ class SectionQueries
         $statement->execute(); // execute the PDO statement
         return $statement->fetch();
     }
+    public function getSectionDescByID($secID)
+    {
+        $sqlQuery = 'SELECT description FROM Section
+                     WHERE section_ID = :secID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':secID', $secID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
 
     public function getSectionsByAssessmentTypeID($assessmentTypeID, $workDomID)
     {
