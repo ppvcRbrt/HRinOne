@@ -7,6 +7,7 @@ require_once('Models/CandidateInfoQueries.php');
 require_once('Models/AssessmentQueries.php');
 require_once('Models/AssessmentInfoQueries.php');
 require_once('Models/IndicatorsQueries.php');
+require_once("Models/assessorViewFunctions.php");
 
 session_start();
 
