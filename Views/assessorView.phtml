@@ -1,4 +1,6 @@
-<?php require_once("template/header.phtml"); ?>
+<?php
+require_once("template/header.phtml");
+?>
 <div id = "myGroup" class = "container">
     <div class = "row justify-content-center">
         <h2>Here you can mark a candidate</h2>
@@ -67,132 +69,19 @@
     }
     ?>
     <?php
-     foreach($_SESSION['sectionIDs'] as $currentSectionID)
-     {
-         $sectionQuery = new SectionQueries();
+    $function = new assessorViewFunctions();
+    foreach($_SESSION['sectionIDs'] as $currentSectionID)
+    {
+        $sectionQuery = new SectionQueries();
 
-         $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
-         $allQuestions = getAllQuestionsWithSections();
+        $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
+        $allQuestions = $function->getAllQuestionsWithSections();
 
-         echo '<div>';
-         echo '<h2>Section: '.$sectionName[0].'</h2>';
-         getQuestionForSection($allQuestions, $currentSectionID);
-         echo '</div>';
-     }
-
-
-        function getIndicatorForQuestion($multiDimArray, $currentQuestionID)
-        {
-           $indicatorQuery = new IndicatorsQueries();
-           for($x = 0; $x < count($multiDimArray); $x++)
-           {
-               $indicatorID = array_search($currentQuestionID, $multiDimArray);
-               unset($multiDimArray[$indicatorID]);
-               $indicatorScore = $indicatorQuery->getIndicatorScoreByID($indicatorID);
-               if(isset($indicatorScore[0]))
-                   echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';
-           }
-        }
-
-        function getQuestionForSection($multiDimArray, $currentSectionID)
-        {
-            $questionQuery = new QuestionQueries();
-            $allIndicators = getAllIndicatorsWithQuestions();
-            for($x = 0 ; $x < count($multiDimArray) ; $x++)
-            {
-                $questionID = array_search($currentSectionID, $multiDimArray);
-                unset($multiDimArray[$questionID]);
-                $questionName = $questionQuery->getQuestionName($questionID);
-                if(isset($questionName[0]))
-                    echo '<p>Question Name: '. $questionName[0] . '</p>';
-                getIndicatorForQuestion($allIndicators, $questionID);
-            }
-        }
-        function getAllQuestionsWithSections()
-        {
-            $questionsPerSections['questionID']['sectionID'] = array();
-            $questionID = array();
-            $sectionID = array();
-            for($x = 0; $x < count($_SESSION["questionIDs"]['qID']); $x++)
-                {
-                    array_push($questionID, $_SESSION["questionIDs"]['qID'][$x]);
-                    array_push($sectionID, $_SESSION["questionIDs"]['secID'][$x]);
-                }
-
-            $multiDimArray = array_combine($questionID, $sectionID);
-            return $multiDimArray;
-        }
-
-        function getAllIndicatorsWithQuestions()
-        {
-            $indicatorID = array();
-            $questionID = array();
-            for($x = 0; $x < count($_SESSION["indicatorIDs"]['indID']); $x++)
-            {
-                array_push($indicatorID, $_SESSION["indicatorIDs"]['indID'][$x]);
-                array_push($questionID, $_SESSION["indicatorIDs"]['qID'][$x]);
-            }
-            $multiDimArray = array_combine($indicatorID, $questionID);
-            return $multiDimArray;
-        }
-        /*
-        $x = 0;
-        foreach($_SESSION['sectionIDs'] as $currentSectionID)
-        {
-            $sectionQuery = new SectionQueries();
-            $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
-            echo '<h2>Section '.$x.' : '.$sectionName[0].'</h2>';
-            $x++;
-            $z = 0;
-            foreach($_SESSION['questionIDs']['qID'] as $currentQuestionID)
-            {
-                $sectionID = $_SESSION['questionIDs']['secID'][$z];
-                if($currentSectionID == $sectionID)
-                {
-                    if($z !== 0)
-                    {
-                        if($currentQuestionID !== $_SESSION['questionIDs']['qID'][$z-1])
-                        {
-                            $questionQuery = new QuestionQueries();
-                            $questionName = $questionQuery->getQuestionName($currentQuestionID);
-                            echo '<h3>Question : ' . $z . ' : ' . $questionName[0].'</h3>';
-
-                            $y = 0;
-                            foreach($_SESSION['indicatorIDs']['indID'] as $currentIndicatorID)
-                            {
-                                $questionID = $_SESSION['indicatorIDs']['qID'][$y];
-                                if($y !== 0)
-                                {
-                                    if($currentIndicatorID !== $_SESSION['indicatorIDs']['indID'][$y-1])
-                                    {
-                                        $indicatorQuery = new IndicatorsQueries();
-                                        $indicatorScore = $indicatorQuery->getIndicatorByID($currentIndicatorID);
-                                        echo '<p>Indicator Score : '.$indicatorScore[0].'</p>';
-                                    }
-                                }
-                                else
-                                {
-                                    $indicatorQuery = new IndicatorsQueries();
-                                    $indicatorScore = $indicatorQuery->getIndicatorByID($currentIndicatorID);
-                                    echo '<p>Indicator Score : '.$indicatorScore[0].'</p>';
-                                }
-                                $y++;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $questionQuery = new QuestionQueries();
-                        $questionName = $questionQuery->getQuestionName($currentQuestionID);
-                        echo '<h3>Question : ' . $z . ' : ' . $questionName[0].'</h3>';
-
-                    }
-                }
-                $z++;
-
-            }
-        }
-        */
+        echo '<div>';
+        echo '<h2>Section: '.$sectionName[0].'</h2>';
+        $function->getQuestionForSection($allQuestions, $currentSectionID);
+        echo '</div>';
+    }
     ?>
     </div>
     <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
