@@ -117,6 +117,13 @@ class AssessmentQueries
         return $dataSet;
     }
 
+    /**
+     * This function is used to gather the correlating assessment type ID
+     * from the database for a specific, given candidate ID.
+     *
+     * @param $candID
+     * @return array
+     */
     public function getAssessmentTypeIDForCandidate($candID)
     {
         $sqlQuery = 'SELECT assessment_type_ID FROM Assessment

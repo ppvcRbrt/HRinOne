@@ -23,7 +23,6 @@ class DomainQueries
      * Function to query and return all info from table
      * @return array: will return an array of our rows
      */
-
     public function DeleteDomain($domainName)
     {
         $sqlQuery = 'LOCK TABLE Work_domain WRITE;

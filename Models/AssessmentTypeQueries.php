@@ -71,6 +71,13 @@ class AssessmentTypeQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather the name of an assessment type from the database
+     * given its ID.
+     *
+     * @param $assessmentTypeID
+     * @return mixed
+     */
     public function GetAssessmentTypeName($assessmentTypeID)
     {
         $sqlQuery = 'SELECT name 

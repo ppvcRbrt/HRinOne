@@ -92,6 +92,13 @@ class SectionQueries
         return $dataSet;
     }
 
+    /**
+     * This function is used to gather a section name from the database, where
+     * its ID is specified.
+     *
+     * @param $secID
+     * @return mixed
+     */
     public function getSectionNameByID($secID)
     {
         $sqlQuery = 'SELECT name FROM Section
@@ -102,6 +109,14 @@ class SectionQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather a section name which is linked with an
+     * assessment type and with a work domain.
+     *
+     * @param $assessmentTypeID
+     * @param $workDomID
+     * @return array
+     */
     public function getSectionsByAssessmentTypeID($assessmentTypeID, $workDomID)
     {
         $sqlQuery = 'SELECT Section.name 
