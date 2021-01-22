@@ -138,7 +138,7 @@ if(isset($_POST["done"]))
     $isDone = 0;
     for($x = 0; $x < (int)$_COOKIE["maxSections"];$x++)
     {
-        for($y=0; $y< (int)$_SESSION["maxQperSect".$x]; $y++);
+        for($y = 0; $y < (int)$_SESSION["maxQperSect".$x]; $y++);
         {
             $questionID = $questionQueries->GetQuestionID($_POST["question".$y."PerSect".$x]);
             $indicators = $indicatorQuery->getIndicatorsByQuesID($questionID[0]);

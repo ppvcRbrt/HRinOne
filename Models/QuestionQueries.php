@@ -70,6 +70,17 @@ class QuestionQueries
         return $statement->fetch();
     }
 
+    public function getQuestionName($questionID)
+    {
+        $sqlQuery = 'SELECT question 
+                        FROM Question 
+                        WHERE question_ID = :questionID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':questionID', $questionID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
+
     /**
      * This function is used to gather all the questions from the table.
      *
