@@ -80,7 +80,7 @@ if(isset($_COOKIE["maxSections"]))
     {
         $assessmentTypeID = $assessmentTypeQueries->GetAssessmentTypeID($_COOKIE["assessmentType"]);
         setcookie("assessmentTypeID",$assessmentTypeID[0]);
-        $view->sections = $sectionQueries->getSectionsByAssessmentTypeID((int)$assessmentTypeID[0],$_COOKIE["domainID"]);
+        $view->sections = $sectionQueries->getSectionsByAssessmentTypeID((int)$assessmentTypeID[0],(int)$_COOKIE["domainID"]);
     }
 }
 if(isset($_POST["sectionSubmit"]))
@@ -134,15 +134,17 @@ if(isset($_POST["maxQperSectionSubmit"]))
 if(isset($_POST["done"]))
 {
     $assessmentQuery->InsertAssessment("","",(int)$_COOKIE["candidateID"],(int)$_COOKIE["assessmentTypeID"]);
-    $assessmentID = $assessmentQuery->GetAssessmentID((int)$_COOKIE["candidateID"]);
+    $assessmentID = $assessmentQuery->GetAssessmentID((int)$_COOKIE["candidateID"],(int)$_COOKIE["assessmentTypeID"]);
     $isDone = 0;
     for($x = 0; $x < (int)$_COOKIE["maxSections"];$x++)
     {
-        for($y = 0; $y < (int)$_SESSION["maxQperSect".$x]; $y++);
+        $questionsCount = 0;
+        for($y = 0; $y < (int)$_SESSION["maxQperSect".$x][0]; $y++);
         {
-            $questionID = $questionQueries->GetQuestionID($_POST["question".$y."PerSect".$x]);
+            $questionID = $questionQueries->GetQuestionID($_POST["question".$questionsCount."PerSect".$x]);
             $indicators = $indicatorQuery->getIndicatorsByQuesID($questionID[0]);
             //for($w=0; $w < count($_SESSION["questionPerSect".$x]); $w++)
+            $questionsCount++;
             for($z = 0; $z < count($indicators); $z++)
             {
                 $assessmentInfoQuery->InsertAssessmentInfo($assessmentID[0],$_SESSION["sectionIDs"][$x],$questionID[0],$indicators[$z]->getIndicatorID());

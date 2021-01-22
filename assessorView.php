@@ -6,6 +6,7 @@ require_once('Models/QuestionQueries.php');
 require_once('Models/CandidateInfoQueries.php');
 require_once('Models/AssessmentQueries.php');
 require_once('Models/AssessmentInfoQueries.php');
+require_once('Models/IndicatorsQueries.php');
 
 session_start();
 
@@ -58,8 +59,8 @@ if(isset($_POST["selectedAssessmentType"]))
                 $sectionIDs = array();
                 $questionIDs = array('qID'=>array(),'secID'=>array());
                 $indicatorIDs = array('indID'=>array(), 'qID'=>array());
-
-                $assessmentInfo = $assessmentInfoQuery->getInfoByCandID($_COOKIE["candidateID"]);
+                $assessmentTypeID = $assessmentTypeQuery->GetAssessmentTypeID($_POST["assessmentTypes"]);
+                $assessmentInfo = $assessmentInfoQuery->getInfoByCandID((int)$_COOKIE["candidateID"],(int)$assessmentTypeID[0]);
                 foreach($assessmentInfo as $currentInfo)
                 {
                     $sectionID = $currentInfo->getSectionID();

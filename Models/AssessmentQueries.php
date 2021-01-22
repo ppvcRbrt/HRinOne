@@ -64,13 +64,15 @@ class AssessmentQueries
      * @param $name
      * @return mixed
      */
-    public function GetAssessmentID($candID)
+    public function GetAssessmentID($candID, $assessmentTypeID)
     {
         $sqlQuery = 'SELECT assessment_ID 
                         FROM Assessment
-                        WHERE candidate_ID = :candID';
+                        WHERE candidate_ID = :candID
+                        AND assessment_type_ID = :assessmentTypeID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':candID', $candID, PDO::PARAM_INT);
+        $statement->bindValue(':assessmentTypeID', $assessmentTypeID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
         return $statement->fetch();
     }

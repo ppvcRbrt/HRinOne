@@ -61,6 +61,16 @@ class IndicatorsQueries
         return $dataSet;
     }
 
+    public function getIndicatorScoreByID($indicatorID)
+    {
+        $sqlQuery = 'SELECT score FROM Indicator
+                     WHERE indicator_ID = :indID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':indID', $indicatorID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
+
     public function GetIndicator($sectionName)
     {
         $sqlQuery = 'SELECT feedback, score, Indicators.weight, Indicators.section_ID 

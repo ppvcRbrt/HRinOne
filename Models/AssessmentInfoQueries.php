@@ -18,15 +18,17 @@ class AssessmentInfoQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
-    public function getInfoByCandID($candID)
+    public function getInfoByCandID($candID, $assessmentTypeID)
     {
-        $sqlQuery = 'SELECT Assessment_info.section_ID, Assessment_info.question_ID, Assessment_info.indicator_ID 
+        $sqlQuery = 'SELECT Assessment_info.section_ID, Assessment_info.question_ID, Assessment_info.indicator_ID, Assessment.assessment_type_ID 
                      FROM Assessment_info, Assessment 
                      WHERE Assessment_info.assessment_ID = Assessment.assessment_ID
                      AND Assessment.candidate_ID = :candID
+                     AND Assessment.assessment_type_ID = :assessmentTypeID
                      ORDER BY section_ID ASC, question_ID, indicator_ID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':candID', $candID, PDO::PARAM_INT);
+        $statement->bindValue(':assessmentTypeID', $assessmentTypeID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
         while ($row = $statement->fetch()) {
