@@ -87,17 +87,20 @@ require_once("template/header.phtml");
 
         if((int)$_COOKIE["currentPagePerSecID"] == $currentSectionID)
         {
+            echo '<form class="form-group" method = "post" action="../assessorView.php">';
+            echo '<input type="hidden" name = "sectionID" value = "'.$currentSectionID.'">';
             echo '<div id = "section'.$sectionNo.'">';
             echo '<h2>'.$sectionName[0].'</h2>';
             echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
-            //echo '<form class="form-group" method = "post" action="../assessorView.php">';
             $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo);
-            //echo '</form>';
-            echo '</div>';
             $currentCount = 0;
             $sectionNo++;
             $currentSectionIDPosition = array_search($currentSectionID, $sectionIDsArray);
-
+            echo '<label>Enter here any feedback you have for this section: </label>
+                   <textarea name = "feedbackForSect'.$currentSectionID.'" class="form-control" rows="3"></textarea>';
+            echo '</div>';
+            echo '<button type="submit" name = "sectionFinished" class="btn btn-primary float-right">Section Finished!</button>';
+            echo '</form>';
             if($currentSectionIDPosition === 0)
             {
                 $sectionNumber = $currentSectionIDPosition+1;
@@ -110,18 +113,21 @@ require_once("template/header.phtml");
             {
                 $sectionNumber = $currentSectionIDPosition+1;
                 echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
-                if(isset($sectionIDsArray[$currentSectionIDPosition+1]))
-                {
-                    $nextSectionID = $sectionIDsArray[$currentSectionIDPosition+1];
-                    echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
-                }
+
 
                 if(isset($sectionIDsArray[$currentSectionIDPosition-1]))
                 {
                     $previousSectionID = $sectionIDsArray[$currentSectionIDPosition-1];
                     echo '<a href="../assessorView.php?sectionID='.$previousSectionID.'" class="btn btn-primary">Back</a>';
                 }
+
+                if(isset($sectionIDsArray[$currentSectionIDPosition+1]))
+                {
+                    $nextSectionID = $sectionIDsArray[$currentSectionIDPosition+1];
+                    echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                }
             }
+
             #if($sectionNo == 1)
             #{
             #    $numberOfsecIDs = count($_SESSION["sectionIDs"]);

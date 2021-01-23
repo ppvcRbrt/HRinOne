@@ -101,6 +101,13 @@ if(isset($_GET["sectionID"]))
     header("location:assessorView.php");
     exit();
 }
+if(isset($_POST["sectionFinished"]))
+{
+    $assessorViewFunction = new assessorViewFunctions();
+    $allSections = $assessorViewFunction->getAllSectionsCount(); //need to use array_search() on these to find the index of the question from the value of the section
+    $allQuestions = $assessorViewFunction->getAllQuestionsWithSections();
+    $allIndicators = $assessorViewFunction->getAllIndicatorsWithQuestions();
+}
 
 
 require('Views/assessorView.phtml');

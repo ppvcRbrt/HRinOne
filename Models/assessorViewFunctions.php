@@ -22,7 +22,7 @@ class assessorViewFunctions
             }
             if(isset($indicatorScore[0]))
                 echo'<label class="btn btn-secondary active" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
-                        <input type="radio" name="options" autocomplete="off" value = "'.$indicatorScore[0].'">'.$indicatorScore[0].'
+                        <input type="radio" name="indicator'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'" autocomplete="off" value = "'.$indicatorScore[0].'">'.$indicatorScore[0].'
                     </label>';
                 $indCount++;
                // echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';
@@ -49,11 +49,11 @@ class assessorViewFunctions
                     echo '<p>Question Name: '. $questionName[0] . '</p>';
                     echo '<div id = "question'.$questionCount.'sec'.$sectionNo.'">';
                     echo '<div class = "row justify-content-center">';
-                    echo '<form class="btn-group btn-group-toggle" data-toggle="buttons" id = "buttonsForQ'.$questionCount.'Sec'.$sectionNo.'">';
+                    echo '<div class="btn-group btn-group-toggle" data-toggle="buttons" id = "buttonsForQ'.$questionCount.'Sec'.$sectionNo.'">';
                     $indDesc = $this->getIndicatorForQuestion($allIndicators, $questionID, $sectionNo, $questionCount);
                     $indCount = 0;
                     echo '</div>';
-                    echo '</form>';
+                    echo '</div>';
                     foreach($indDesc as $currentDescription)
                     {
                         echo '<div class="row justify-content-center collapse" id="descriptionInd'.$indCount.'q'.$x.'sec'.$sectionNo.'" data-parent="#question'.$x.'sec'.$sectionNo.'">
@@ -66,8 +66,6 @@ class assessorViewFunctions
                     echo '</div>';
 
                     $questionCount++;
-
-
                 }
             }
 
