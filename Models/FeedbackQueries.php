@@ -20,7 +20,7 @@ class FeedbackQueries
     }
 
     /**
-     * Function to query and return all info from table
+     * Function to query and return information from the feedback table.
      * @return array: will return an array of our rows
      */
     public function getAll()
