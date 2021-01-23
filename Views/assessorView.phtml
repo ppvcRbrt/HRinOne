@@ -74,13 +74,16 @@ require_once("template/header.phtml");
     $sectionIDsArray = array();
     foreach($_SESSION['sectionIDs'] as $currentSectionID)
     {
+        array_push($sectionIDsArray,$currentSectionID);
+    }
+    foreach($_SESSION['sectionIDs'] as $currentSectionID)
+    {
         $sectionQuery = new SectionQueries();
 
         $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
         $sectionDesc = $sectionQuery->getSectionDescByID($currentSectionID);
         $allQuestions = $function->getAllQuestionsWithSections();
         $maxSections = $function->getAllSectionsCount();
-        array_push($sectionIDsArray,$currentSectionID);
 
         if((int)$_COOKIE["currentPagePerSecID"] == $currentSectionID)
         {
@@ -93,46 +96,71 @@ require_once("template/header.phtml");
             echo '</div>';
             $currentCount = 0;
             $sectionNo++;
+            $currentSectionIDPosition = array_search($currentSectionID, $sectionIDsArray);
 
-            if($sectionNo == 1)
+            if($currentSectionIDPosition === 0)
             {
-                $numberOfsecIDs = count($_SESSION["sectionIDs"]);
-                for($x = 0; $x < $numberOfsecIDs; $x++)
+                $sectionNumber = $currentSectionIDPosition+1;
+                echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
+                $nextSectionID = next($_SESSION["sectionIDs"]);
+                echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                $currentSectionID = prev($_SESSION["sectionIDs"]);
+            }
+            else
+            {
+                $sectionNumber = $currentSectionIDPosition+1;
+                echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
+                if(isset($sectionIDsArray[$currentSectionIDPosition+1]))
                 {
-                    $currentSectionIDSession = current($_SESSION["sectionIDs"]);
-                    if($currentSectionID !== $currentSectionIDSession)
-                    {
-                        $currentSectionIDSession = next($_SESSION["sectionIDs"]);
-                    }
-                    if($currentSectionID === $currentSectionIDSession)
-                    {
-                        $nextSectionID = next($_SESSION["sectionIDs"]);
-                        if(!empty($nextSectionID))
-                        {
-                            echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
-                            $nextSectionID = prev($_SESSION["sectionIDs"]);
-                            //echo '<div class = "row justify-content-center">Section no: '.$sectionNo.'/'.$numberOfsecIDs.'</div>';
-                        }
-                        if(!$nextSectionID)
-                        {
-                           $nextSectionID = prev($_SESSION["sectionIDs"]);
-                        }
-                        $prevSectionID = prev($_SESSION["sectionIDs"]);
-                        if(!empty($prevSectionID))
-                        {
-                            echo '<a href="../assessorView.php?sectionID='.$prevSectionID.'" class="btn btn-primary">Back</a>';
-                            if(!empty(next($_SESSION["sectionIDs"])))
-                            {
-                                $nextSectionID = next($_SESSION["sectionIDs"]);
-                                echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                    $nextSectionID = $sectionIDsArray[$currentSectionIDPosition+1];
+                    echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                }
 
-                            }
-                        }
-                        echo '<div class = "row justify-content-center">Section no: '.$sectionNo.'/'.$numberOfsecIDs.'</div>';
-
-                    }
+                if(isset($sectionIDsArray[$currentSectionIDPosition-1]))
+                {
+                    $previousSectionID = $sectionIDsArray[$currentSectionIDPosition-1];
+                    echo '<a href="../assessorView.php?sectionID='.$previousSectionID.'" class="btn btn-primary">Back</a>';
                 }
             }
+            #if($sectionNo == 1)
+            #{
+            #    $numberOfsecIDs = count($_SESSION["sectionIDs"]);
+            #    for($x = 0; $x < $numberOfsecIDs; $x++)
+            #    {
+            #        $currentSectionIDSession = current($_SESSION["sectionIDs"]);
+            #        if($currentSectionID !== $currentSectionIDSession)
+            #        {
+            #            $currentSectionIDSession = next($_SESSION["sectionIDs"]);
+            #        }
+            #        if($currentSectionID === $currentSectionIDSession)
+            #        {
+            #            $nextSectionID = next($_SESSION["sectionIDs"]);
+            #            if(!empty($nextSectionID))
+            #            {
+            #                echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+            #                $nextSectionID = prev($_SESSION["sectionIDs"]);
+            #                //echo '<div class = "row justify-content-center">Section no: '.$sectionNo.'/'.$numberOfsecIDs.'</div>';
+            #            }
+            #            if(!$nextSectionID)
+            #            {
+            #               $nextSectionID = prev($_SESSION["sectionIDs"]);
+            #            }
+            #            $prevSectionID = prev($_SESSION["sectionIDs"]);
+            #            if(!empty($prevSectionID))
+            #            {
+            #                echo '<a href="../assessorView.php?sectionID='.$prevSectionID.'" class="btn btn-primary">Back</a>';
+            #                if(!empty(next($_SESSION["sectionIDs"])))
+            #                {
+            #                    $nextSectionID = next($_SESSION["sectionIDs"]);
+            #                    echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+#
+            #                }
+            #            }
+            #            echo '<div class = "row justify-content-center">Section no: '.$sectionNo.'/'.$numberOfsecIDs.'</div>';
+#
+            #        }
+            #    }
+            #}
 
         }
     }
