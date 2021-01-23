@@ -7,6 +7,7 @@ class assessorViewFunctions
         $indicatorQuery = new IndicatorsQueries();
         $descriptions = array();
         $indCount = 0;
+        $_SESSION["allIndicatorNames"] = array();
         for($x = 0; $x < count($multiDimArray); $x++)
         {
             $indicatorID = array_search($currentQuestionID, $multiDimArray);
@@ -22,7 +23,7 @@ class assessorViewFunctions
             }
             if(isset($indicatorScore[0]))
                 echo'<label class="btn btn-secondary active" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
-                        <input type="radio" name="indicator'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'" autocomplete="off" value = "'.$indicatorScore[0].'">'.$indicatorScore[0].'
+                        <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'">'.$indicatorScore[0].'
                     </label>';
                 $indCount++;
                // echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';

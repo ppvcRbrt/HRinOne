@@ -119,6 +119,15 @@ class IndicatorsQueries
         return $dataSet;
     }
 
+    public function getIndFeedback($indicatorID)
+    {
+        $sqlQuery = 'SELECT feedback FROM Indicator
+                     WHERE indicator_ID = :indID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':indID', $indicatorID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
     /**
      * This function is used to gather information about indicators,
      * where we are given a section name.

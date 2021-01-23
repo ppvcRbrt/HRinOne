@@ -68,6 +68,8 @@ require_once("template/header.phtml");
         echo '<div class = "d-none">';
     }
     ?>
+
+
     <?php
     $function = new assessorViewFunctions();
     $sectionNo = 0;
@@ -87,9 +89,9 @@ require_once("template/header.phtml");
 
         if((int)$_COOKIE["currentPagePerSecID"] == $currentSectionID)
         {
-            echo '<form class="form-group" method = "post" action="../assessorView.php">';
+            echo '<form id = "'.$currentSectionID.'" name = "'.$currentSectionID.'" class="form-group" method = "post" action="../assessorView.php">';
             echo '<input type="hidden" name = "sectionID" value = "'.$currentSectionID.'">';
-            echo '<div id = "section'.$sectionNo.'">';
+            echo '<div id = "section'.$currentSectionID.'">';
             echo '<h2>'.$sectionName[0].'</h2>';
             echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
             $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo);
@@ -99,14 +101,20 @@ require_once("template/header.phtml");
             echo '<label>Enter here any feedback you have for this section: </label>
                    <textarea name = "feedbackForSect'.$currentSectionID.'" class="form-control" rows="3"></textarea>';
             echo '</div>';
-            echo '<button type="submit" name = "sectionFinished" class="btn btn-primary float-right">Section Finished!</button>';
-            echo '</form>';
-            if($currentSectionIDPosition === 0)
+            if(isset($_COOKIE["letMeSubmit"]))
+            {
+                if($_COOKIE["letMeSubmit"] === "true")
+                {
+                    echo '<button type="submit" name = "sectionFinished" class="btn btn-primary float-right">Section Finished!</button>';
+                }
+            }
+
+            if($currentSectionIDPosition === 0 and isset($sectionIDsArray[$currentSectionIDPosition-1]))
             {
                 $sectionNumber = $currentSectionIDPosition+1;
                 echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
                 $nextSectionID = next($_SESSION["sectionIDs"]);
-                echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next<button type = "submit">lol</button></a>';
                 $currentSectionID = prev($_SESSION["sectionIDs"]);
             }
             else
@@ -127,6 +135,7 @@ require_once("template/header.phtml");
                     echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
                 }
             }
+            echo '</form>';
 
             #if($sectionNo == 1)
             #{
