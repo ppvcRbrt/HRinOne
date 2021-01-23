@@ -98,6 +98,13 @@ class IndicatorsQueries
         return $statement->fetch();
     }
 
+    /**
+     * This function is used to gather the description of an indicator
+     * based on its ID.
+     *
+     * @param $indicatorID
+     * @return array
+     */
     public function getIndicatorDescByID($indicatorID)
     {
         $sqlQuery = 'SELECT description FROM Indicator
@@ -111,6 +118,7 @@ class IndicatorsQueries
         }
         return $dataSet;
     }
+
     /**
      * This function is used to gather information about indicators,
      * where we are given a section name.

@@ -46,7 +46,7 @@ class AssessmentInfoQueries
     }
 
     /**
-     * This method is used to insert assessment information into the database and it
+     * This function is used to insert assessment information into the database and it
      * required the assessment ID, section ID, question ID and the indicator ID.
      *
      * @param $assessmentID

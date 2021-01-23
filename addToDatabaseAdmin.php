@@ -24,11 +24,12 @@ $view->assess = $asTypeQuery->getAll();
 $view->sections = $sectQuery->getAll();
 $view->questions = $quesQuery->getAll();
 
-
-//if the user clicked on Add button under "Work Domain Pill" we set a cookie with "the current page"
-//we also set a cookie that says that we have not added a section
-//we then insert what the user posted
-//finally we doa refresh
+    /**
+     * if the user clicked on Add button under "Work Domain Pill" we set a cookie with "the current page"
+     * we also set a cookie that says that we have not added a section
+     * we then insert what the user posted
+     * finally we do a refresh
+     */
     if(isset($_POST["addWorkDom"]))
     {
         setcookie("currentPage", "WorkDomPage");
@@ -52,11 +53,13 @@ $view->questions = $quesQuery->getAll();
     }
 
 
-    //if the user clicked on the Add button under "Add Assessment Type" Pill we set a cookie with the current page and
-    //we also set a cookie with the section
-    //We then get the domain ID from what the user has chosen using $domainQuery variable
-    //Insert into assessmentType using the posted variables
-    //finally refresh
+    /**
+     * If the user clicked on the Add button under "Add Assessment Type" Pill we set a cookie with the current page and
+     * we also set a cookie with the section
+     * We then get the domain ID from what the user has chosen using $domainQuery variable
+     * Insert into assessmentType using the posted variables
+     * finally refresh
+     */
     if(isset($_POST["addAssessmentType"]))
     {
         setcookie("sectionAdded", "false");
@@ -67,11 +70,13 @@ $view->questions = $quesQuery->getAll();
         exit();
     }
 
-    //If the user has clicked on the pill "Add Sections" and has selected a work domain,
-    //we just set a cookie that reflects the fact that the user wants to add a section
-    //we then set the current page to this
-    //finally we set a cookie with the work domain selected and refresh
-    if(isset($_POST["selectWorkDomain"]))
+    /**
+     * If the user has clicked on the pill "Add Sections" and has selected a work domain,
+     * we just set a cookie that reflects the fact that the user wants to add a section
+     * we then set the current page to this
+     * finally we set a cookie with the work domain selected and refresh
+     */
+if(isset($_POST["selectWorkDomain"]))
     {
         setcookie("sectionAdded", "true");
         setcookie("currentPage", "SectionPage");
@@ -79,12 +84,14 @@ $view->questions = $quesQuery->getAll();
         header("location:addToDatabaseAdmin.php");
         exit();
     }
-    //If the user has selected a work domain(above), and has selected an assessment type
-    //set cookie current page
-    //set cookie section added to true to reflect the fact that the user is trying to add a section
-    //set a cookie with the assessment type selected
-    //get the assessment type Id
-    //set a cookie with that ID
+/**
+ * If the user has selected a work domain(above), and has selected an assessment type
+ * set cookie current page
+ * set cookie section added to true to reflect the fact that the user is trying to add a section
+ * set a cookie with the assessment type selected
+ * get the assessment type Id
+ * set a cookie with that ID
+ */
     if(isset($_POST["selectAssessmentTypeSubmit"]))
     {
         setcookie("sectionAdded", "true");
@@ -95,10 +102,12 @@ $view->questions = $quesQuery->getAll();
         header("location:addToDatabaseAdmin.php");
         exit();
     }
-    //If the user has gone through the above two bits of code and has entered a maximum ammount of sections,
-    //we create a session array called "sectionNames"
-    //we then push some predifined names(the name is defined in the .phtml file) to this Session array
-    //we then create a cookie with the maximum amount of sections
+    /**
+     * If the user has gone through the above two bits of code and has entered a maximum ammount of sections,
+     * we create a session array called "sectionNames"
+     * we then push some predifined names(the name is defined in the .phtml file) to this Session array
+     * we then create a cookie with the maximum amount of sections
+     */
     if(isset($_POST["maxInsertSubmit"]))
     {
         $_SESSION['sectionNames'] = array();
@@ -114,8 +123,10 @@ $view->questions = $quesQuery->getAll();
         exit();
     }
 
-    //If the user has pressed on any of the add section buttons
-    //Get domain ID
+    /**
+     * If the user has pressed on any of the add section buttons
+     * Get domain ID
+     */
     if(isset($_POST["addSection"])) {
         $domainID = $domainQuery->GetDomainID($_COOKIE["workDomSelected"]);
         //if we have set a cookie with max number of sections
@@ -129,12 +140,14 @@ $view->questions = $quesQuery->getAll();
                 //we loop here through all our section names and do operations on them
                 foreach($_SESSION['sectionNames'] as $currentSection)
                 {
-                    //if the user has entered a section name
-                    //the weight of each section will be = 100/ammount of sections
-                    //we then insert into the database the needed sectiom
-                    //we create a session variable with the name of "currentSectionInfo0/1/2/3 etc.." which will hold all the info
-                    //about the current section
-                    //we then create a session variable with the name of our current section
+                    /**
+                     * if the user has entered a section name
+                     * the weight of each section will be = 100/ammount of sections
+                     * we then insert into the database the needed sectiom
+                     * we create a session variable with the name of "currentSectionInfo0/1/2/3 etc.." which will hold all the info
+                     * about the current section
+                     * we then create a session variable with the name of our current section
+                     */
                     if(!empty($_POST[$currentSection]))
                     {
                         $weight = 100/(int)$_COOKIE["maxNoOfSections"];
@@ -183,10 +196,12 @@ $view->questions = $quesQuery->getAll();
             //unset($_COOKIE["assessmentTypeSelected"]);
         }
     }
-    //if the user pressed on the add button under the "Add Question" pill
-    //we create a session array that will hold all the info we need for the question
-    //we get the section ID
-    //we fnnally insert a question
+/**
+ * if the user pressed on the add button under the "Add Question" pill
+ * we create a session array that will hold all the info we need for the question
+ * we get the section ID
+ * we fnnally insert a question
+ */
     if(isset($_POST["addQuestion"]))
     {
         setcookie("currentPage", "QuestionPage");
