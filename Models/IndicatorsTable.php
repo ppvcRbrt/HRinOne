@@ -11,8 +11,7 @@ class IndicatorsTable
     public function __construct($dbRow)
     {
         $this->_indicator_ID = $dbRow['indicator_ID']?? null;
-        $this->_name = $dbRow['name']?? null;
-        $this->_indicator_description = $dbRow['indicator_description']?? null;
+        $this->_indicator_description = $dbRow['description']?? null;
         $this->_feedback = $dbRow['feedback']?? null;
         $this->_score = $dbRow['score']?? null;
         $this->_weight = $dbRow['weight']?? null;
@@ -24,10 +23,6 @@ class IndicatorsTable
         return $this->_indicator_ID;
     }
 
-    public function getName()
-    {
-        return $this->_name;
-    }
 
     public function getDescription()
     {

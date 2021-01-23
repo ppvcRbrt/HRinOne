@@ -98,6 +98,19 @@ class IndicatorsQueries
         return $statement->fetch();
     }
 
+    public function getIndicatorDescByID($indicatorID)
+    {
+        $sqlQuery = 'SELECT description FROM Indicator
+                     WHERE indicator_ID = :indID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':indID', $indicatorID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new IndicatorsTable($row);
+        }
+        return $dataSet;
+    }
     /**
      * This function is used to gather information about indicators,
      * where we are given a section name.

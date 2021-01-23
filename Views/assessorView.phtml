@@ -70,6 +70,7 @@ require_once("template/header.phtml");
     ?>
     <?php
     $function = new assessorViewFunctions();
+    $sectionNo = 0;
     foreach($_SESSION['sectionIDs'] as $currentSectionID)
     {
         $sectionQuery = new SectionQueries();
@@ -77,20 +78,79 @@ require_once("template/header.phtml");
         $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
         $sectionDesc = $sectionQuery->getSectionDescByID($currentSectionID);
         $allQuestions = $function->getAllQuestionsWithSections();
+        $maxSections = $function->getAllSectionsCount();
 
-        echo '<div>';
+        echo '<div id = "section'.$sectionNo.'">';
         echo '<h2>'.$sectionName[0].'</h2>';
         echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
-        echo '<form class="form-group" method = "post" action="../assessorView.php">';
-        $function->getQuestionForSection($allQuestions, $currentSectionID);
-        echo '</form>';
+        //echo '<form class="form-group" method = "post" action="../assessorView.php">';
+        $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo);
+        //echo '</form>';
         echo '</div>';
+        $currentCount = 0;
+        $sectionNo++;
     }
     ?>
     </div>
     <a href="#" class="btn btn-primary">Back</a>
     <a href="#" class="btn btn-primary">Next</a>
-
+<div id = "question1">
+    <div class = "row justify-content-center">
+        <div class="col-3" style="border-bottom-style: solid;">
+            Lack of understanding of what
+            the role involves; makes
+            unfounded assumptions about
+            the role
+        </div>
+        <form class="btn-group btn-group-toggle h-50" data-toggle="buttons" id = "q1">
+            <label class="btn btn-secondary" data-toggle="collapse" data-target="#row1" >
+                <input type="radio" name="options" autocomplete="off" value = "1"> 1
+            </label>
+            <label class="btn btn-secondary" data-toggle="collapse" data-target="#row2">
+                <input type="radio" name="options" autocomplete="off" value = "2"> 2
+            </label>
+            <label class="btn btn-secondary" data-toggle="collapse" data-target="#row3">
+                <input type="radio" name="options" autocomplete="off" value = "3"> 3
+            </label>
+            <label class="btn btn-secondary" data-toggle="collapse" data-target="#row4" >
+                <input type="radio" name="options" autocomplete="off" value = "4"> 4
+            </label>
+            <label class="btn btn-secondary" data-toggle="collapse" data-target="#row5">
+                <input type="radio" name="options" autocomplete="off"> 5
+            </label>
+        </form>
+        <div class="col-3" style="border-bottom-style: solid;">
+            Shows a clear understanding of
+            the role, demonstrates passion
+            for their chosen area
+        </div>
+    </div>
+    <div class="row justify-content-center collapse" id="row1" data-parent="#question1">
+        <div class="card card-body col-4">
+            Here is what 1 means
+        </div>
+    </div>
+    <div class="row justify-content-center collapse" id="row2" data-parent="#question1">
+        <div class="card card-body col-4">
+            Here is what 2 means
+        </div>
+    </div>
+    <div class="row justify-content-center collapse" id="row3" data-parent="#question1">
+        <div class="card card-body col-4">
+            Here is what 3 means
+        </div>
+    </div>
+    <div class="row justify-content-center collapse" id="row4" data-parent="#question1">
+        <div class="card card-body col-4">
+            Here is what 4 means
+        </div>
+    </div>
+    <div class="row justify-content-center collapse" id="row5" data-parent="#question1">
+        <div class="card card-body col-4">
+            Here is what 5 means
+        </div>
+    </div>
+</div>
 <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
 </div>
 <?php require_once("template/footer.phtml"); ?>
