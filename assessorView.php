@@ -16,7 +16,6 @@ $assessmentQuery = new AssessmentQueries();
 $assessmentTypeQuery = new AssessmentTypeQueries();
 $assessmentInfoQuery = new AssessmentInfoQueries();
 $sectionQuery = new SectionQueries();
-
 $view->templates = $assessmentQuery->getAll();
 
 if(isset($_POST["search"]))
@@ -81,11 +80,26 @@ if(isset($_POST["selectedAssessmentType"]))
                 $_SESSION['indicatorIDs'] = $indicatorIDs;
             }
         }
-
+        $x = 0;
+        foreach($_SESSION['sectionIDs'] as $currentSectionID)
+        {
+            setcookie("currentPagePerSecID", $currentSectionID);
+            $x++;
+            if($x == 1)
+            {
+                break;
+            }
+        }
         setcookie("selectedAssessmentType", $_POST["assessmentTypes"]);
         header("location:assessorView.php");
         exit();
     }
+}
+if(isset($_GET["sectionID"]))
+{
+    setcookie("currentPagePerSecID", $_GET["sectionID"]);
+    header("location:assessorView.php");
+    exit();
 }
 
 

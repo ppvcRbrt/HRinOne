@@ -71,6 +71,7 @@ require_once("template/header.phtml");
     <?php
     $function = new assessorViewFunctions();
     $sectionNo = 0;
+    $sectionIDsArray = array();
     foreach($_SESSION['sectionIDs'] as $currentSectionID)
     {
         $sectionQuery = new SectionQueries();
@@ -79,21 +80,65 @@ require_once("template/header.phtml");
         $sectionDesc = $sectionQuery->getSectionDescByID($currentSectionID);
         $allQuestions = $function->getAllQuestionsWithSections();
         $maxSections = $function->getAllSectionsCount();
+        array_push($sectionIDsArray,$currentSectionID);
 
-        echo '<div id = "section'.$sectionNo.'">';
-        echo '<h2>'.$sectionName[0].'</h2>';
-        echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
-        //echo '<form class="form-group" method = "post" action="../assessorView.php">';
-        $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo);
-        //echo '</form>';
-        echo '</div>';
-        $currentCount = 0;
-        $sectionNo++;
+        if((int)$_COOKIE["currentPagePerSecID"] == $currentSectionID)
+        {
+            echo '<div id = "section'.$sectionNo.'">';
+            echo '<h2>'.$sectionName[0].'</h2>';
+            echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
+            //echo '<form class="form-group" method = "post" action="../assessorView.php">';
+            $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo);
+            //echo '</form>';
+            echo '</div>';
+            $currentCount = 0;
+            $sectionNo++;
+
+            if($sectionNo == 1)
+            {
+                $numberOfsecIDs = count($_SESSION["sectionIDs"]);
+                for($x = 0; $x < $numberOfsecIDs; $x++)
+                {
+                    $currentSectionIDSession = current($_SESSION["sectionIDs"]);
+                    if($currentSectionID !== $currentSectionIDSession)
+                    {
+                        $currentSectionIDSession = next($_SESSION["sectionIDs"]);
+                    }
+                    if($currentSectionID === $currentSectionIDSession)
+                    {
+                        $nextSectionID = next($_SESSION["sectionIDs"]);
+                        if(!empty($nextSectionID))
+                        {
+                            echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                            $nextSectionID = prev($_SESSION["sectionIDs"]);
+                            //echo '<div class = "row justify-content-center">Section no: '.$sectionNo.'/'.$numberOfsecIDs.'</div>';
+                        }
+                        if(!$nextSectionID)
+                        {
+                           $nextSectionID = prev($_SESSION["sectionIDs"]);
+                        }
+                        $prevSectionID = prev($_SESSION["sectionIDs"]);
+                        if(!empty($prevSectionID))
+                        {
+                            echo '<a href="../assessorView.php?sectionID='.$prevSectionID.'" class="btn btn-primary">Back</a>';
+                            if(!empty(next($_SESSION["sectionIDs"])))
+                            {
+                                $nextSectionID = next($_SESSION["sectionIDs"]);
+                                echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+
+                            }
+                        }
+                        echo '<div class = "row justify-content-center">Section no: '.$sectionNo.'/'.$numberOfsecIDs.'</div>';
+
+                    }
+                }
+            }
+
+        }
     }
     ?>
     </div>
-    <a href="#" class="btn btn-primary">Back</a>
-    <a href="#" class="btn btn-primary">Next</a>
+
 <a href="../deleteCookies.php" class="btn btn-primary">Delete Cookies</a>
 </div>
 <?php require_once("template/footer.phtml"); ?>
