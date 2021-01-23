@@ -48,13 +48,12 @@ class assessorViewFunctions
                 {
                     echo '<p>Question Name: '. $questionName[0] . '</p>';
                     echo '<div id = "question'.$questionCount.'sec'.$sectionNo.'">';
-                    echo '<form class="btn-group btn-group-toggle h-50" data-toggle="buttons" id = "buttonsForQ'.$questionCount.'Sec'.$sectionNo.'">';
                     echo '<div class = "row justify-content-center">';
+                    echo '<form class="btn-group btn-group-toggle" data-toggle="buttons" id = "buttonsForQ'.$questionCount.'Sec'.$sectionNo.'">';
                     $indDesc = $this->getIndicatorForQuestion($allIndicators, $questionID, $sectionNo, $questionCount);
                     $indCount = 0;
-
-                    echo '</form>';
                     echo '</div>';
+                    echo '</form>';
                     foreach($indDesc as $currentDescription)
                     {
                         echo '<div class="row justify-content-center collapse" id="descriptionInd'.$indCount.'q'.$x.'sec'.$sectionNo.'" data-parent="#question'.$x.'sec'.$sectionNo.'">
