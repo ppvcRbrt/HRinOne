@@ -22,10 +22,39 @@ class assessorViewFunctions
                 }
             }
             if(isset($indicatorScore[0]))
-                echo'<label class="btn btn-secondary active" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
-                        <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'">'.$indicatorScore[0].'
-                    </label>';
-                $indCount++;
+            {
+                if(isset($_SESSION["indicatorIDForSection"]))
+                {
+                    $indAdded = false;
+                    foreach($_SESSION["indicatorIDForSection"] as $currentIndicatorID)
+                    {
+                        if($currentIndicatorID === $indicatorID)
+                        {
+                            echo'<label class="btn btn-secondary active" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
+                             <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'" checked>'.$indicatorScore[0].'
+                             </label>';
+                            $indCount++;
+                            $indAdded = true;
+                        }
+                    }
+                    if(!$indAdded)
+                    {
+                        echo'<label class="btn btn-secondary active disabled" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
+                             <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'">'.$indicatorScore[0].'
+                             </label>';
+                        $indCount++;
+                    }
+                }
+                else
+                {
+                    echo'<label class="btn btn-secondary active" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
+                         <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'">'.$indicatorScore[0].'
+                         </label>';
+                    $indCount++;
+                }
+
+            }
+
                // echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';
         }
         return $descriptions;

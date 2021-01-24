@@ -107,10 +107,11 @@ if(isset($_POST["selectedAssessmentType"]))
 }
 if(isset($_GET["sectionID"]))
 {
-
+    unset($_SESSION["indicatorIDForSection"]);
     setcookie("currentPagePerSecID", $_GET["sectionID"]);
     $lastPage = end($_SESSION["sectionIDs"]);
     setcookie("letMeGoNext", "false");
+    setcookie("assessorFeedback", "");
     header("location:assessorView.php");
     exit();
 }
@@ -134,13 +135,18 @@ if(isset($_POST["sectionFinished"])) {
     $allQuestions = $assessorViewFunction->getAllQuestionsWithSections();
     $allIndicators = $assessorViewFunction->getAllIndicatorsWithQuestions();
     $_SESSION["questionIndicatorFeedback"] = array();
+    $_SESSION["indicatorNames"] = array();
+    $_SESSION["indicatorIDForSection"] = array();
 
+    //$_SESSION["indicatorValues"] = array();
     $indicatorsID = array();
     for ($x = 0; $x < count($allQuestions); $x++)
     {
         if(isset($_POST["indicatorValueQ".$x]))
         {
             array_push($indicatorsID,(int)$_POST["indicatorValueQ".$x]);
+            array_push($_SESSION["indicatorNames"], "indicatorValueQ".$x);
+            array_push($_SESSION["indicatorIDForSection"],(int)$_POST["indicatorValueQ".$x]);
         }
     }
     $sectionFeedback = array();
@@ -151,6 +157,14 @@ if(isset($_POST["sectionFinished"])) {
         array_push($sectionFeedback, $feedback[0]);
         fwrite($writeFeedback, $feedback[0]);
         fwrite($writeFeedback, "\n");
+    }
+    if(isset($_POST["assessorFeedback"]))
+    {
+        if(!empty($_POST["assessorFeedback"]))
+        {
+            fwrite($writeFeedback, "FEEDBACK:".$_POST["assessorFeedback"]."\n");
+            setcookie("assessorFeedback", $_POST["assessorFeedback"]);
+        }
     }
 
     setcookie("letMeGoNext", "true");

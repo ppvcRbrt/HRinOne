@@ -177,7 +177,9 @@ class FeedbackGenerator extends FPDF_Protection {
         while (!feof($f)) {
             $lines += substr_count(fread($f, 8192), "\n");
         }
+
         fclose($f);
+
         return $lines;
     }
 }

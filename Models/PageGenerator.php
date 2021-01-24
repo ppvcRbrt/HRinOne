@@ -29,7 +29,7 @@ class PageGenerator
 
         //set the font size to smaller since the first page title's font size is bigger
         $pdf->SetFontSize('14');
-        $pdf->Write(5,'Name : '.$candidateName.'         Date : '.$date);
+        $pdf->Write(5,'Name : '.$candidateName.'         Date :'.$date);
     }
 
     function StaticSection($pdf)
@@ -40,12 +40,12 @@ class PageGenerator
         $pdf->Ln(-12);
 
         //print the sections from text file with titles
-        $pdf->PrintSectionFromTxt('Interview Exercise','text/intExercise.txt',"b");
-        $pdf->PrintSectionFromTxt('Group Exercise', 'text/grpExercise.txt', "b");
-        $pdf->PrintSectionFromTxt('Presentation Exercise', 'text/presentationExercise.txt', 'b');
+        //$pdf->PrintSectionFromTxt('Interview Exercise','text/Interview Exercise.txt',"b");
+        //$pdf->PrintSectionFromTxt('Group Exercise', 'text/Group Exercise.txt', "b");
+        //$pdf->PrintSectionFromTxt('Presentation Exercise', 'text/Presentation Exercise.txt', 'b');
 
         //finally start printing on next page since this section is finished
-        $pdf->AddPage();
+        //$pdf->AddPage();
     }
 
 }
