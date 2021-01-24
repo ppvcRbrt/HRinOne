@@ -52,6 +52,16 @@ if(isset($_POST["selectedAssessmentType"]))
         {
             if(!empty($_COOKIE["candidateID"]))
             {
+                if(file_exists("candidatesFeedback/".$_COOKIE["candidateID"]. ".txt"))
+                {
+                    $writeAssessmentType = fopen("candidatesFeedback/".$_COOKIE["candidateID"].".txt", "a+");
+                }
+                else
+                {
+                    $writeAssessmentType = fopen("candidatesFeedback/".$_COOKIE["candidateID"].".txt", "w");
+                }
+                fwrite($writeAssessmentType, "TYPE:".$_POST["assessmentTypes"]);
+                fwrite($writeAssessmentType, "\n");
                 $_SESSION['sectionIDs'] = array();
                 $_SESSION['questionIDs'] = array('qID'=>array(),'secID'=>array());
                 $_SESSION['indicatorIDs'] = array('indID'=>array(), 'qID'=>array());
@@ -100,22 +110,31 @@ if(isset($_GET["sectionID"]))
 
     setcookie("currentPagePerSecID", $_GET["sectionID"]);
     $lastPage = end($_SESSION["sectionIDs"]);
-    if($_GET["sectionID"] == $lastPage)
-    {
-        setcookie("letMeSubmit", "true");
-    }
-    else
-    {
-        $_COOKIE["letMeSubmit"] = "";
-    }
+    setcookie("letMeGoNext", "false");
     header("location:assessorView.php");
     exit();
 }
 if(isset($_POST["sectionFinished"])) {
+    if(file_exists("candidatesFeedback/".$_COOKIE["candidateID"]. ".txt"))
+    {
+        $writeFeedback = fopen("candidatesFeedback/".$_COOKIE["candidateID"].".txt", "a+");
+    }
+    else
+    {
+        $writeFeedback = fopen("candidatesFeedback/".$_COOKIE["candidateID"].".txt", "w");
+    }
+    if(isset($_POST["sectionName"]))
+    {
+        fwrite($writeFeedback, "SECTION:".$_POST["sectionName"]);
+        fwrite($writeFeedback, "\n");
+    }
+
     $assessorViewFunction = new assessorViewFunctions();
     //need to use array_search() on these to find the index of the question from the value of the section
     $allQuestions = $assessorViewFunction->getAllQuestionsWithSections();
     $allIndicators = $assessorViewFunction->getAllIndicatorsWithQuestions();
+    $_SESSION["questionIndicatorFeedback"] = array();
+
     $indicatorsID = array();
     for ($x = 0; $x < count($allQuestions); $x++)
     {
@@ -130,7 +149,13 @@ if(isset($_POST["sectionFinished"])) {
         $indicatorQuery = new IndicatorsQueries();
         $feedback = $indicatorQuery->getIndFeedback($currentID);
         array_push($sectionFeedback, $feedback[0]);
+        fwrite($writeFeedback, $feedback[0]);
+        fwrite($writeFeedback, "\n");
     }
+
+    setcookie("letMeGoNext", "true");
+    header("location:assessorView.php");
+    exit();
 }
 if(!empty($_SESSION["sectionIDs"]))
 {

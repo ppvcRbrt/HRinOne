@@ -1,0 +1,23 @@
+<?php require_once("template/header.phtml"); ?>
+<div class = "container">
+    <div class = "row justify-content-center">
+        <h2>Here you can generate a report for a candidate</h2>
+    </div>
+    <?php
+    if(!empty($_COOKIE["candNameReport"]))
+    {
+        echo '<div class = "d-none">';
+    }
+    else
+    {
+        echo '<div>';
+    }
+    ?>
+    <form class="form-group" method = "post" action="../createReport.php">
+        <label>Please enter candidate's name to search through all candidates</label>
+        <input class="form-control" type="text" name = "candName" placeholder="Please Enter candidate name">
+        <button type="submit" name = "search" class="btn btn-primary">Search</button>
+    </form>
+</div>
+</div>
+<?php require_once("template/footer.phtml"); ?>

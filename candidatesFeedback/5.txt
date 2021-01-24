@@ -1,0 +1,8 @@
+TYPE:Interview
+SECTION:Competency Based Questions
+Indicator3Feedback
+SECTION:Section3
+Indicator2F
+SECTION:SECTION 1 FOR NEW ASSESSMENT TYPE
+Indicator2Feedback
+Indicator3Feedback

@@ -25,6 +25,24 @@
                 echo '</div>';
             }
         }
+    if(isset($_COOKIE["candNameReport"]))
+        if(!empty($view->candIDReport))
+        {
+            foreach ($view->candIDReport as $currentID) {
+                $filepath = "./candidatesFeedback/".$currentID->getID().".txt";
+                if(file_exists($filepath))
+                {
+                    echo '<div>';
+                    echo '<a href="../createReport.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+                    $lines = new FeedbackGenerator();
+                    $qAnswered = $lines->getLines($filepath);
+                    $assessmentInfoQuery = new AssessmentInfoQueries();
+                    $qToAnswer = $assessmentInfoQuery->getNumberOfQPerCandid($currentID->getID());
+                    echo '<p>Has answered '.$qAnswered.'/'.$qToAnswer[0].' Questions</p>';
+                    echo '</div>';
+                }
+            }
+        }
     ?>
 </div>
 

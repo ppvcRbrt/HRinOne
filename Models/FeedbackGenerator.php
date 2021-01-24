@@ -169,6 +169,17 @@ class FeedbackGenerator extends FPDF_Protection {
         }
     }
 
+    function getLines($file)
+    {
+        $f = fopen($file, 'rb');
+        $lines = 0;
+
+        while (!feof($f)) {
+            $lines += substr_count(fread($f, 8192), "\n");
+        }
+        fclose($f);
+        return $lines;
+    }
 }
 
 

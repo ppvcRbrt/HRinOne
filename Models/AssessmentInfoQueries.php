@@ -45,6 +45,17 @@ class AssessmentInfoQueries
         return $dataSet;
     }
 
+    public function getNumberOfQPerCandid($candID)
+    {
+        $sqlQuery = 'SELECT COUNT(question_ID) FROM Assessment_info, Assessment 
+                     WHERE Assessment.assessment_ID = Assessment_info.assessment_ID
+                     AND Assessment.candidate_ID = :candID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':candID', $candID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
+
     /**
      * This function is used to insert assessment information into the database and it
      * required the assessment ID, section ID, question ID and the indicator ID.
