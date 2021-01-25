@@ -19,7 +19,8 @@ if(isset($_POST['Submit'])){
     $password = $userQuery->getUserPassword($userID);
     $userPassword = $password[0];
 
-    if($userID and $userPassword == $_POST["Password"])
+
+    if($userID and password_verify($_POST["Password"], $userPassword))
     {
         $userCat = $userQuery->getPrivileges($userID);
         $userCat = $userCat[0];

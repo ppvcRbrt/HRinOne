@@ -19,6 +19,31 @@ class UserQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    public function insertUser($uName, $uPassword, $uEmail, $uCatID)
+    {
+        $sqlQuery = 'LOCK TABLE Users WRITE;
+                     INSERT INTO Users (name, email, password, user_category_ID) 
+                        VALUES (:name, :email, :password, :userCatID);
+                     UNLOCK TABLES';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':name', $uName, PDO::PARAM_STR);
+        $statement->bindValue(':email', $uEmail, PDO::PARAM_STR);
+        $statement->bindValue(':password', $uPassword, PDO::PARAM_STR);
+        $statement->bindValue(':userCatID', $uCatID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+    }
+
+    public function deleteUser($userID)
+    {
+        $sqlQuery = 'LOCK TABLE Users WRITE;
+                     DELETE FROM Users
+                        WHERE user_ID = :userID;
+                     UNLOCK TABLES';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':userID', $userID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+    }
+
     /**
      * Function to query and return all info from table
      * @return array: will return an array of our rows
@@ -60,6 +85,19 @@ class UserQueries
         return $statement->fetch();
     }
 
+    public function searchForUserName($userName)
+    {
+        $sqlQuery = 'SELECT user_ID, name, user_category_ID FROM Users
+                     WHERE name LIKE :userName';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':userName', '%' . $userName . '%' ,PDO::PARAM_STR);
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new UserTable($row);
+        }
+        return $dataSet;
+    }
     public function getUserPassword($userID)
     {
         $sqlQuery = 'SELECT password FROM Users 
