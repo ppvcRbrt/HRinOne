@@ -20,7 +20,7 @@ class UserCategoryTable
 
     public function getCategoryID()
     {
-        
+        return $this->_user_category_ID;
     }
     public function getCategory()
     {

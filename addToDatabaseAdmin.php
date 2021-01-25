@@ -237,6 +237,7 @@ if(isset($_POST["selectWorkDomain"]))
         if(!empty($_COOKIE["maxScore"]))
         {
             $id = $quesQuery->GetQuestionID($_COOKIE["questionToAdd"]);
+            $indicatorScore1Weight = 100/(int)$_COOKIE["maxScore"];
             for($x = 0;$x<$_COOKIE["maxScore"]; $x++)
             {
                 array_push($indNames, "indicatorName".$x);
@@ -245,7 +246,7 @@ if(isset($_POST["selectWorkDomain"]))
                 $indWeight = 100/(int)$_COOKIE["maxScore"];
                 if(isset($_POST[$indNames[$x]]))
                 {
-                    $indQuery->InsertIndicator($_POST[$indNames[$x]],$_POST[$indFeedback[$x]],$_POST[$indScore[$x]],(string)$indWeight,(int)$id[0]);
+                    $indQuery->InsertIndicator($_POST[$indNames[$x]],$_POST[$indFeedback[$x]],$_POST[$indScore[$x]],(string)((int)$indicatorScore1Weight*(int)$_POST[$indScore[$x]]),(int)$id[0]);
                 }
                 $isEnd++;
             }

@@ -176,17 +176,17 @@ class FeedbackGenerator extends FPDF_Protection {
         while (!feof($f)) {
             $lines += substr_count(fread($f, 8192), "\n");
         }
-
         fclose($f);
 
         return $lines;
     }
+
     public function getLinesV2($file)
     {
         $f = fopen($file, 'rb');
         $flagLines = 0;
         $lineCount = 0;
-        $flags = ["TYPE:", "SECTION:", "FEEDBACK:"];
+        $flags = ["TYPE:", "SECTION:", "FEEDBACK:", "SCORE:"];
         if ($f)
         {
             while (($line = fgets($f)) !== false)

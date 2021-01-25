@@ -13,7 +13,7 @@ class UserTable
      */
     public function __construct($dbRow)
     {
-        $this->_user_ID = $dbRow['ID']?? null;
+        $this->_user_ID = $dbRow['user_ID']?? null;
         $this->_name = $dbRow['name']?? null;
         $this->_email = $dbRow['email']?? null;
         $this->_password = $dbRow['password']?? null;

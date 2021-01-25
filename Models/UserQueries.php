@@ -23,33 +23,49 @@ class UserQueries
      * Function to query and return all info from table
      * @return array: will return an array of our rows
      */
-    public function getPrivileges($name)
+    public function getPrivileges($userID)
     {
         $sqlQuery = 'SELECT user_category_ID FROM Users 
-                     WHERE name = :name';
+                     WHERE user_ID = :userID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
-        $statement->bindValue(':name', $name, PDO::PARAM_STR);
+        $statement->bindValue(':userID', $userID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
-        $dataSet = [];
-        while ($row = $statement->fetch()) {
-            $dataSet[] = new UserTable($row);
-        }
-        return $dataSet;
+        return $statement->fetch();
     }
 
     /**
      * This function is used to return the name of an User based
      * on its ID.
      *
-     * @param $ID
+     * @param $userID
      * @return array
      */
-    public function getName($ID)
+    public function getName($userID)
     {
         $sqlQuery = 'SELECT name FROM Users 
-                     WHERE ID = :ID';
+                     WHERE user_ID = :userID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
-        $statement->bindValue(':ID', $ID, PDO::PARAM_STR);
+        $statement->bindValue(':userID', $userID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
+
+    public function getUserID($userName)
+    {
+        $sqlQuery = 'SELECT user_ID FROM Users 
+                     WHERE name = :userName';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':userName', $userName, PDO::PARAM_STR);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
+
+    public function getUserPassword($userID)
+    {
+        $sqlQuery = 'SELECT password FROM Users 
+                     WHERE user_ID = :userID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':userID', $userID, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
         return $statement->fetch();
     }

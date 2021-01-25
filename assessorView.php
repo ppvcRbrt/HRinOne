@@ -150,19 +150,26 @@ if(isset($_POST["sectionFinished"])) {
         }
     }
     $sectionFeedback = array();
+    $questionScores = array();
     foreach($indicatorsID as $currentID)
     {
         $indicatorQuery = new IndicatorsQueries();
         $feedback = $indicatorQuery->getIndFeedback($currentID);
+        $scoreAndWeight = $indicatorQuery->getIndScoreAndWeight($currentID);
+        array_push($questionScores,(int)$scoreAndWeight[1]);
         array_push($sectionFeedback, $feedback[0]);
         fwrite($writeFeedback, $feedback[0]);
         fwrite($writeFeedback, "\n");
     }
     if(isset($_POST["assessorFeedback"]))
     {
+        $sectionScore = array_sum($questionScores)/count($questionScores);
+
         if(!empty($_POST["assessorFeedback"]))
         {
             fwrite($writeFeedback, "FEEDBACK:".$_POST["assessorFeedback"]."\n");
+            fwrite($writeFeedback, "SCORE:".$sectionScore."\n");
+           // fwrite($writeFeedback, "SCORE:".)
             setcookie("assessorFeedback", $_POST["assessorFeedback"]);
         }
     }
