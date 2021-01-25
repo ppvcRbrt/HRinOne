@@ -46,9 +46,9 @@ class SectionQueries
     public function InsertSection($name, $description, $weight, $assessmentTypeID)
     {
         $sqlQuery = 'LOCK TABLE Section WRITE;
-                     INSERT INTO Section (name, weight, description, assessment_type_ID) 
-                        VALUES (:name, :weight, :description, :assessmentTypeID);
-                     UNLOCK TABLES'; //<--Smol mistake that's been fixed
+                     INSERT INTO Section (name, description, weight, assessment_type_ID) 
+                        VALUES (:name, :description, :weight, :assessmentTypeID);
+                     UNLOCK TABLES';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->bindValue(':weight', $weight, PDO::PARAM_STR);
@@ -82,7 +82,7 @@ class SectionQueries
      */
     public function getAll()
     {
-        $sqlQuery = 'SELECT name FROM Section';
+        $sqlQuery = 'SELECT name FROM Section ORDER BY section_ID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
@@ -92,6 +92,17 @@ class SectionQueries
         return $dataSet;
     }
 
+    public function getAllIDs()
+    {
+        $sqlQuery = 'SELECT section_ID FROM Section ORDER BY section_ID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new SectionTable($row);
+        }
+        return $dataSet;
+    }
     /**
      * This function is used to gather a section name from the database, where
      * its ID is specified.

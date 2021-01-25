@@ -10,6 +10,8 @@ if(isset($_POST['Submit'])){
 
     /* Check and assign submitted Username and Password to new variable */
     $Username = isset($_POST['Username']) ? $_POST['Username'] : '';
+    $_SESSION["uName"] = $Username;
+
     $Password = isset($_POST['Password']) ? $_POST['Password'] : '';
 
     /* Check Username and Password existence in defined array */

@@ -105,7 +105,17 @@ class QuestionQueries
     }
 
 
-
+    public function getAllIDs()
+    {
+        $sqlQuery = 'SELECT question_ID FROM Question';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->execute(); // execute the PDO statement
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new QuestionTable($row);
+        }
+        return $dataSet;
+    }
     /**
      * This needs to be TESTED before deployment.
      */

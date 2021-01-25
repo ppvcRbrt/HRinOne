@@ -96,7 +96,7 @@ if(isset($_POST["sectionSubmit"]))
         {
             array_push($_SESSION["sectionHeader"],$_POST[$currentSectName]);
             $currentSecID = $sectionQueries->GetSectionIDByName($_POST[$currentSectName]);
-            array_push($_SESSION["sectionIDs"],$currentSecID[0]);
+            array_push($_SESSION["sectionIDs"],(int)$currentSecID[0]);
             $questions = $questionQueries->GetQuestionsByInfo($_POST[$currentSectName],$_COOKIE["assessmentType"],$_COOKIE["domain"]);
             foreach($questions as $currentQuestion)
             {

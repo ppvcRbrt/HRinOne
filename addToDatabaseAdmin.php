@@ -22,8 +22,8 @@ $candidQuery = new CandidateInfoQueries();
 $view->dom = $domainQuery->getAll();
 $view->assess = $asTypeQuery->getAll();
 $view->sections = $sectQuery->getAll();
+$view->sectionIDs = $sectQuery->getAllIDs();
 $view->questions = $quesQuery->getAll();
-
     /**
      * if the user clicked on Add button under "Work Domain Pill" we set a cookie with "the current page"
      * we also set a cookie that says that we have not added a section
@@ -208,10 +208,9 @@ if(isset($_POST["selectWorkDomain"]))
         setcookie("sectionAdded", "false");
         setcookie("questionToAdd", $_POST["questionToAdd"]);
 
-        $selectedForQuestion = [$_POST["workDomNameQuestion"],$_POST["assessmentTypeNameQuestion"], $_POST["SectionNameQuestion"]];
+        $selectedForQuestion = [$_POST["workDomNameQuestion"],$_POST["assessmentTypeNameQuestion"], (string)$_POST["SectionNameQuestion"]];
         $_SESSION["selectedForAddQuestion"] = $selectedForQuestion;
-        $secID = $sectQuery->GetSectionIDByName($_POST["SectionNameQuestion"]);
-        $quesQuery->InsertQuestion($_POST["questionToAdd"],(int)$secID[0]);
+        $quesQuery->InsertQuestion($_POST["questionToAdd"],$_POST["SectionNameQuestion"]);
         header("location:addToDatabaseAdmin.php");
         exit();
     }

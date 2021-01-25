@@ -173,7 +173,6 @@ class FeedbackGenerator extends FPDF_Protection {
     {
         $f = fopen($file, 'rb');
         $lines = 0;
-
         while (!feof($f)) {
             $lines += substr_count(fread($f, 8192), "\n");
         }
@@ -181,6 +180,29 @@ class FeedbackGenerator extends FPDF_Protection {
         fclose($f);
 
         return $lines;
+    }
+    public function getLinesV2($file)
+    {
+        $f = fopen($file, 'rb');
+        $flagLines = 0;
+        $lineCount = 0;
+        $flags = ["TYPE:", "SECTION:", "FEEDBACK:"];
+        if ($f)
+        {
+            while (($line = fgets($f)) !== false)
+            {
+                foreach($flags as $currentFlag)
+                {
+                    $toCompare = substr($line, 0, strlen($currentFlag));
+                    if($toCompare === $currentFlag)
+                    {
+                        $flagLines--;
+                    }
+                }
+                $lineCount++;
+            }
+        }
+        return $lineCount + $flagLines;
     }
 }
 

@@ -286,7 +286,7 @@
         <!-- Add Question -->
         <?php
         if(isset($_COOKIE["currentPage"]))
-            if($_COOKIE["currentPage"] == "QuestionPage")
+            if($_COOKIE["currentPage"] === "QuestionPage")
             {
                 echo '<div class="tab-pane fade show active" id="addQuestion" role="tabpanel" aria-labelledby="questionAddPill">';
             }
@@ -307,9 +307,9 @@
                     <?php
                     foreach($view->dom as $currentDomain)
                     {
-                        if($currentDomain->getDomain() == $_SESSION["selectedForAddQuestion"][0])
+                        if($currentDomain->getDomain() === $_SESSION["selectedForAddQuestion"][0])
                         {
-                            echo '<option selected>'.$currentDomain->getDomain(). '</option>';
+                            echo '<option value = "" selected>'.$currentDomain->getDomain(). '</option>';
                         }
                         else
                         {
@@ -324,7 +324,7 @@
                     <?php
                     foreach($view->assess as $currentAssessmentType)
                     {
-                        if($currentAssessmentType->getName() == $_SESSION["selectedForAddQuestion"][1])
+                        if($currentAssessmentType->getName() === $_SESSION["selectedForAddQuestion"][1])
                         {
                             echo '<option selected>' . $currentAssessmentType->getName() . '</option>';
                         }
@@ -338,16 +338,21 @@
                 <label> Sections:</label>
                 <select name = "SectionNameQuestion" multiple class="form-control">
                     <?php
+                    $x = 0;
+
+                    $sectionIDs = $view->sectionIDs;
                     foreach($view->sections as $currentSection)
                     {
-                        if($currentSection->getName() == $_SESSION["selectedForAddQuestion"][2])
+                        $currentID = $sectionIDs[$x];
+                        if((int)$currentID->getSectionID() === (int)$_SESSION["selectedForAddQuestion"][2])
                         {
-                            echo '<option selected>' . $currentSection->getName() . '</option>';
+                            echo '<option value = "'.$currentID->getSectionID().'" selected>' . $currentSection->getName() . '</option>';
                         }
                         else
                         {
-                            echo '<option>' . $currentSection->getName() . '</option>';
+                            echo '<option value = "'.$currentID->getSectionID().'">' . $currentSection->getName() . '</option>';
                         }
+                        $x++;
                     }
                     ?>
                 </select>
