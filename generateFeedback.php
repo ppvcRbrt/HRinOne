@@ -1,6 +1,7 @@
 <?php
 require('Models/StaticPageGenerator.php');
 
+
 //here we create a new feedback generator
 $pdf = new FeedbackGenerator();
 $page = new StaticPageGenerator();

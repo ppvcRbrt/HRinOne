@@ -29,6 +29,13 @@ if(isset($_POST['Submit'])){
 
         $_SESSION["loggedIn"] = true;
         $_SESSION["privilege"] = $privilege;
+        setcookie("isPassword", true);
+        header("location:index.php");
+        exit;
+    }
+    else
+    {
+        setcookie("isPassword", "false");
         header("location:index.php");
         exit;
     }

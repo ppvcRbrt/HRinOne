@@ -1,10 +1,20 @@
 <?php
 require_once('Models/PageGenerator.php');
 require_once('Models/CandidateInfoQueries.php');
-session_start();
+require_once("Models/UnsetAll.php");
+
+if(session_status() !== 2)
+{
+    session_start();
+}
 
 $view = new stdClass();
 $candidateQuery = new CandidateInfoQueries();
+
+$currentPageNav = "createReport";
+setcookie("currentPageNav", $currentPageNav);
+$unset = new UnsetAll();
+$unset->unsetEverything($currentPageNav);
 
 if(isset($_POST["search"]))
 {

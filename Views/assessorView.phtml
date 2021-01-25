@@ -78,6 +78,7 @@ require_once("template/header.phtml");
     {
         array_push($sectionIDsArray,$currentSectionID);
     }
+
     foreach($_SESSION['sectionIDs'] as $currentSectionID)
     {
         $sectionQuery = new SectionQueries();
@@ -184,6 +185,10 @@ require_once("template/header.phtml");
                     {
                         echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary disabled">Next</a>';
                     }
+                }
+                else
+                {
+                    echo '<input type="hidden" name="lastSection" value = "true">';
                 }
             }
             echo '</form>';

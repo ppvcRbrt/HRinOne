@@ -1,12 +1,21 @@
 <?php
 require_once("Models/UserQueries.php");
 require_once("Models/UserCategoryQueries.php");
+require_once("Models/UnsetAll.php");
 
-session_start();
+if(session_status() !== 2)
+{
+    session_start();
+}
 
 $userQuery = new UserQueries();
 $userCatQuery = new UserCategoryQueries();
 $view = new stdClass();
+
+$currentPageNav = "adminUserPage";
+setcookie("currentPageNav", $currentPageNav);
+$unset = new UnsetAll();
+$unset->unsetEverything($currentPageNav);
 
 if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
 {
@@ -52,11 +61,11 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
     }
     else
     {
-        echo "<span>You're not logged in or you dont have the privilege required to access this information, sorry</span>";
+        echo "<span>You're not logged in or you dont have the privilege required to access this information, sorry.<a href = 'index.php'>Go Back to home page</a></span>";
     }
 
 }
 else
 {
-    echo "<span>You're not logged in or you dont have the privilege required to access this information, sorry</span>";
+    echo "<span>You're not logged in or you dont have the privilege required to access this information, sorry.<a href = 'index.php'>Go Back to home page</a></span>";
 }
