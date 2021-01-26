@@ -36,7 +36,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             if(isset($_POST["candNameAssessor"]))
             {
                 setcookie("candNameAssessor", $_POST["candNameAssessor"]);
-                header("location:searchResults.php");
+                header("location:searchResultsAssessorView.php");
                 exit();
             }
         }

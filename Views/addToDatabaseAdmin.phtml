@@ -112,7 +112,7 @@
         ?>
             <form class="form-inline" method = "post" action="../addToDatabaseAdmin.php">
                 <label for="workDomToAdd">Work Domain Name: </label>
-                <input class="form-control" type="text" name = "workDomToAdd" placeholder="Work Domain Name">
+                <input class="form-control" type="text" name = "workDomToAdd" placeholder="Work Domain Name" required>
                 <button type="submit" name = "addWorkDom" class="btn btn-primary">Add</button>
             </form>
         </div>
@@ -136,7 +136,7 @@
             <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
                 <p>In order to add an assessment type please specify which work domain you would like to add the assessment type for</p>
                 <label>Work Domains: </label>
-                <select name="workDom" multiple class="form-control">
+                <select name="workDom" multiple class="form-control" required>
                     <?php
                     foreach($view->dom as $currentDomain)
                     {
@@ -145,9 +145,9 @@
                     ?>
                 </select>
                 <label for="assTypeToAddName">Assessment Type Name: </label>
-                <input class="form-control" type="text" name = "assTypeToAddName" placeholder="Assessment Type Name">
+                <input class="form-control" type="text" name = "assTypeToAddName" placeholder="Assessment Type Name" required>
                 <label for="assTypeToAddDesc">Assessment Type Description: </label>
-                <textarea class="form-control" id="assTypeToAddDesc" rows="2"></textarea>
+                <textarea class="form-control" id="assTypeToAddDesc" rows="2" required></textarea>
                 <button type="submit" name = "addAssessmentType" class="btn btn-primary">Add</button>
             </form>
         </div>
@@ -180,7 +180,7 @@
                 }
             ?>
                 <label>In order to add a section please specify the work domain</label>
-                <select name = "workDomNameSect" multiple class="form-control">
+                <select name = "workDomNameSect" multiple class="form-control" required>
                     <?php
                     foreach($view->dom as $currentDomain)
                     {
@@ -203,7 +203,7 @@
             }
             ?>
                 <label>And please specify the assessment type</label>
-                <select name = "selectAssessmentTypeName" multiple class="form-control">
+                <select name = "selectAssessmentTypeName" multiple class="form-control" required>
                     <?php
                     foreach($view->assess as $currentAssessmentType)
                     {
@@ -226,7 +226,7 @@
             }
             ?>
                 <label for="maxSection">Maxmimum sections for this assessment type: </label>
-                <input class="form-control" type="number" name = "maxSection" placeholder="Insert Maximum Sections Here">
+                <input class="form-control" min = "1" max="10" type="number" name = "maxSection" placeholder="Insert Maximum Sections Here">
                 <button type="submit" name = "maxInsertSubmit" class="btn btn-primary">Insert Maximum sections</button>
 
             </form>
@@ -303,7 +303,7 @@
                 <p>In order to add questions please select the domain, assessment type and section of the question </p>
 
                 <label>Work Domains:</label>
-                <select name = "workDomNameQuestion" multiple class="form-control">
+                <select name = "workDomNameQuestion" multiple class="form-control" required>
                     <?php
                     foreach($view->dom as $currentDomain)
                     {
@@ -320,7 +320,7 @@
                 </select>
 
                 <label> Assessment Types:</label>
-                <select name = "assessmentTypeNameQuestion" multiple class="form-control">
+                <select name = "assessmentTypeNameQuestion" multiple class="form-control" required>
                     <?php
                     foreach($view->assess as $currentAssessmentType)
                     {
@@ -336,7 +336,7 @@
                     ?>
                 </select>
                 <label> Sections:</label>
-                <select name = "SectionNameQuestion" multiple class="form-control">
+                <select name = "SectionNameQuestion" multiple class="form-control" required>
                     <?php
                     $x = 0;
 
@@ -366,13 +366,13 @@
                         }
                         else
                         {
-                            echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add"></textarea>';
+                            echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add" required></textarea>';
                             echo '<button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>';
                         }
                     }
                     else
                     {
-                        echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add"></textarea>';
+                        echo '<textarea class="form-control" rows = "2" type="text" name = "questionToAdd" placeholder="Type Your Question here and press add" required></textarea>';
                         echo '<button type="submit" name = "addQuestion" class="btn btn-primary">Add</button>';
                     }
                 ?>
@@ -403,13 +403,13 @@
                     }
                     else
                     {
-                        echo '<input class="form-control" type="number" name = "maxScoreQuestion" placeholder="please enter the max score here">';
+                        echo '<input class="form-control" min = "1" max = "10" type="number" name = "maxScoreQuestion" placeholder="please enter the max score here" required>';
                         echo '<button type="submit" name = "maxScore" class="btn btn-primary">Enter The maximum Score</button>';
                     }
                 }
                 else
                 {
-                    echo '<input class="form-control" type="number" name = "maxScoreQuestion" placeholder="please enter the max score here">';
+                    echo '<input class="form-control" min = "1" max = "10" type="number" name = "maxScoreQuestion" placeholder="please enter the max score here" required>';
                     echo '<button type="submit" name = "maxScore" class="btn btn-primary">Enter The maximum Score</button>';
                 }
                 ?>
@@ -470,7 +470,7 @@
         ?>
         <form class="form-group" method = "post" action="../addToDatabaseAdmin.php">
             <label>Please Select The candidate's work domain</label>
-            <select name = "workDomForCandid" multiple class="form-control">
+            <select name = "workDomForCandid" multiple class="form-control" required>
                 <?php
                 foreach($view->dom as $currentDomain)
                 {
@@ -481,11 +481,11 @@
             <label>
                 Candidate Name:
             </label>
-            <input class="form-control" type="text" name = "candidateName" placeholder="please enter candidate name here">
+            <input class="form-control" type="text" name = "candidateName" placeholder="please enter candidate name here" required>
             <label>
                 Candidate E-mail:
             </label>
-            <input class="form-control" type="text" name = "candidateEmail" placeholder="please enter candidate e-mai here">
+            <input class="form-control" type="text" name = "candidateEmail" placeholder="please enter candidate e-mai here" required>
             <button type="submit" name = "addDelegate" class="btn btn-primary">Add</button>
         </form>
     </div>

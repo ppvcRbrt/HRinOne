@@ -1,0 +1,24 @@
+<?php require_once("template/header.phtml"); ?>
+
+<div class = "container">
+    <div class = "row justify-content-center">
+        <h2>Here are your candidates</h2>
+    </div>
+    <?php
+    if(isset($_COOKIE["candName"]))
+        if(!empty($_COOKIE["candName"]))
+        {
+            if(!empty($view->candID))
+            {
+                foreach ($view->candID as $currentID) {
+                    echo '<div>';
+                    echo '<a href="../createTemplate.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+                    echo '</div>';
+                }
+            }
+        }
+    ?>
+</div>
+
+
+<?php require_once("template/footer.phtml"); ?>

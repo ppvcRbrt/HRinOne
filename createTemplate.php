@@ -35,7 +35,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
         if (isset($_POST["search"])) {
             if (isset($_POST["candName"])) {
                 setcookie("candName", $_POST["candName"]);
-                header("location:searchResults.php");
+                header("location:searchResultsCreateTemplate.php");
                 exit();
             }
         }
