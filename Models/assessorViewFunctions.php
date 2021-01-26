@@ -48,7 +48,7 @@ class assessorViewFunctions
                 else
                 {
                     echo'<label class="btn btn-secondary active" data-toggle="collapse" data-target="#descriptionInd'.$indCount.'q'.$questionNo.'sec'.$sectionNo.'">
-                         <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'">'.$indicatorScore[0].'
+                         <input type="radio" name="indicatorValueQ'.$questionNo.'" autocomplete="off" value = "'.$indicatorID.'" required>'.$indicatorScore[0].'
                          </label>';
                     $indCount++;
                 }

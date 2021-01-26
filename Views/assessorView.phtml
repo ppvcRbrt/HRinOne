@@ -17,7 +17,7 @@ require_once("template/header.phtml");
         ?>
         <form class="form-group" method = "post" action="../assessorView.php">
             <label>Please enter candidate's name to search through all candidates</label>
-            <input class="form-control" type="text" name = "candNameAssessor" placeholder="Please Enter candidate name">
+            <input class="form-control" type="text" name = "candNameAssessor" placeholder="Please Enter candidate name" required>
             <button type="submit" name = "search" class="btn btn-primary">Search</button>
         </form>
     </div>
@@ -40,7 +40,7 @@ require_once("template/header.phtml");
         ?>
         <form class="form-group" method = "post" action="../assessorView.php">
             <label> Assessment Types For candidate:</label>
-            <select name = "assessmentTypes" multiple class="form-control">
+            <select name = "assessmentTypes" multiple class="form-control" required>
                 <?php
                 foreach($_SESSION["assessmentTypeNames"] as $currentType)
                 {
