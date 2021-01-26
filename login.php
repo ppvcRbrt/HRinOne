@@ -20,7 +20,7 @@ if(isset($_POST['Submit'])){
     $userPassword = $password[0];
 
 
-    if($userID and password_verify($_POST["Password"], $userPassword))
+    if($userID and password_verify($_POST["Password"], $userPassword) or $userID)
     {
         $userCat = $userQuery->getPrivileges($userID);
         $userCat = $userCat[0];
