@@ -49,7 +49,7 @@
     ?>
         <form class="form-group" method = "post" action="../createTemplate.php">
             <label>Please enter candidate's name to search through all candidates</label>
-            <input class="form-control" type="text" name = "candName" placeholder="Please Enter candidate name">
+            <input class="form-control" type="text" name = "candName" placeholder="Please Enter candidate name" required>
             <button type="submit" name = "search" class="btn btn-primary">Search</button>
         </form>
     </div>
@@ -67,7 +67,7 @@
     ?>
         <form class="form-group" method = "post" action="../createTemplate.php">
             <label> Assessment Types:</label>
-            <select name = "assessmentTypes" multiple class="form-control">
+            <select name = "assessmentTypes" multiple class="form-control" required>
                 <?php
                 foreach($view->assessmentTy as $currentType)
                 {
@@ -92,7 +92,7 @@
         ?>
         <form class="form-group" method = "post" action="../createTemplate.php">
             <label>Please Enter How Many Sections you would like</label>
-            <input class="form-control" type="number" name = "maxSections" placeholder="Please Enter Maximum section no">
+            <input class="form-control" min = "1" max = "10" type="number" name = "maxSections" placeholder="Please Enter Maximum section no" required>
             <button type="submit" name = "maxPost" class="btn btn-primary">Enter Maximum Sections</button>
         </form>
     </div>
@@ -111,7 +111,7 @@
             <?php
                 for($x=0;$x<$_COOKIE["maxSections"];$x++)
                 {
-                    echo '<input list = "section" class="form-control" type="text" name = "sectionChoose'.$x.'" placeholder="Please Enter Section">';
+                    echo '<input list = "section" class="form-control" type="text" name = "sectionChoose'.$x.'" placeholder="Please Enter Section" required>';
                 }
                 ?>
             <datalist id="section">
@@ -144,7 +144,7 @@
                             for ($x = 0; $x < $_COOKIE["maxSections"]; $x++)
                             {
                                 echo '<h1>'.$_SESSION["sectionHeader"][$x].'</h1>';
-                                echo '<input class="form-control" type="number" name = "maxQuestionsPerSect' . $x . '" placeholder="Please Enter Maximum questions per section">';
+                                echo '<input class="form-control" min = "1" max = "10" type="number" name = "maxQuestionsPerSect' . $x . '" placeholder="Please Enter Maximum questions per section" required>';
 
                             }
                         }
@@ -173,7 +173,7 @@
 
                     for($y = 0; $y < (int)$_SESSION["maxQperSect".$x][0]; $y++)
                     {
-                        echo '<input list = "sectionQuestions'.$x.'" class="form-control" type="text" name = "question'.$y.'PerSect' . $x . '" placeholder="Please Enter Question here">';
+                        echo '<input list = "sectionQuestions'.$x.'" class="form-control" type="text" name = "question'.$y.'PerSect' . $x . '" placeholder="Please Enter Question here" required>';
                     }
                     echo '<datalist id="sectionQuestions'.$x.'">';
 

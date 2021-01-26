@@ -150,9 +150,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 setcookie("domainID", "");
                 setcookie("assessmentType", "");
                 setcookie("assessmentTypeID", "");
+                setcookie("finished", "true");
                 for ($x = 0; $x < (int)$_COOKIE["maxSections"]; $x++) {
                     unset($_SESSION["maxQperSect" . $x]);
-                    unset($_SESSION['questions' . $x]);
+                    unset($_SESSION['questionPerSect' . $x]);
                 }
                 setcookie("maxSections", "");
                 unset($_SESSION['sectionNames']);

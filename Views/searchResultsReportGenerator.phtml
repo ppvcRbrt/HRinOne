@@ -8,20 +8,45 @@
     if(isset($_COOKIE["candNameReport"]))
         if(!empty($view->candIDReport))
         {
+            echo '<table class="table">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th scope="col">#</th>';
+            echo '<th scope="col">Name</th>';
+            echo '<th scope="col">Questions Answered</th>';
+            echo '<th scope="col">Send Report</th>';
+            echo '<th scope="col">View/Download Report</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            $row = 1;
             foreach ($view->candIDReport as $currentID) {
                 $filepath = "./candidatesFeedback/".$currentID->getID().".txt";
                 if(file_exists($filepath))
                 {
-                    echo '<div>';
-                    echo '<a href="../createReport.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
                     $lines = new FeedbackGenerator();
                     $qAnswered = $lines->getLinesV2($filepath);
                     $assessmentInfoQuery = new AssessmentInfoQueries();
                     $qToAnswer = $assessmentInfoQuery->getNumberOfQPerCandid($currentID->getID());
-                    echo '<p>Has answered '.$qAnswered.'/'.$qToAnswer[0].' Questions</p>';
+
+                    echo '<div>';
+                    echo '<tr>';
+                    echo '<th scope = "row">'.$row.'</th>';
+                    echo '<td>'.$currentID->getName().'</td>';
+                    echo '<td>'.$qAnswered.'/'.$qToAnswer[0].'</td>';
+                    echo '<td><a href="#" class="btn btn-primary">Send via e-mail</a></td>';
+                    echo '<td><a target = "_blank" href="../createReport.php?candID=' . $currentID->getID() . '" class="btn btn-primary">View Report</a></td>';
+                    echo '</tr>';
+
+                    //echo '<a target = "_blank" href="../createReport.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+
+                    //echo '<p>Has answered '.$qAnswered.'/'.$qToAnswer[0].' Questions</p>';
                     echo '</div>';
+                    $row++;
                 }
             }
+            echo '</tbody>';
+            echo '</table>';
         }
     ?>
 </div>
