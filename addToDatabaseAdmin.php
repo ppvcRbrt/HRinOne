@@ -170,6 +170,16 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                         }
                         //if we're at the end of the loop refresh
                         if ($x == $sectNameNo - 1) {
+                            setcookie("workDomSelected", "");
+                            setcookie("maxNoOfSections", "");
+                            foreach($_SESSION["sectionNames"] as $currentName)
+                            {
+                                unset($_SESSION[$currentName]);
+                            }
+                            unset($_SESSION["sectionNames"]);
+                            setcookie("asTypeID", "");
+                            setcookie("sectionAdded", "true");
+
                             header("location:addToDatabaseAdmin.php");
                             exit();
                         }
