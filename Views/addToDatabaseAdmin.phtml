@@ -251,7 +251,6 @@
                                 <textarea class="form-control" id="sectionDesc" name="descSection'. $x .'" rows="2"></textarea>
                                 
                                 
-                                </br>
                                 </br>';
                     }
                     else
@@ -266,7 +265,6 @@
                                 <label for="sectionDesc">Section '. $currentSect .' Description: </label>
                                 <textarea class="form-control" id="sectionDesc" name="descSection'. $x .'" rows="2" placeholder="'.$_SESSION["currentSectionInfo".$x][2].'" readonly></textarea>      
                             
-                                </br>
                                 </br>';
                     }
 
@@ -276,7 +274,9 @@
                 if($x == $sectNameNo -1)
                 {
                     //echo '<form class="form-group" method = "post" action="../addToDatabaseAdmin.php">';
-                    echo '<button type="submit" name = "addSections" class="btn btn-primary">Add Sections</button>';
+                    echo '<button type="submit" name = "addSections" class="btn btn-primary mb-5">Add Sections</button>
+                                </br>
+                                </br>';
                     echo '</form>';
                 }
             }
