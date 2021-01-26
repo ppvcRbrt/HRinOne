@@ -116,7 +116,17 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 } else {
                     // error opening the file.
                 }
-                $pdf->Output();
+                if(isset($_GET["generateRep"]))
+                {
+                    $filename="tempRep/".$_GET["candID"].".pdf";
+                    $pdf->Output($filename,'F');
+                    setcookie("reportGenerated", "true");
+                    header("location:searchResultsReportGenerator.php");
+                }
+                else
+                {
+                    $pdf->Output();
+                }
             }
         }
         require_once("Views/createReport.phtml");

@@ -35,10 +35,14 @@ class Mailer
 
 
             // Attachments
-
+            $filename = './tempRep/'.$candidateID.'.pdf';
             //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
             //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
+            if(file_exists($filename))
+            {
+                $mail->addAttachment($filename, 'PACEReport.pdf');
+            }
             // Content
             $mail->isHTML(true); // Set email format to HTML
             $mail->Subject = 'Your PACE Report!';
@@ -46,6 +50,10 @@ class Mailer
             $mail->AltBody = 'Below you can find the pace report attached :)';
 
             $mail->send();
+            if(file_exists($filename))
+            {
+                unlink($filename);
+            }
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
