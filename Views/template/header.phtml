@@ -6,17 +6,15 @@
     <link type="text/css" rel="stylesheet" href="../../fpdf.css">
     <link rel="stylesheet" href="../../css/bootstrap.css">
     <link type="text/css" rel="stylesheet" href = "../../css/my-style.css">
-    <script src="../../js/jquery-3.5.1.slim.js"></script>
-
 </head>
-<body>
+<body data-spy="scroll" data-target="#navbar-example2" data-offset="0">
 <?php
     if(!isset($_SESSION))
     {
         session_start();
     }
 ?>
-<nav class="navbar navbar-expand-lg bg-custom">
+<nav id = " " class="navbar navbar-expand-lg bg-custom">
     <a class="navbar-brand" href="#">
         <img src="../../images/logoHRinOne.png" width="30" height="30" class="d-inline-block align-top" alt="">
     </a>
@@ -30,26 +28,33 @@
                 {
                     if($_SESSION["privilege"] === "admin")
                     {
-                        echo '<li class="nav-item active">
-                                  <a class="nav-link" href="../../index.php">Home <span class="sr-only">(current)</span></a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="../../addToDatabaseAdmin.php">Add to database</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="../../createTemplate.php">Create Template</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="../../assessorView.php">View Template</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="../../createReport.php">Generate Feedback!</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="../../adminUserPage.php">Manage Staff</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="../../logout.php">Log Out</a>
+                        echo '<li class="nav-item">
+                               <a class="nav-link" id = "change"  href="../../index.php">Home <span class="sr-only">(current)</span></a>
+                             </li>';
+
+                        echo '<li class="nav-item">
+                                <a class="nav-link"  href="../../adminUserPage.php">Manage Staff</a>
+                              </li>';
+
+                        echo '<li class="nav-item">
+                                <a class="nav-link"  href="../../addToDatabaseAdmin.php">Add to database</a>
+                              </li>';
+
+
+                        echo '<li class="nav-item">
+                                <a class="nav-link"  href="../../createTemplate.php">Create Template</a>
+                              </li>';
+
+                        echo '<li class="nav-item">
+                                <a class="nav-link"  href="../../assessorView.php">View Template</a>
+                              </li>';
+
+                        echo '<li class="nav-item">
+                                <a class="nav-link"  href="../../createReport.php">Generate Feedback!</a>
+                              </li>';
+
+                        echo '<li class="nav-item">
+                                 <a class="nav-link"  href="../../logout.php">Log Out</a>
                               </li>';
                     }
                     else if($_SESSION["privilege"] == "assessor")

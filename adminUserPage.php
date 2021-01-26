@@ -8,6 +8,7 @@ if(session_status() !== 2)
     session_start();
 }
 
+
 $userQuery = new UserQueries();
 $userCatQuery = new UserCategoryQueries();
 $view = new stdClass();
