@@ -7,9 +7,9 @@ class UnsetAll
 {
     function unsetEverything($currentPage)
     {
-        if(isset($_COOKIE["currentPage"]))
+        if(isset($_COOKIE["currentPageNav"]))
         {
-            if($currentPage !== $_COOKIE["currentPage"])
+            if($currentPage !== $_COOKIE["currentPageNav"])
             {
                 if (isset($_SERVER['HTTP_COOKIE'])) {
                     $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
