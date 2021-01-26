@@ -72,8 +72,8 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
         if (isset($_POST["addAssessmentType"])) {
             setcookie("sectionAdded", "false");
             setcookie("currentPage", "AssessmentTypePage");
-            $domainID = $domainQuery->GetDomainID($_POST["workDom"]);
-            $asTypeQuery->InsertAssessmentType($_POST["assTypeToAddName"], $_POST["assTypeToAddDesc"], $domainID);
+            //$domainID = $domainQuery->GetDomainID($_POST["workDom"]);
+            $asTypeQuery->InsertAssessmentType($_POST["assTypeToAddName"], $_POST["assTypeToAddDesc"], $_POST["workDom"]);
             header("location:addToDatabaseAdmin.php");
             exit();
         }

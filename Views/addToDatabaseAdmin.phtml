@@ -140,7 +140,7 @@
                     <?php
                     foreach($view->dom as $currentDomain)
                     {
-                        echo '<option>'.$currentDomain->getDomain(). '</option>';
+                        echo '<option value = "'.$currentDomain->getID().'">'.$currentDomain->getDomain(). '</option>';
                     }
                     ?>
                 </select>

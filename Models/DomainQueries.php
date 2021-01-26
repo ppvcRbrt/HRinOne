@@ -75,7 +75,7 @@ class DomainQueries
      */
     public function getAll()
     {
-        $sqlQuery = 'SELECT domain_name FROM Work_domain';
+        $sqlQuery = 'SELECT domain_name, work_domain_ID FROM Work_domain';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
