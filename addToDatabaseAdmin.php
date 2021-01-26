@@ -131,7 +131,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
          * If the user has pressed on any of the add section buttons
          * Get domain ID
          */
-        if (isset($_POST["addSection"])) {
+        if (isset($_POST["addSections"])) {
             $domainID = $domainQuery->GetDomainID($_COOKIE["workDomSelected"]);
             //if we have set a cookie with max number of sections
             if (isset($_COOKIE["maxNoOfSections"])) {
