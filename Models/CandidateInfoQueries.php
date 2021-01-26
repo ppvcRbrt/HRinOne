@@ -122,4 +122,14 @@ class CandidateInfoQueries
         }
         return $dataSet;
     }
+
+    public function getCandidateEmail($candidateID)
+    {
+        $sqlQuery = 'SELECT email FROM Candidate_info
+                     WHERE candidate_ID = :candID';
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        $statement->bindValue(':candID', $candidateID, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+        return $statement->fetch();
+    }
 }

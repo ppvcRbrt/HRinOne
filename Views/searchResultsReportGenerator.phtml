@@ -34,7 +34,7 @@
                     echo '<th scope = "row">'.$row.'</th>';
                     echo '<td>'.$currentID->getName().'</td>';
                     echo '<td>'.$qAnswered.'/'.$qToAnswer[0].'</td>';
-                    echo '<td><a href="#" class="btn btn-primary">Send via e-mail</a></td>';
+                    echo '<td><form class="form-group" method = "post" action="../searchResultsReportGenerator.php"><button name = "sendEmail" value = "'. $currentID->getID() .'" type = "submit" class="btn btn-primary">Send via e-mail</button></form></td>';
                     echo '<td><a target = "_blank" href="../createReport.php?candID=' . $currentID->getID() . '" class="btn btn-primary">View Report</a></td>';
                     echo '</tr>';
 

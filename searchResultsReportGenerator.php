@@ -3,6 +3,7 @@ require_once('Models/CandidateInfoQueries.php');
 require_once('Models/FeedbackGenerator.php');
 require_once('Models/AssessmentInfoQueries.php');
 require_once("Models/UnsetAll.php");
+require_once("Models/Mailer.php");
 
 if(session_status() !== 2)
 {
@@ -11,6 +12,7 @@ if(session_status() !== 2)
 
 $view = new stdClass();
 $candQuery = new CandidateInfoQueries();
+$mailer = new Mailer();
 
 $currentPageNav = "createReport";
 setcookie("currentPageNav", $currentPageNav);
@@ -25,6 +27,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
         {
             $candID = $candQuery->getCandIDByName($_COOKIE["candNameReport"]);
             $view->candIDReport = $candID;
+        }
+        if(isset($_POST["sendEmail"]))
+        {
+            $mailer->mailCandidate((int)$_POST["sendEmail"]);
         }
         require_once("Views/searchResultsReportGenerator.phtml");
     }
