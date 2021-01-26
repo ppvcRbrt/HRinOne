@@ -4,11 +4,11 @@
     <h4>Here you can register a user</h4>
     <form class="form-group" method = "post" action="../adminUserPage.php">
         <label>Please enter the username</label>
-        <input class="form-control" type="text" name = "userName" placeholder="username goes here">
+        <input class="form-control" type="text" name = "userName" placeholder="username goes here" required>
         <label>Please enter the password</label>
-        <input class="form-control" type="password" name = "password" placeholder="password goes here">
+        <input class="form-control" type="password" name = "password" placeholder="password goes here" required>
         <label>Please select user category</label>
-        <select name = "category" multiple class="form-control">
+        <select name = "category" multiple class="form-control" required>
             <option value = "1">
                 admin
             </option>
@@ -22,7 +22,7 @@
     <h4>Here you can search for a user then delete</h4>
     <form class="form-group" method = "post" action="../adminUserPage.php">
         <label>Please enter the username of the user you would like deleted</label>
-        <input class="form-control" type="text" name = "userName" placeholder="username goes here">
+        <input class="form-control" type="text" name = "userName" placeholder="username goes here" required>
         <button type="submit" name = "searchUser" class="btn btn-primary">Search</button>
     </form>
     <?php
