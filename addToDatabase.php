@@ -25,7 +25,7 @@ if(isset($_POST["submit"]))
     }
     if(isset($_POST["assTypeToAdd"]))
     {
-        $asType->InsertAssessmentType($_POST["assTypeToAdd"], $_POST["assTypeDesc"], );
+        //$asType->InsertAssessmentType($_POST["assTypeToAdd"], $_POST["assTypeDesc"], );
         header("location:addToDatabase.php");
     }
     if(isset($_POST["section"]))

@@ -3,7 +3,24 @@
     <h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
     <div class = "row justify-content-center">
         <a href="#loginModal" data-toggle="modal" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Login</a>
+        <a href="#registerModal" data-toggle="modal" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</a>
     </div>
+<! reCAPTCHA method and site key ------>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Google reCAPTCHA v3</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+        <script src="https://www.google.com/recaptcha/api.js?render=6LdOXjAaAAAAAKfq4JV2buBMBtMwGQHTeZYCYIIa"></script>
+        <script>
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LdOXjAaAAAAAKfq4JV2buBMBtMwGQHTeZYCYIIa', { action: 'contact' }).then(function (token) {
+                    var recaptchaResponse = document.getElementById('recaptchaResponse');
+                    recaptchaResponse.value = token;
+                });
+            });
+        </script>
+    </head>
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -25,7 +42,8 @@
                             <input type="password" class="custom-control" name="Password" placeholder="Password">
                         </div>
                         <button type="submit" name = "Submit" class="btn btn-outline-danger">Submit</button>
-
+                     <! reCAPTCHA ID response ---->
+                        <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -35,6 +53,44 @@
         </div>
     </div>
 </div>
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRegister">Register Here</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- here is the form for the login modal which will post to login.php all values -->
+                    <form action ="../login.php" method ="post">
+                        <div class="form-group">
+                            <label>User Name</label>
+                            <input type="text" class="custom-control" name="Username" aria-describedby="emailHelp" placeholder="Enter username">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Email </label>
+                                <input type="text" class="custom-control" name="Email" aria-describedby="emailHelp" placeholder="Enter Email">
+                            </div>
+                            <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="custom-control" name="Password" placeholder="Password">
+                                <label>Repeat Password</label>
+                                <input type="password" class="custom-control" name="Password" placeholder="Repeat Password">
+                        </div>
+                        <button type="submit" name = "Submit" class="btn btn-outline-danger">Register</button>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
     <!--<p class='demo'><a href='../generateFeedback.php' target='_blank' class='demo'>[Demo]</a></p> -->
 <?php require('template/footer.phtml') ?>
