@@ -123,6 +123,11 @@ class CandidateInfoQueries
         return $dataSet;
     }
 
+    /**
+     * Function to return candidates email
+     * @param $candidateID
+     * @return mixed
+     */
     public function getCandidateEmail($candidateID)
     {
         $sqlQuery = 'SELECT email FROM Candidate_info

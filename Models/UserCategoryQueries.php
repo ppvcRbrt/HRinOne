@@ -19,6 +19,11 @@ class UserCategoryQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * Will get the category name based on category id
+     * @param $catID
+     * @return mixed
+     */
     public function getCategory($catID)
     {
         $sqlQuery = 'SELECT category FROM User_category 

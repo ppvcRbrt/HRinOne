@@ -12,12 +12,12 @@
                         echo '<div class = "row justify-content-center">
                               <h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
                               <div class = "col-lg-3">                       
-                              <form class="form-group mt-3" method = "post" action="../login.php">
+                              <form class="form-group mt-3" id = "loginMain" method = "post" action="../login.php">
                               <label>User Name</label>
                               <input type="text" class="custom-control" name="Username" placeholder="Enter username">
                               <label>Password</label>
-                              <input type="password" class="custom-control" name="Password" placeholder="Password">
-                              <button type="submit" name = "Submit" class="btn btn-primary">Login</button>
+                              <input type="password" class="custom-control" name="Password" placeholder="Password"> 
+                              <button type="submit" name = "Submit" class="btn btn-primary g-recaptcha" data-sitekey="6LdOXjAaAAAAAA9xZIKDhKAISwtjZUI2EQGHXB-j" data-callback="onSubmit" data-action="submit">Login</button>
                               <p style="color:indianred">Wrong Password or Username Please Try Again!</p>
                           </form>
                           </div>
@@ -28,12 +28,13 @@
                 {
                     echo '<div class = "row justify-content-center">
                           <h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
-                          <form class="form-group mt-3" method = "post" action="../login.php">
+                          <form class="form-group mt-3" id = "loginMain" method = "post" action="../login.php">
                               <label>User Name</label>
                               <input type="text" class="custom-control" name="Username" placeholder="Enter username">
                               <label>Password</label>
                               <input type="password" class="custom-control" name="Password" placeholder="Password">
-                              <button type="submit" name = "Submit" class="btn btn-primary">Login</button>
+                              
+                              <button type="submit" name = "Submit" class="btn btn-primary g-recaptcha" data-sitekey="6LdOXjAaAAAAAA9xZIKDhKAISwtjZUI2EQGHXB-j" data-callback="onSubmit" data-action="submit">Login</button>
                           </form>
                       </div>';
                 }
@@ -50,18 +51,25 @@
         {
             echo '<h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
                       <div class = "row justify-content-center">
-                          <form class="form-group mt-3" method = "post" action="../login.php">
+                          <form class="form-group mt-3" id = "loginMain" method = "post" action="../login.php">
                               <label>User Name</label>
                               <input type="text" class="custom-control" name="Username" placeholder="Enter username">
                               <label>Password</label>
                               <input type="password" class="custom-control" name="Password" placeholder="Password">
-                              <button type="submit" name = "Submit" class="btn btn-primary">Login</button>
+                              <button type="submit" name = "Submit" class="btn btn-primary g-recaptcha" data-sitekey="6LdOXjAaAAAAAA9xZIKDhKAISwtjZUI2EQGHXB-j" data-callback="onSubmit" data-action="submit">Login</button>
                           </form>
                       </div>';
         }
     ?>
 
 </div>
-
+    <script src="https://www.google.com/recaptcha/api.js?render=put your site key here"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('put your site key here', {action: 'homepage'}).then(function(token) {
+                // pass the token to the backend script for verification
+            });
+        });
+    </script>
     <!--<p class='demo'><a href='../generateFeedback.php' target='_blank' class='demo'>[Demo]</a></p> -->
 <?php require('template/footer.phtml') ?>

@@ -45,6 +45,11 @@ class AssessmentInfoQueries
         return $dataSet;
     }
 
+    /**
+     * Function to get number of total questions assigned to a candidate
+     * @param $candID : candidate ID
+     * @return mixed : number of questions per candidate
+     */
     public function getNumberOfQPerCandid($candID)
     {
         $sqlQuery = 'SELECT COUNT(question_ID) FROM Assessment_info, Assessment 

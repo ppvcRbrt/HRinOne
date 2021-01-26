@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class AssessmentTypeTable : This class will allow us to get individual columns from AssessmentType Queries
+ * Class AssessmentTypeTable : This class will allow us to get individual columns from AssessmentType table
  */
 class AssessmentTypeTable
 {

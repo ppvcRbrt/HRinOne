@@ -48,6 +48,10 @@ class FeedbackGenerator extends FPDF_Protection {
         $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
     }
 
+    /**
+     * This function is used to print the first page with a title
+     * @param $label : title name
+     */
     function FirstPageTitle($label)
     {
         $w = $this->GetStringWidth($label)+6;
@@ -169,6 +173,11 @@ class FeedbackGenerator extends FPDF_Protection {
         }
     }
 
+    /**
+     * Supplementary function that will return the number of lines in a file
+     * @param $file : filepath
+     * @return int : count lines
+     */
     function getLines($file)
     {
         $f = fopen($file, 'rb');
@@ -181,6 +190,12 @@ class FeedbackGenerator extends FPDF_Protection {
         return $lines;
     }
 
+    /**
+     * Function that will get how many questions the candidate has answered from the .txt file
+     * it can do that by ignoring specific flags made at the .txt file creating
+     * @param $file : filepath
+     * @return int : number of questions answered by candidate
+     */
     public function getLinesV2($file)
     {
         $f = fopen($file, 'rb');

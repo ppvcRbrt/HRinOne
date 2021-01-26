@@ -3,6 +3,10 @@ if(session_status() !== 2)
 {
     session_start();
 }
+
+/**
+ * Class UnsetAll : should unset all cookie variables except for a few predefined ones
+ */
 class UnsetAll
 {
     function unsetEverything($currentPage)

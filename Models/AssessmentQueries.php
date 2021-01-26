@@ -21,7 +21,7 @@ class AssessmentQueries
     /**
      * This function is used to delete an assessment given its name.
      *
-     * @param $name
+     * @param $name : assessment name
      */
     public function DeleteAssessment($name)
     {
@@ -154,11 +154,6 @@ class AssessmentQueries
         }
         return $dataSet;
     }
-
-    /**
-     * This needs to be tested before deployment
-     */
-
 
     /**
      * This method should get assessment details given a work domain name

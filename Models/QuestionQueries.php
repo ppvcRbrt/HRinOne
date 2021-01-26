@@ -105,6 +105,10 @@ class QuestionQueries
     }
 
 
+    /**
+     * Will get all ids
+     * @return array
+     */
     public function getAllIDs()
     {
         $sqlQuery = 'SELECT question_ID FROM Question';
@@ -116,9 +120,6 @@ class QuestionQueries
         }
         return $dataSet;
     }
-    /**
-     * This needs to be TESTED before deployment.
-     */
 
     /**
      * This method should get the questions specific to section name, assessment type name

@@ -39,13 +39,6 @@ class PageGenerator
         $pdf->PrintTitle('Overview Of Development Centre Exercises','b');
         $pdf->Ln(-12);
 
-        //print the sections from text file with titles
-        //$pdf->PrintSectionFromTxt('Interview Exercise','text/Interview Exercise.txt',"b");
-        //$pdf->PrintSectionFromTxt('Group Exercise', 'text/Group Exercise.txt', "b");
-        //$pdf->PrintSectionFromTxt('Presentation Exercise', 'text/Presentation Exercise.txt', 'b');
-
-        //finally start printing on next page since this section is finished
-        //$pdf->AddPage();
     }
 
 }

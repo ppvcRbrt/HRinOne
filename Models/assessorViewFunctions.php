@@ -1,19 +1,33 @@
 <?php
 
+/**
+ * Class assessorViewFunctions : This class should allow us to print some indicators and questions for every section in the right order
+ */
 class assessorViewFunctions
 {
+    /**
+     * @param $multiDimArray : an array with a key=>value pair of indicator ids => question ids
+     * @param $currentQuestionID
+     * @param $sectionNo
+     * @param $questionNo
+     * @return array
+     */
     function getIndicatorForQuestion($multiDimArray, $currentQuestionID, $sectionNo, $questionNo)
     {
         $indicatorQuery = new IndicatorsQueries();
         $descriptions = array();
         $indCount = 0;
         $_SESSION["allIndicatorNames"] = array();
+
+        //our main indicator loop that will print all indicators per a question
         for($x = 0; $x < count($multiDimArray); $x++)
         {
-            $indicatorID = array_search($currentQuestionID, $multiDimArray);
+            $indicatorID = array_search($currentQuestionID, $multiDimArray); //we search for a key which is going to be the indicator id
             unset($multiDimArray[$indicatorID]);
             $indicatorScore = $indicatorQuery->getIndicatorScoreByID($indicatorID);
             $indicatorDesc = $indicatorQuery->getIndicatorDescByID($indicatorID);
+
+            //here we get our desriptions for the indicators and we put them in an array
             if(isset($indicatorDesc))
             {
                 foreach($indicatorDesc as $currentDesc)
@@ -21,11 +35,13 @@ class assessorViewFunctions
                     array_push($descriptions, $currentDesc->getDescription());
                 }
             }
+
             if(isset($indicatorScore[0]))
             {
                 if(isset($_SESSION["indicatorIDForSection"]))
                 {
                     $indAdded = false;
+                    //in this loop we add the indicators
                     foreach($_SESSION["indicatorIDForSection"] as $currentIndicatorID)
                     {
                         if($currentIndicatorID === $indicatorID)
@@ -54,36 +70,43 @@ class assessorViewFunctions
                 }
 
             }
-
-               // echo '<p>Indicator Score: ' . $indicatorScore[0] . '</p>';
         }
         return $descriptions;
     }
 
+    /**
+     * @param $multiDimArray : a key => value pair of question ids => section ids
+     * @param $currentSectionID : the current section we are in
+     * @param $sectionNo : the section number out of total
+     */
     function getQuestionForSection($multiDimArray, $currentSectionID, $sectionNo)
     {
-        $questionQuery = new QuestionQueries();
+        $questionQuery = new QuestionQueries(); //creates a new query class
         $allIndicators = $this->getAllIndicatorsWithQuestions();
-        $currentMultiDimCount = count($multiDimArray);
-        $questionCount = 0;
+        $currentMultiDimCount = count($multiDimArray);//count how many variables in the array
+        $questionCount = 0; //will be just used to print the name of questions
+
+        //this will be our main question loop and inside will go our indicator loop from the function above
+        //this will help print out our questions
         for($x = 0 ; $x < $currentMultiDimCount ; $x++)
         {
-            $questionID = array_search($currentSectionID, $multiDimArray);
-            unset($multiDimArray[$questionID]);
+            $questionID = array_search($currentSectionID, $multiDimArray); // we search for the question ids here that should be the "key"
+            unset($multiDimArray[$questionID]); // and since array_search only returns the first element that matches the criteria we need to unset that specific key=>value pair
             $currentMultiDimCount = count($multiDimArray);
             $questionName = $questionQuery->getQuestionName($questionID);
-            if(isset($questionName[0]))
+            if(isset($questionName[0])) //if we can find a question by that name
             {
-                if($questionID)
+                if($questionID) //if question id is not false since its originated query
                 {
-                    echo '<p>Question Name: '. $questionName[0] . '</p>';
+                    echo '<p>'. $questionName[0] . '</p>';
                     echo '<div id = "question'.$questionCount.'sec'.$sectionNo.'">';
                     echo '<div class = "row justify-content-center">';
                     echo '<div class="btn-group btn-group-toggle" data-toggle="buttons" id = "buttonsForQ'.$questionCount.'Sec'.$sectionNo.'">';
-                    $indDesc = $this->getIndicatorForQuestion($allIndicators, $questionID, $sectionNo, $questionCount);
+                    $indDesc = $this->getIndicatorForQuestion($allIndicators, $questionID, $sectionNo, $questionCount); //method above to print idicators for questions
                     $indCount = 0;
                     echo '</div>';
                     echo '</div>';
+                    //here we print the indicator descriptions that will be linked to the indicators we printed above
                     foreach($indDesc as $currentDescription)
                     {
                         echo '<div class="row justify-content-center collapse" id="descriptionInd'.$indCount.'q'.$x.'sec'.$sectionNo.'" data-parent="#question'.$x.'sec'.$sectionNo.'">
@@ -101,6 +124,10 @@ class assessorViewFunctions
 
         }
     }
+
+    /**
+     * @return array : returns an array with a key => value pair of question ids => section ids
+     */
     function getAllQuestionsWithSections()
     {
         $questionsPerSections['questionID']['sectionID'] = array();
@@ -116,11 +143,17 @@ class assessorViewFunctions
         return $multiDimArray;
     }
 
+    /**
+     * @return int : how many sections we have per assessment(stored in a session variable)
+     */
     function getAllSectionsCount()
     {
         return count($_SESSION["sectionIDs"]);
     }
 
+    /**
+     * @return array : returns an array with the key => value pair of indicator ids => question ids
+     */
     function getAllIndicatorsWithQuestions()
     {
         $indicatorID = array();

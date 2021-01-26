@@ -119,6 +119,11 @@ class IndicatorsQueries
         return $dataSet;
     }
 
+    /**
+     * Function used to get the auto-generated feedback per indicator
+     * @param $indicatorID
+     * @return mixed
+     */
     public function getIndFeedback($indicatorID)
     {
         $sqlQuery = 'SELECT feedback FROM Indicator
@@ -129,6 +134,11 @@ class IndicatorsQueries
         return $statement->fetch();
     }
 
+    /**
+     * Function to return indicator score and weight per question
+     * @param $indicatorID
+     * @return mixed
+     */
     public function getIndScoreAndWeight($indicatorID)
     {
         $sqlQuery = 'SELECT score,weight FROM Indicator
@@ -138,6 +148,7 @@ class IndicatorsQueries
         $statement->execute(); // execute the PDO statement
         return $statement->fetch();
     }
+
     /**
      * This function is used to gather information about indicators,
      * where we are given a section name.
