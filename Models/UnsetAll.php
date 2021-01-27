@@ -5,7 +5,7 @@ if(session_status() !== 2)
 }
 
 /**
- * Class UnsetAll : should unset all cookie variables except for a few predefined ones
+ * Class UnsetAll : Used to unset all cookie variables except for a few predefined ones
  */
 class UnsetAll
 {
