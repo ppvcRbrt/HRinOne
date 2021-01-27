@@ -18,27 +18,51 @@ if(isset($_POST['Submit'])){
 
     $password = $userQuery->getUserPassword($userID);
     $userPassword = $password[0];
-
-
-    if($userID and password_verify($_POST["Password"], $userPassword))
+    if(isset($_POST["g-recaptcha-response"]))
     {
-        $userCat = $userQuery->getPrivileges($userID);
-        $userCat = $userCat[0];
-        $privilege = $userCatQuery->getCategory($userCat);
-        $privilege = $privilege[0];
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+            'secret' => '6LcIHz4aAAAAACPlquJbI81-v0dxGItOsOwW0Asq',
+            'response' => $_POST["g-recaptcha-response"]
+        );
+        $options = array(
+            'http' => array (
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success=json_decode($verify);
 
-        $_SESSION["loggedIn"] = true;
-        $_SESSION["privilege"] = $privilege;
-        setcookie("isPassword", true);
-        header("location:index.php");
-        exit;
+        if ($captcha_success->success==false) {
+            setcookie("isPassword", "false");
+            header("location:index.php");
+            exit;
+        }
+        if ($captcha_success->success==true) {
+            if($userID and password_verify($_POST["Password"], $userPassword))
+            {
+                $userCat = $userQuery->getPrivileges($userID);
+                $userCat = $userCat[0];
+                $privilege = $userCatQuery->getCategory($userCat);
+                $privilege = $privilege[0];
+
+                $_SESSION["loggedIn"] = true;
+                $_SESSION["privilege"] = $privilege;
+                setcookie("isPassword", true);
+                header("location:index.php");
+                exit;
+            }
+            else
+            {
+                setcookie("isPassword", "false");
+                header("location:index.php");
+                exit;
+            }
+        }
     }
-    else
-    {
-        setcookie("isPassword", "false");
-        header("location:index.php");
-        exit;
-    }
+
 }
 
 

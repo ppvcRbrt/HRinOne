@@ -29,7 +29,8 @@
         "php": ">=5.5.0",
         "ext-ctype": "*",
         "ext-filter": "*",
-        "ext-hash": "*"
+        "ext-hash": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",

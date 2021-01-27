@@ -32,6 +32,10 @@ $unset->unsetEverything($currentPageNav);
 
 if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
     if ($_SESSION["loggedIn"] === true and $_SESSION["privilege"] === "admin") {
+
+        /**
+         * if the user clicked on the search button take them to a search results page
+         */
         if (isset($_POST["search"])) {
             if (isset($_POST["candName"])) {
                 setcookie("candName", $_POST["candName"]);
@@ -39,6 +43,11 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 exit();
             }
         }
+
+        /**
+         * if the user is returning from the search results page then use the candidate ID from
+         * the $_GET[] to get his name and domain
+         */
         if (isset($_GET['candID'])) {
             $candID = $_GET['candID'];
             $view->candName = $candQueries->getCandidateName($candID);
@@ -51,6 +60,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
             exit();
         }
 
+        /**
+         * if the cookie candidate id is set and not empty then set some variables with the name and work domain
+         * that we can retrieve in the .phtml file
+         */
         if (isset($_COOKIE["candidateID"])) {
             if (!empty($_COOKIE["candidateID"]))
                 $view->candName = $candQueries->getCandidateName($_COOKIE["candidateID"]);
@@ -61,17 +74,28 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 $view->assessmentTy = $assessmentTypeQueries->getAssessmentTypeByWorkDom($_COOKIE["domain"]);
         }
 
+        /**
+         * If the user selected an assessment type set a cookie with that value
+         */
         if (isset($_POST["selectedAssessmentType"])) {
             setcookie("assessmentType", $_POST["assessmentTypes"]);
             header("location:createTemplate.php");
             exit();
         }
 
+        /**
+         * if the user selected a max no of sections set a cookie with that value
+         */
         if (isset($_POST["maxPost"])) {
             setcookie("maxSections", $_POST["maxSections"]);
             header("location:createTemplate.php");
             exit();
         }
+
+        /**
+         * if the cookie that we have set above is set then we create an array with all the
+         * post names of the sections in
+         */
         if (isset($_COOKIE["maxSections"])) {
             $maxSections = $_COOKIE["maxSections"];
             $_SESSION["sectionNames"] = array();
