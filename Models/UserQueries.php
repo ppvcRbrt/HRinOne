@@ -19,6 +19,14 @@ class UserQueries
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
+    /**
+     * Function to safely insert users into the database
+     * @param $uName
+     * @param $uPassword
+     * @param $uEmail
+     * @param $uCatID
+     *
+     */
     public function insertUser($uName, $uPassword, $uEmail, $uCatID)
     {
         $sqlQuery = 'LOCK TABLE Users WRITE;
@@ -33,6 +41,10 @@ class UserQueries
         $statement->execute(); // execute the PDO statement
     }
 
+    /**
+     * function to delete user based on user id
+     * @param $userID
+     */
     public function deleteUser($userID)
     {
         $sqlQuery = 'LOCK TABLE Users WRITE;
@@ -45,8 +57,9 @@ class UserQueries
     }
 
     /**
-     * Function to query and return all info from table
-     * @return array: will return an array of our rows
+     * Function to get the category for which a user belongs in
+     * @param $userID
+     * @return mixed
      */
     public function getPrivileges($userID)
     {
@@ -60,7 +73,7 @@ class UserQueries
 
     /**
      * This function is used to return the name of an User based
-     * on its ID.
+     * on his ID.
      *
      * @param $userID
      * @return array
@@ -75,6 +88,11 @@ class UserQueries
         return $statement->fetch();
     }
 
+    /**
+     * Function to get user id based on username
+     * @param $userName
+     * @return mixed
+     */
     public function getUserID($userName)
     {
         $sqlQuery = 'SELECT user_ID FROM Users 
@@ -85,6 +103,11 @@ class UserQueries
         return $statement->fetch();
     }
 
+    /**
+     * Function to search for users with similar usernames
+     * @param $userName
+     * @return array
+     */
     public function searchForUserName($userName)
     {
         $sqlQuery = 'SELECT user_ID, name, user_category_ID FROM Users
@@ -98,6 +121,12 @@ class UserQueries
         }
         return $dataSet;
     }
+
+    /**
+     * Function to get users password from the database
+     * @param $userID
+     * @return mixed
+     */
     public function getUserPassword($userID)
     {
         $sqlQuery = 'SELECT password FROM Users 

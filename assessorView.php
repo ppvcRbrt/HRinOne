@@ -33,6 +33,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
     {
         if(isset($_POST["search"]))
         {
+            /**
+             * If the user clicked on the search button then take them to the search results page
+             */
             if(isset($_POST["candNameAssessor"]))
             {
                 setcookie("candNameAssessor", $_POST["candNameAssessor"]);
@@ -40,6 +43,11 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                 exit();
             }
         }
+
+        /**
+         * If the user is returning from the search results page with a get,
+         * check which assignment types there are for this candidate and push them into a session array
+         */
         if(isset($_GET['candID']))
         {
             $candID = $_GET['candID'];
@@ -54,9 +62,12 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                 array_push($_SESSION["assessmentTypeNames"],$assessmentTypeNames[0]);
                 $x++;
             }
-            //header("location:assessorView.php");
-            //exit();
         }
+
+        /**
+         * If the user selected an assessment type and if we have a cookie with the candidate id
+         *
+         */
         if(isset($_POST["selectedAssessmentType"]))
         {
             if(!empty($_POST["assessmentTypes"]))
@@ -65,6 +76,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                 {
                     if(!empty($_COOKIE["candidateID"]))
                     {
+                        /**
+                         * We will check if a txt file already exists if not create one named after the candidate id
+                         */
                         if(file_exists("candidatesFeedback/".$_COOKIE["candidateID"]. ".txt"))
                         {
                             $writeAssessmentType = fopen("candidatesFeedback/".$_COOKIE["candidateID"].".txt", "a+");
@@ -73,6 +87,11 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                         {
                             $writeAssessmentType = fopen("candidatesFeedback/".$_COOKIE["candidateID"].".txt", "w");
                         }
+                        /**
+                         * Write the assessment type name into the text file and give it a flag before
+                         * and we create a session array with all the section ids and key => value pairs of questionID=>sectionID
+                         * and indicatorID=>questionID
+                         */
                         fwrite($writeAssessmentType, "TYPE:".$_POST["assessmentTypes"]);
                         fwrite($writeAssessmentType, "\n");
                         $_SESSION['sectionIDs'] = array();
@@ -97,6 +116,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                             array_push($indicatorIDs['indID'], $indID);
                             array_push($indicatorIDs['qID'], $questionID);
                         }
+                        /**
+                         * we need to count how many sections we have so we "array_unique()" the array and we set the session to its value
+                         */
                         $sectionIDs = array_unique($sectionIDs);
                         $_SESSION['sectionIDs'] = $sectionIDs;
                         $_SESSION['questionIDs'] = $questionIDs;
@@ -118,6 +140,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                 exit();
             }
         }
+        /**
+         * if the user clicked on the next button then we get the next section id and set a cookie as it
+         */
         if(isset($_GET["sectionID"]))
         {
             unset($_SESSION["indicatorIDForSection"]);
@@ -128,6 +153,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             header("location:assessorView.php");
             exit();
         }
+
+        /**
+         * if the user clicked on section finished
+         */
         if(isset($_POST["sectionFinished"])) {
             if(file_exists("candidatesFeedback/".$_COOKIE["candidateID"]. ".txt"))
             {
@@ -144,15 +173,17 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             }
 
             $assessorViewFunction = new assessorViewFunctions();
-            //need to use array_search() on these to find the index of the question from the value of the section
             $allQuestions = $assessorViewFunction->getAllQuestionsWithSections();
             $allIndicators = $assessorViewFunction->getAllIndicatorsWithQuestions();
             $_SESSION["questionIndicatorFeedback"] = array();
             $_SESSION["indicatorNames"] = array();
             $_SESSION["indicatorIDForSection"] = array();
 
-            //$_SESSION["indicatorValues"] = array();
             $indicatorsID = array();
+
+            /**
+             * Here we push into session variables and indicator names and ids per section
+             */
             for ($x = 0; $x < count($allQuestions); $x++)
             {
                 if(isset($_POST["indicatorValueQ".$x]))
@@ -164,6 +195,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             }
             $sectionFeedback = array();
             $questionScores = array();
+            /**
+             * we use the indicatorIDs array created above to get indicator auto generated feedback and score/weight
+             */
             foreach($indicatorsID as $currentID)
             {
                 $indicatorQuery = new IndicatorsQueries();
@@ -174,6 +208,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                 fwrite($writeFeedback, $feedback[0]);
                 fwrite($writeFeedback, "\n");
             }
+
+            /**
+             * if the assessor left a comment we will write the indicator feedback and score to the .txt file
+             */
             if(isset($_POST["assessorFeedback"]))
             {
                 $sectionScore = array_sum($questionScores)/count($questionScores);
@@ -186,6 +224,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                     setcookie("assessorFeedback", $_POST["assessorFeedback"]);
                 }
             }
+            /**
+             * if the user finished the last section, reset all cookies and session variables and start from beginning
+             */
             if(isset($_POST["lastSection"]))
             {
                 setcookie("letMeGoNext", "");

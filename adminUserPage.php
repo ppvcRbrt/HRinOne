@@ -22,6 +22,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
 {
     if($_SESSION["loggedIn"] === true and $_SESSION["privilege"] === "admin")
     {
+        /**
+         * If the user clicked on the add user button, then we will hash their password and insert into the database with post values
+         */
         if(isset($_POST["addUser"]))
         {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT); //here we will hash the password the user's inputted
@@ -30,6 +33,11 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             header("location:adminUserPage.php");
             exit();
         }
+
+        /**
+         * If the user clicked on "search" button then we will query the db for that username and return
+         * a $_SESSION array of user names and user categories
+         */
         if(isset($_POST["searchUser"]))
         {
             if(!empty($_POST["userName"]))
@@ -50,6 +58,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             }
 
         }
+
+        /**
+         * If the user clicked on the "DELETE" button then we delete that user from the db
+         */
         if(isset($_POST["deleteUser"]))
         {
             $userQuery->deleteUser($_POST["deleteUser"]);

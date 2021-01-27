@@ -18,19 +18,32 @@ $unset->unsetEverything($currentPageNav);
 
 if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
     if ($_SESSION["loggedIn"] === true and ($_SESSION["privilege"] === "admin" or $_SESSION["privilege"] === "assessor")) {
+
+        /**
+         * If the user clicked on the button search then take them to the search page
+         */
         if (isset($_POST["search"])) {
             setcookie("candNameReport", $_POST["candName"]);
             header("location:searchResultsReportGenerator.php");
             exit();
         }
+
+        /**
+         * If user returned from the search page
+         */
         if (isset($_GET["candID"])) {
             $candID = $_GET['candID'];
             $candName = $candidateQuery->getCandidateName($candID);
 
-            $filePath = "candidatesFeedback/" . $candID . ".txt";
+
+            $filePath = "candidatesFeedback/" . $candID . ".txt"; //our .txt file path based on candidate id
             $pdf = new FeedbackGenerator();
             $page = new PageGenerator();
             $sections = array();
+
+            /**
+             * we check if file exists
+             */
             if (file_exists($filePath)) {
                 $directory = new DirectoryIterator('text');
                 $num = 0;
@@ -38,12 +51,13 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                     if ($fileinfo->isFile()) {
                         if ($fileinfo->getExtension() == 'txt')
                             $currentSectionName = $fileinfo->getFilename();
-                        array_push($sections, $currentSectionName);
+                        array_push($sections, $currentSectionName); //get all section names
                         $num++;
                     }
                 }
-                $pdf->SetProtection(array('print'));
-                $page->CoverPage($pdf, $candName[0], date('Y-m-d'));
+
+                $pdf->SetProtection(array('print')); //here we set the protection of the pdf, so 'print' means users cannot copy from the pdf
+                $page->CoverPage($pdf, $candName[0], date('Y-m-d')); //function that will print the cover page
                 $page->StaticSection($pdf);
                 $pdf->PrintSectionFromTxt($sections[0], 'text/Interview Exercise.txt', "b");
                 $pdf->PrintSectionFromTxt($sections[1], 'text/Group Exercise.txt', "b");

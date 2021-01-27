@@ -157,16 +157,12 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                             $x++;
                             setcookie("sectionAdded", "true");
                             setcookie("currentPage", "SectionPage");
-                            //header("location:addToDatabaseAdmin.php");
 
-                            //exit();
                         } //if it is empty then don't do too much
                         else {
                             $x++;
                             setcookie("sectionAdded", "true");
                             setcookie("currentPage", "SectionPage");
-                            //header("location:addToDatabaseAdmin.php");
-                            //exit();
                         }
                         //if we're at the end of the loop refresh
                         if ($x == $sectNameNo - 1) {
@@ -187,7 +183,6 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
 
                 }
             }
-            //$sectQuery->InsertSection($_POST["assTypeToAddName"],$_POST["assTypeToAddDesc"],);
 
         } //if the user has pressed on any button other than add section button
         else {
@@ -197,7 +192,6 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 setcookie("assessmentTypeSelected", "");
                 header("location:addToDatabaseAdmin.php");
                 exit();
-                //unset($_COOKIE["assessmentTypeSelected"]);
             }
         }
         /**
@@ -218,6 +212,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
             exit();
         }
 
+        /**
+         * If the user pressed on the "enter the maximum score" button under the "Add Question" pill
+         * we will create a cookie called max score that will hold the max score per question
+         */
         if (isset($_POST["maxScore"])) {
             setcookie("currentPage", "QuestionPage");
             setcookie("sectionAdded", "false");
@@ -227,6 +225,11 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
             header("location:addToDatabaseAdmin.php");
             exit();
         }
+
+        /**
+         * If the user pressed on the add button for the indicators after entering their max score per question,
+         * we create three arrays that will all hold indicator post names so that we can loop through and check which one has been set
+         */
         if (isset($_POST["addIndicator"])) {
             setcookie("currentPage", "QuestionPage");
             setcookie("sectionAdded", "false");

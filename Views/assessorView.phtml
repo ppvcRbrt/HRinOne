@@ -5,6 +5,7 @@ require_once("template/header.phtml");
     <div class = "row justify-content-center">
         <h2>Here you can mark a candidate</h2>
     </div>
+    <!-- Candidate search here -->
         <?php
             if(!empty($_COOKIE["candNameAssessor"]))
             {
@@ -21,6 +22,7 @@ require_once("template/header.phtml");
             <button type="submit" name = "search" class="btn btn-primary">Search</button>
         </form>
     </div>
+        <!-- Assessment type select -->
         <?php
         if(isset($_COOKIE["candNameAssessor"]) and !isset($_COOKIE["selectedAssessmentType"]))
         {
@@ -51,6 +53,7 @@ require_once("template/header.phtml");
             <button type="submit" name = "selectedAssessmentType" class="btn btn-primary">Select Assessment Type</button>
         </form>
     </div>
+    <!-- Section printing happens below -->
     <?php
     if(isset($_COOKIE["selectedAssessmentType"]))
     {
@@ -67,11 +70,7 @@ require_once("template/header.phtml");
     {
         echo '<div class = "d-none">';
     }
-    ?>
-
-
-    <?php
-    $function = new assessorViewFunctions();
+    $function = new assessorViewFunctions(); //this class holds some printing functions that we will use
     $sectionNo = 0;
     $sectionIDsArray = array();
     foreach($_SESSION['sectionIDs'] as $currentSectionID)
@@ -79,6 +78,7 @@ require_once("template/header.phtml");
         array_push($sectionIDsArray,$currentSectionID);
     }
 
+    //this will be our main loop that prints out the forms that will contain each assessor response for the sections
     foreach($_SESSION['sectionIDs'] as $currentSectionID)
     {
         $sectionQuery = new SectionQueries();
@@ -95,7 +95,7 @@ require_once("template/header.phtml");
             echo '<div id = "section'.$currentSectionID.'">';
             echo '<h2>'.$sectionName[0].'</h2>';
             echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
-            $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo);
+            $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo); // function that will print our questions per section with indicators per question
             $currentCount = 0;
             $sectionNo++;
             $currentSectionIDPosition = array_search($currentSectionID, $sectionIDsArray);
@@ -109,16 +109,17 @@ require_once("template/header.phtml");
                 else
                 {
                     echo '<label>Enter here any feedback you have for this section: </label>
-                   <textarea name = "assessorFeedback" class="form-control" rows="3"></textarea>';
+                   <textarea name = "assessorFeedback" class="form-control" rows="3" required></textarea>';
                 }
             }
             else
             {
                 echo '<label>Enter here any feedback you have for this section: </label>
-                   <textarea name = "assessorFeedback" class="form-control" rows="3"></textarea>';
+                   <textarea name = "assessorFeedback" class="form-control" rows="3" required></textarea>';
             }
 
             echo '</div>';
+
             if(isset($_COOKIE["letMeGoNext"]))
             {
                 if($_COOKIE["letMeGoNext"] !== "true")
@@ -132,6 +133,9 @@ require_once("template/header.phtml");
             }
 
 
+            //here we decide when to disable or enable the next button as well as when to print it
+            //for example if the section id array at index +1 is not available then that means that we have no more section ids next
+            //which means we will not have a next button
             if($currentSectionIDPosition === 0 and isset($sectionIDsArray[$currentSectionIDPosition-1]))
             {
                 $sectionNumber = $currentSectionIDPosition+1;
@@ -154,17 +158,11 @@ require_once("template/header.phtml");
                 }
                 $currentSectionID = prev($_SESSION["sectionIDs"]);
             }
+            //here we also print the current section
             else
             {
                 $sectionNumber = $currentSectionIDPosition+1;
                 echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
-
-
-               # if(isset($sectionIDsArray[$currentSectionIDPosition-1]))
-               # {
-               #     $previousSectionID = $sectionIDsArray[$currentSectionIDPosition-1];
-               #     echo '<a href="../assessorView.php?sectionID='.$previousSectionID.'" class="btn btn-primary">Back</a>';
-               # }
 
                 if(isset($sectionIDsArray[$currentSectionIDPosition+1]))
                 {
