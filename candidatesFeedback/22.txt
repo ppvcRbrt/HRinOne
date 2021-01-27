@@ -1,9 +1,0 @@
-TYPE:Testing Assessment Type
-SECTION:Section 1
-Indicator2Feedback
-FEEDBACK:jghfd
-SCORE:33
-SECTION:Sect2
-Indicator3Feedback
-FEEDBACK:hgjhgjh
-SCORE:75
