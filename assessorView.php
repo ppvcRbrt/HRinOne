@@ -53,6 +53,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             $candID = $_GET['candID'];
             setcookie("candidateID", $candID);
             $_SESSION["assessmentTypeNames"] = array();
+            $_SESSION["assessmentTypeIDs"] = array();
             $ids = $assessmentQuery->getAssessmentTypeIDForCandidate((int)$candID);
             $x = 0;
             foreach($ids as $currentAssessmentTypeID)
@@ -60,6 +61,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                 $id = $currentAssessmentTypeID->getAssessmentTypeID();
                 $assessmentTypeNames = $assessmentTypeQuery->GetAssessmentTypeName($id);
                 array_push($_SESSION["assessmentTypeNames"],$assessmentTypeNames[0]);
+                array_push($_SESSION["assessmentTypeIDs"], $currentAssessmentTypeID->getAssessmentTypeID());
                 $x++;
             }
         }
@@ -101,8 +103,8 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
                         $sectionIDs = array();
                         $questionIDs = array('qID'=>array(),'secID'=>array());
                         $indicatorIDs = array('indID'=>array(), 'qID'=>array());
-                        $assessmentTypeID = $assessmentTypeQuery->GetAssessmentTypeID($_POST["assessmentTypes"]);
-                        $assessmentInfo = $assessmentInfoQuery->getInfoByCandID((int)$_COOKIE["candidateID"],(int)$assessmentTypeID[0]);
+                        $assessmentTypeID = (int)$_POST["assessmentTypes"];
+                        $assessmentInfo = $assessmentInfoQuery->getInfoByCandID((int)$_COOKIE["candidateID"],$assessmentTypeID);
                         foreach($assessmentInfo as $currentInfo)
                         {
                             $sectionID = $currentInfo->getSectionID();

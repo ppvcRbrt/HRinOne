@@ -44,9 +44,11 @@ require_once("template/header.phtml");
             <label> Assessment Types For candidate:</label>
             <select name = "assessmentTypes" multiple class="form-control" required>
                 <?php
+                $x = 0;
                 foreach($_SESSION["assessmentTypeNames"] as $currentType)
                 {
-                    echo '<option>'.$currentType. '</option>';
+                    echo '<option value = "'.$_SESSION["assessmentTypeIDs"][$x].'">'.$currentType. '</option>';
+                    $x++;
                 }
                 ?>
             </select>
