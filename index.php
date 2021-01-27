@@ -9,4 +9,5 @@ $currentPage = "Home";
 setcookie("currentPageNav", $currentPage);
 $unset = new UnsetAll();
 $unset->unsetEverything($currentPage);
+
 require_once('Views/index.phtml');

@@ -46,17 +46,19 @@ in the ```text``` folder. Each section is grouped in a file that holds the corre
 1. You need a server that can host a website. MySQL and PHP should also be supported as an active state mechanism 
    as well as a relational database information hosting.
 2. The database schema should be uploaded and executed. 
-   Usually, this can be fone from the PHPmyAdmin interface or any Database interface which allows operations to be done
+   Usually, this can be done from the PHPmyAdmin interface or any Database interface which allows operations to be done
    on the database schema. The user should also have the privileges to create and edit the database. 
    The database file is called "database.sql"
-3. Move the files to a remote server using either the ZIP archive being extracted on the remote location 
+3. Add fulltext functionality to your Candidate_information name column by running 
+   ```ALTER TABLE Candidate_info ADD FULLTEXT(name)```
+4. Move the files to a remote server using either the ZIP archive being extracted on the remote location 
    or by using an FTP client such as FileZilla to move the files to the remote location. The SSH protocol can
    also be used to transfer files to / from a remote server.
-4. The database connection details have to be edited in the file Database.php from the Models folder. 
+5. The database connection details have to be edited in the file Database.php from the Models folder. 
    ```Line 23-26``` should be edited accordingly. You can chose to use the plain-text version of the details 
    (which we do not recommend) or you can use any Base64 encoding / decoding website to encode your username and password
    and use that information in ```Database.php```.
-5. Email connection information needs to be updated accordingly in the file ```Mailer.php``` from the ```Models``` folder
+6. Email connection information needs to be updated accordingly in the file ```Mailer.php``` from the ```Models``` folder
    on lines 24-27. You will require the SMTP host, Username, Password and port. We reccommend sending emails
    using the TLS mechanism as it will ensure the data is transmited securely.
 6. reCaptcha ```SiteKey``` should be modified in ```index.phtml``` which is in the ```Views``` folder. The ```SecretKey``` 

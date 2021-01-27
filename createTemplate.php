@@ -94,7 +94,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
 
         /**
          * if the cookie that we have set above is set then we create an array with all the
-         * post names of the sections in
+         * post names of the sections and set it to a session variable
          */
         if (isset($_COOKIE["maxSections"])) {
             $maxSections = $_COOKIE["maxSections"];
@@ -109,18 +109,33 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 $view->sections = $sectionQueries->getSectionsByAssessmentTypeID((int)$assessmentTypeID[0], (int)$_COOKIE["domainID"]);
             }
         }
+        /**
+         * If the user clicked on the section submit button, we create two session arrays
+         * one for the section names and another for the section IDs
+         */
         if (isset($_POST["sectionSubmit"])) {
             $maxSectsForQuestionInput = $_COOKIE["maxSections"];
             $x = 0;
             $_SESSION["sectionHeader"] = array();
             $_SESSION["sectionIDs"] = array();
+
+            /**
+             * Here we create another session variable that will hold all the question for a section
+             */
             foreach ($_SESSION["sectionNames"] as $currentSectName) {
                 $_SESSION["questionPerSect" . $x] = array();
+
+                //if the section name inside the session array is = to what has been posted
+                //then we push into the two session arrays we created above the section id and name
                 if (isset($_POST[$currentSectName])) {
                     array_push($_SESSION["sectionHeader"], $_POST[$currentSectName]);
                     $currentSecID = $sectionQueries->GetSectionIDByName($_POST[$currentSectName]);
                     array_push($_SESSION["sectionIDs"], (int)$currentSecID[0]);
+
+                    //here we get our questions per section
                     $questions = $questionQueries->GetQuestionsByInfo($_POST[$currentSectName], $_COOKIE["assessmentType"], $_COOKIE["domain"]);
+
+                    //and then we push them into a session array
                     foreach ($questions as $currentQuestion) {
                         $name = $currentQuestion->getQuestion();
                         array_push($_SESSION["questionPerSect" . $x], $name);
@@ -133,6 +148,10 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 }
             }
         }
+        /**
+         * if the user clicked on the "Enter" button to add maximum questions per section
+         * we will fill the session array "maxQperSect" with the maximum we got from the user
+         */
         if (isset($_POST["maxQperSectionSubmit"])) {
             $maximumSections = (int)$_COOKIE["maxSections"];
             $currentCount = 0;
@@ -148,10 +167,16 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 exit();
             }
         }
+
+        /**
+         * if the user pressed on the last button of the form which should be "Enter" again
+         * then insert assessment into the assessment table get its id and then insert assessment info into the assessment_info table
+         */
         if (isset($_POST["done"])) {
             $assessmentQuery->InsertAssessment("", "", (int)$_COOKIE["candidateID"], (int)$_COOKIE["assessmentTypeID"]);
             $assessmentID = $assessmentQuery->GetAssessmentID((int)$_COOKIE["candidateID"], (int)$_COOKIE["assessmentTypeID"]);
             $isDone = 0;
+            //we need three loops here, one for the sections, one for the questions and finally one for the indicators per question
             for ($x = 0; $x < (int)$_COOKIE["maxSections"]; $x++) {
                 $questionsCount = 0;
                 for ($y = 0; $y < (int)$_SESSION["maxQperSect" . $x][0]; $y++) ;
@@ -167,6 +192,8 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                 }
                 $isDone++;
             }
+            //if the software is done inserting everything then unset all the cookies to make the user
+            //start from the beginning
             if ($isDone == (int)$_COOKIE["maxSections"]) {
                 setcookie("candName", "");
                 setcookie("domain", "");
