@@ -1,13 +1,15 @@
 <?php require_once("template/header.phtml"); ?>
 <div class = "container">
     <!-- User Registration -->
-    <h2>Register/Delete any users here!</h2>
-    <h4>Here you can register a user</h4>
+    <div class = "row justify-content-center">
+        <h2>Register/Delete any users here!</h2>
+    </div>
+    <h4>Register Users</h4>
     <form class="form-group" method = "post" action="../adminUserPage.php">
         <label>Please enter the username</label>
-        <input class="form-control" type="text" name = "userName" placeholder="username goes here" required>
+        <input class="form-control" type="text" name = "userName" placeholder="Username" required>
         <label>Please enter the password</label>
-        <input class="form-control" type="password" name = "password" placeholder="password goes here" required>
+        <input class="form-control" type="password" name = "password" placeholder="Password" required>
         <label>Please select user category</label>
         <select name = "category" multiple class="form-control" required>
             <option value = "1">
@@ -21,10 +23,10 @@
     </form>
 
     <!-- User search -->
-    <h4>Here you can search for a user then delete</h4>
+    <h4>Search and Delete Users</h4>
     <form class="form-group" method = "post" action="../adminUserPage.php">
         <label>Please enter the username of the user you would like deleted</label>
-        <input class="form-control" type="text" name = "userName" placeholder="username goes here" required>
+        <input class="form-control" type="text" name = "userName" placeholder="Username" required>
         <button type="submit" name = "searchUser" class="btn btn-primary">Search</button>
     </form>
     <?php
