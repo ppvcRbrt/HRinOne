@@ -17,6 +17,9 @@ setcookie("currentPageNav", $currentPageNav);
 $unset = new UnsetAll();
 $unset->unsetEverything($currentPageNav);
 
+/**
+ * This page will show the search results of candidates from the "assesorView" page
+ */
 if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
 {
     if ($_SESSION["loggedIn"] === true and $_SESSION["privilege"] === "admin")
