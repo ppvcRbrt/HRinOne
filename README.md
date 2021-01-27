@@ -48,9 +48,9 @@ in the ```text``` folder. Each section is grouped in a file that holds the corre
 2. The database schema should be uploaded and executed. 
    Usually, this can be done from the PHPmyAdmin interface or any Database interface which allows operations to be done
    on the database schema. The user should also have the privileges to create and edit the database. 
-   The database file is called "database.sql"
+   The database file is called "database.sql".
 3. Add fulltext functionality to your Candidate_information name column by running 
-   ```ALTER TABLE Candidate_info ADD FULLTEXT(name)```
+   ```ALTER TABLE Candidate_info ADD FULLTEXT(name)```.
 4. Move the files to a remote server using either the ZIP archive being extracted on the remote location 
    or by using an FTP client such as FileZilla to move the files to the remote location. The SSH protocol can
    also be used to transfer files to / from a remote server.
