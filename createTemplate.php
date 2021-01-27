@@ -140,8 +140,8 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
                         $name = $currentQuestion->getQuestion();
                         array_push($_SESSION["questionPerSect" . $x], $name);
                     }
-                    $x++;
-                }
+                }                    $x++;
+
                 if ($x == $maxSectsForQuestionInput) {
                     header("location:createTemplate.php");
                     exit();

@@ -58,7 +58,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"]))
             foreach($ids as $currentAssessmentTypeID)
             {
                 $id = $currentAssessmentTypeID->getAssessmentTypeID();
-                $assessmentTypeNames = $assessmentTypeQuery->GetAssessmentTypeName((int)$id[0]);
+                $assessmentTypeNames = $assessmentTypeQuery->GetAssessmentTypeName($id);
                 array_push($_SESSION["assessmentTypeNames"],$assessmentTypeNames[0]);
                 $x++;
             }
