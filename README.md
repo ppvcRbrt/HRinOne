@@ -1,8 +1,9 @@
 # HRinOne
 ```HR in 1 HackCamp Project```
 
-This project represents a feedback - report generator with the ability to manipulate data accordingly
-to the needs of a PACS examiner. It is intended to be used in a PACS exam simulation as it can help in 
+This project represents a fully-featured solution to generate PDF reports for candidates 
+with the ability to manipulate data accordingly to the needs of a PACS examiner. It is intended 
+to be used in a PACS exam simulation as it can help in 
 marking the papers, generating feedback and sending the results (or initial instructions) by email.
 
 As a PACS simulation is specific to a single candidate, the template should be able to generate more specific feedback, 
@@ -11,10 +12,10 @@ based on the candidate individual mark for each individual section.
 The project used PHP as the underlying active state mechanism, while a MySQL database holds the required information. 
 Cookies are used to make the user experience more pleasant as well as ensuring the functionality works.
 
-SQL locks have also been used as the client requested that simultaneous operations should be taken into consideration.
+SQL locks have been used as the client requested that simultaneous operations should be taken into consideration.
 
 PDFs are generated using a FPDF framework (FPDF). 
-This framework also includes a Protection class which we have used to ensure overall security when generating a PDF.
+This framework includes a Protection class as well which we have used to ensure overall security when generating a PDF.
 
 # Project information
 The main idea and the most important one in this project was the ability to construct a report generator 
@@ -60,6 +61,8 @@ in the ```text``` folder. Each section is grouped in a file that holds the corre
 6. Email connection information needs to be updated accordingly in the file ```Mailer.php``` from the ```Models``` folder
    on lines 24-27. You will require the SMTP host, Username, Password and port. We reccommend sending emails
    using the TLS mechanism as it will ensure the data is transmited securely.
+6. reCaptcha ```SiteKey``` should be modified in ```index.phtml``` which is in the ```Views``` folder. The ```SecretKey``` 
+should be modified in ```login.php``` on line 25.
    
 # FPDF Documentation
 This project uses FPDF framework, which is a class that allows the ability to generate PDF files with pure PHP, 
@@ -81,7 +84,19 @@ The version used in this solution is 6.2.0, the latest as of 27th January 2021.
 
 Documentation:
 
-
 https://phpmailer.github.io/PHPMailer/
 
 https://blog.mailtrap.io/phpmailer/
+
+# reCaptcha documentation
+
+This solution includes a reCaptcha v2 implementation. The functionality was added on the login page, as a it would have a great impact on the security of the page by making brute force attacks way harder. The main functionality is present is ```login.php```. reCaptcha works by having a pair of API keys. The first key is called a site key and the second one is a secret key.
+
+The secret key should be modified in ```login.php``` on line 25.
+
+The site key should be modified in ```index.phtml``` which is in the ```Views``` folder.
+
+Lines 21-36 in ```login.php``` represents data verification and response handling.
+
+More information about reCaptcha implementation can be found at:
+https://developers.google.com/recaptcha/intro
