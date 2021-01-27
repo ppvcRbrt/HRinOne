@@ -102,9 +102,9 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
         if (isset($_POST["selectAssessmentTypeSubmit"])) {
             setcookie("sectionAdded", "true");
             setcookie("currentPage", "SectionPage");
-            setcookie("assessmentTypeSelected", $_POST["selectAssessmentTypeName"]);
-            $assTypeID = $asTypeQuery->GetAssessmentTypeID($_POST["selectAssessmentTypeName"]);
-            setcookie("asTypeID", $assTypeID[0]);
+            $assTypeName = $asTypeQuery->GetAssessmentTypeName($_POST["selectAssessmentTypeName"]);
+            setcookie("assessmentTypeSelected", $assTypeName[0]);
+            setcookie("asTypeID", $_POST["selectAssessmentTypeName"]);
             header("location:addToDatabaseAdmin.php");
             exit();
         }

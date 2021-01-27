@@ -208,7 +208,7 @@
                     <?php
                     foreach($view->assess as $currentAssessmentType)
                     {
-                        echo '<option>'.$currentAssessmentType->getName(). '</option>';
+                        echo '<option value = "'.$currentAssessmentType->getAssessmentTypeID().'">'.$currentAssessmentType->getName(). '</option>';
                     }
                     ?>
                 </select>

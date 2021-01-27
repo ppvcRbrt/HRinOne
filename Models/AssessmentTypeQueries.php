@@ -118,7 +118,7 @@ class AssessmentTypeQueries
      */
     public function getAll()
     {
-        $sqlQuery = 'SELECT name FROM Assessment_type';
+        $sqlQuery = 'SELECT name, assessment_type_ID FROM Assessment_type';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         $statement->execute(); // execute the PDO statement
         $dataSet = [];
