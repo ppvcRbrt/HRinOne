@@ -52,7 +52,7 @@ class AssessmentInfoQueries
      */
     public function getNumberOfQPerCandid($candID)
     {
-        $sqlQuery = 'SELECT COUNT(question_ID) FROM Assessment_info, Assessment 
+        $sqlQuery = 'SELECT COUNT(DISTINCT question_ID) FROM Assessment_info, Assessment 
                      WHERE Assessment.assessment_ID = Assessment_info.assessment_ID
                      AND Assessment.candidate_ID = :candID';
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
