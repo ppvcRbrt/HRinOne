@@ -179,7 +179,7 @@ if(isset($_SESSION["loggedIn"]) and isset($_SESSION["privilege"])) {
             //we need three loops here, one for the sections, one for the questions and finally one for the indicators per question
             for ($x = 0; $x < (int)$_COOKIE["maxSections"]; $x++) {
                 $questionsCount = 0;
-                for ($y = 0; $y < (int)$_SESSION["maxQperSect" . $x][0]; $y++) ;
+                for ($y = 0; $y < (int)$_SESSION["maxQperSect" . $x][0]; $y++)
                 {
                     $questionID = $questionQueries->GetQuestionID($_POST["question" . $questionsCount . "PerSect" . $x]);
                     $indicators = $indicatorQuery->getIndicatorsByQuesID($questionID[0]);
