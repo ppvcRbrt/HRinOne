@@ -1,28 +1,79 @@
 <?php
-/* Starts the session */
-session_start();
-/* Check Login form submitted */
-$_SESSION['loggedIn'] = false;
+require_once("Models/UserQueries.php");
+require_once("Models/UserCategoryQueries.php");
 
-if(isset($_POST['Submit'])){
-    /* Define username and associated password array */
-    $logins = array('1' => '1','username1' => 'password1','username2' => 'password2');
-
-    /* Check and assign submitted Username and Password to new variable */
-    $Username = isset($_POST['Username']) ? $_POST['Username'] : '';
-    $Password = isset($_POST['Password']) ? $_POST['Password'] : '';
-
-    /* Check Username and Password existence in defined array */
-    if (isset($logins[$Username]) && $logins[$Username] == $Password){
-        /* Success: Set session variables and redirect to Protected page  */
-        $_SESSION['UserData']['Username']=$logins[$Username];
-        $_SESSION['loggedIn'] = true;
-        header("location:mainPage.php");
-        exit;
-    } else {
-        /*Unsuccessful attempt: Set error message */
-        $msg= "<span style='color:#ff0000'>Invalid Login Details</span>";
-    }
+if(session_status() !== 2)
+{
+    session_start();
 }
-?>
+
+$_SESSION['loggedIn'] = false;
+$userQuery = new UserQueries();
+$userCatQuery = new UserCategoryQueries();
+
+/**
+ * if the user clicked on the "Login" button
+ */
+if(isset($_POST['Submit'])){
+    $user = $userQuery->getUserID($_POST["Username"]);
+    $userID = $user[0];
+
+    $password = $userQuery->getUserPassword($userID);
+    $userPassword = $password[0];
+    /**
+     * if we have a captcha response then we can continue with the login
+     */
+    if(isset($_POST["g-recaptcha-response"]))
+    {
+        $url = 'https://www.google.com/recaptcha/api/siteverify'; //url of google's verification site
+        $data = array(
+            'secret' => '6LcIHz4aAAAAACPlquJbI81-v0dxGItOsOwW0Asq', //secret key -> this will be needed to be edited for live deployment
+            'response' => $_POST["g-recaptcha-response"] //the posted response
+        );
+        $options = array(
+            'http' => array (
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success=json_decode($verify);
+
+        /**
+         * if the user failed the captcha send them back to the index page
+         */
+        if ($captcha_success->success==false) {
+            setcookie("isPassword", "false");
+            header("location:index.php");
+            exit;
+        }
+        /**
+         * if the user passed the captcha continue with the login as normally
+         */
+        if ($captcha_success->success==true) {
+            if($userID and password_verify($_POST["Password"], $userPassword))
+            {
+                $userCat = $userQuery->getPrivileges($userID);
+                $userCat = $userCat[0];
+                $privilege = $userCatQuery->getCategory($userCat);
+                $privilege = $privilege[0];
+
+                $_SESSION["loggedIn"] = true;
+                $_SESSION["privilege"] = $privilege;
+                setcookie("isPassword", true);
+                header("location:index.php");
+                exit;
+            }
+            else
+            {
+                setcookie("isPassword", "false");
+                header("location:index.php");
+                exit;
+            }
+        }
+    }
+
+}
+
 

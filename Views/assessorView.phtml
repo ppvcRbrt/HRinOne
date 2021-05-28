@@ -1,0 +1,198 @@
+<?php
+require_once("template/header.phtml");
+?>
+<div id = "myGroup" class = "container">
+    <div class = "row justify-content-center">
+        <h2>Mark candidate</h2>
+    </div>
+    <!-- Candidate search here -->
+        <?php
+            if(!empty($_COOKIE["candNameAssessor"]))
+            {
+                echo '<div class = "d-none">';
+            }
+            else
+            {
+                echo '<div>';
+            }
+        ?>
+        <form class="form-group" method = "post" action="../assessorView.php">
+            <label>Please enter candidate's name to search through all candidates</label>
+            <input class="form-control" type="text" name = "candNameAssessor" placeholder="Please Enter candidate name" required>
+            <button type="submit" name = "search" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+        <!-- Assessment type select -->
+        <?php
+        if(isset($_COOKIE["candNameAssessor"]) and !isset($_COOKIE["selectedAssessmentType"]))
+        {
+            if(!empty($_COOKIE["candNameAssessor"]))
+            {
+                echo '<div>';
+            }
+            else
+            {
+                echo '<div class = "d-none">';
+            }
+        }
+        else
+        {
+            echo '<div class = "d-none">';
+        }
+        ?>
+        <form class="form-group" method = "post" action="../assessorView.php">
+            <label> Assessment Types For candidate:</label>
+            <select name = "assessmentTypes" multiple class="form-control" required>
+                <?php
+                foreach($_SESSION["assessmentTypeNames"] as $currentType)
+                {
+                    echo '<option>'.$currentType. '</option>';
+                }
+                ?>
+            </select>
+            <button type="submit" name = "selectedAssessmentType" class="btn btn-primary">Select Assessment Type</button>
+        </form>
+    </div>
+    <!-- Section printing happens below -->
+    <?php
+    if(isset($_COOKIE["selectedAssessmentType"]))
+    {
+        if(!empty($_COOKIE["selectedAssessmentType"]))
+        {
+            echo '<div>';
+        }
+        else
+        {
+            echo '<div class = "d-none">';
+        }
+    }
+    else
+    {
+        echo '<div class = "d-none">';
+    }
+    $function = new assessorViewFunctions(); //this class holds some printing functions that we will use
+    $sectionNo = 0;
+    $sectionIDsArray = array();
+    foreach($_SESSION['sectionIDs'] as $currentSectionID)
+    {
+        array_push($sectionIDsArray,$currentSectionID);
+    }
+
+    //this will be our main loop that prints out the forms that will contain each assessor response for the sections
+    foreach($_SESSION['sectionIDs'] as $currentSectionID)
+    {
+        $sectionQuery = new SectionQueries();
+
+        $sectionName = $sectionQuery->getSectionNameByID($currentSectionID);
+        $sectionDesc = $sectionQuery->getSectionDescByID($currentSectionID);
+        $allQuestions = $function->getAllQuestionsWithSections();
+        $maxSections = $function->getAllSectionsCount();
+
+        if((int)$_COOKIE["currentPagePerSecID"] == $currentSectionID)
+        {
+            echo '<form id = "'.$currentSectionID.'" name = "'.$currentSectionID.'" class="form-group" method = "post" action="../assessorView.php">';
+            echo '<input type="hidden" name = "sectionName" value = "'.$sectionName[0].'">';
+            echo '<div id = "section'.$currentSectionID.'">';
+            echo '<h2>'.$sectionName[0].'</h2>';
+            echo '<h3><i>'.$sectionDesc[0].'</i></h3>';
+            $function->getQuestionForSection($allQuestions, $currentSectionID, $sectionNo); // function that will print our questions per section with indicators per question
+            $currentCount = 0;
+            $sectionNo++;
+            $currentSectionIDPosition = array_search($currentSectionID, $sectionIDsArray);
+            if(isset($_COOKIE["assessorFeedback"]))
+            {
+                if(!empty($_COOKIE["assessorFeedback"]))
+                {
+                    echo '<label>Enter here any feedback you have for this section: </label>
+                   <textarea name = "assessorFeedback" class="form-control" rows="3" readonly>'.$_COOKIE["assessorFeedback"].'</textarea>';
+                }
+                else
+                {
+                    echo '<label>Enter here any feedback you have for this section: </label>
+                   <textarea name = "assessorFeedback" class="form-control" rows="3" required></textarea>';
+                }
+            }
+            else
+            {
+                echo '<label>Enter here any feedback you have for this section: </label>
+                   <textarea name = "assessorFeedback" class="form-control" rows="3" required></textarea>';
+            }
+
+            echo '</div>';
+
+            if(isset($_COOKIE["letMeGoNext"]))
+            {
+                if($_COOKIE["letMeGoNext"] !== "true")
+                {
+                    echo '<button type="submit" name = "sectionFinished" class="btn btn-primary float-right">Section Finished!</button>';
+                }
+            }
+            else
+            {
+                echo '<button type="submit" name = "sectionFinished" class="btn btn-primary float-right">Section Finished!</button>';
+            }
+
+
+            //here we decide when to disable or enable the next button as well as when to print it
+            //for example if the section id array at index +1 is not available then that means that we have no more section ids next
+            //which means we will not have a next button
+            if($currentSectionIDPosition === 0 and isset($sectionIDsArray[$currentSectionIDPosition-1]))
+            {
+                $sectionNumber = $currentSectionIDPosition+1;
+                echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
+                $nextSectionID = next($_SESSION["sectionIDs"]);
+                if(isset($_COOKIE["letMeGoNext"]))
+                {
+                    if($_COOKIE["letMeGoNext"] === "true")
+                    {
+                        echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                    }
+                    else
+                    {
+                        echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary disabled">Next</a>';
+                    }
+                }
+                else
+                {
+                    echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary disabled">Next</a>';
+                }
+                $currentSectionID = prev($_SESSION["sectionIDs"]);
+            }
+            //here we also print the current section
+            else
+            {
+                $sectionNumber = $currentSectionIDPosition+1;
+                echo '<div class = "row justify-content-center">Section '.$sectionNumber.' of '.$maxSections.'</div>';
+
+                if(isset($sectionIDsArray[$currentSectionIDPosition+1]))
+                {
+                    echo '<input type = "hidden" name = "assessmentType" value = "">';
+                    $nextSectionID = $sectionIDsArray[$currentSectionIDPosition+1];
+                    if(isset($_COOKIE["letMeGoNext"]))
+                    {
+                        if($_COOKIE["letMeGoNext"] === "true")
+                        {
+                            echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary">Next</a>';
+                        }
+                        else
+                        {
+                            echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary disabled">Next</a>';
+                        }
+                    }
+                    else
+                    {
+                        echo '<a href="../assessorView.php?sectionID='.$nextSectionID.'" class="btn btn-primary disabled">Next</a>';
+                    }
+                }
+                else
+                {
+                    echo '<input type="hidden" name="lastSection" value = "true">';
+                }
+            }
+            echo '</form>';
+        }
+    }
+    ?>
+    </div>
+</div>
+<?php require_once("template/footer.phtml"); ?>

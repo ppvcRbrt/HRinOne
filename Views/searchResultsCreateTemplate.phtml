@@ -1,0 +1,43 @@
+<?php require_once("template/header.phtml"); ?>
+
+<div class = "container">
+    <div class = "row justify-content-center">
+        <h2>Search Results - Create a template based on the information in the database </h2>
+    </div>
+    <!-- Here are the search results for candidates before creating a template -->
+    <?php
+    if(isset($_COOKIE["candName"]))
+        if(!empty($_COOKIE["candName"]))
+        {
+            if(!empty($view->candID))
+            {
+                echo '<table class="table">';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th scope="col">#</th>';
+                echo '<th scope="col">Name</th>';
+                echo '<th scope="col">Create Template</th>';
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+                $row = 1;
+                foreach ($view->candID as $currentID) {
+                    echo '<div>';
+                    echo '<tr>';
+                    echo '<th scope = "row">'.$row.'</th>';
+                    echo '<td>'.$currentID->getName().'</td>';
+                    echo '<td><a target = "_blank" href="../createTemplate.php?candID=' . $currentID->getID() . '" class="btn btn-primary">Create Template!</a></td>';
+                    //echo '<a href="../createTemplate.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+                    echo '</tr>';
+                    echo '</div>';
+                    $row++;
+                }
+                echo '</tbody>';
+                echo '</table>';
+            }
+        }
+    ?>
+</div>
+
+
+<?php require_once("template/footer.phtml"); ?>

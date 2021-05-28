@@ -2,6 +2,11 @@
 require('FeedbackGenerator.php');
 require('FeedbackQueries.php');
 
+/**
+ * Class StaticPageGenerator. This class represents the ability to set certain properties
+ * to the PDF-generated page, such as adding text from a file, setting image formats and overall design.
+ */
+
 class StaticPageGenerator
 {
     function CoverPage($pdf)
@@ -29,9 +34,9 @@ class StaticPageGenerator
         $pdf->Ln(-12);
 
         //print the sections from text file with titles
-        $pdf->PrintSectionFromTxt('Interview Exercise','text/intExercise.txt',"b");
-        $pdf->PrintSectionFromTxt('Group Exercise', 'text/grpExercise.txt', "b");
-        $pdf->PrintSectionFromTxt('Presentation Exercise', 'text/presentationExercise.txt', 'b');
+        $pdf->PrintSectionFromTxt('Interview Exercise','text/Interview Exercise.txt',"b");
+        $pdf->PrintSectionFromTxt('Group Exercise', 'text/Group Exercise.txt', "b");
+        $pdf->PrintSectionFromTxt('Presentation Exercise', 'text/Presentation Exercise.txt', 'b');
 
         //finally start printing on next page since this section is finished
         $pdf->AddPage();

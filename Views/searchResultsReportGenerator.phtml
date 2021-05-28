@@ -1,0 +1,64 @@
+<?php require_once("template/header.phtml"); ?>
+
+<div class = "container">
+    <div class = "row justify-content-center">
+        <h2>Search Results - Generate/Send a report to a candidate</h2>
+    </div>
+    <!-- Here are the search results for candidates after the assessor is done marking them -->
+    <?php
+    if(isset($_COOKIE["candNameReport"]))
+        if(!empty($view->candIDReport))
+        {
+            echo '<table class="table">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th scope="col">#</th>';
+            echo '<th scope="col">Name</th>';
+            echo '<th scope="col">Questions Answered</th>';
+            echo '<th scope="col">Send Report</th>';
+            echo '<th scope="col">View/Download Report</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            $row = 1;
+            foreach ($view->candIDReport as $currentID) {
+                $filepath = "./candidatesFeedback/".$currentID->getID().".txt";
+                if(file_exists($filepath))
+                {
+                    $lines = new FeedbackGenerator();
+                    $qAnswered = $lines->getLinesV2($filepath);
+                    $assessmentInfoQuery = new AssessmentInfoQueries();
+                    $qToAnswer = $assessmentInfoQuery->getNumberOfQPerCandid($currentID->getID());
+
+                    echo '<div>';
+                    echo '<tr>';
+                    echo '<th scope = "row">'.$row.'</th>';
+                    echo '<td>'.$currentID->getName().'</td>';
+                    echo '<td>'.$qAnswered.'/'.$qToAnswer[0].'</td>';
+                    if(isset($_COOKIE["reportGenerated"]))
+                    {
+                        echo '<td><form class="form-group" method = "post" action="../searchResultsReportGenerator.php"><button name = "sendEmail" value = "'. $currentID->getID() .'" type = "submit" class="btn btn-primary">Send via e-mail</button></form></td>';
+                    }
+                    else
+                    {
+                        echo '<td><a target = "_blank" href="../createReport.php?candID=' . $currentID->getID() . '&generateRep=yes" class="btn btn-primary">Generate Report</a></td>';
+                    }
+                    //echo '<td><form class="form-group" method = "post" action="../searchResultsReportGenerator.php"><button name = "sendEmail" value = "'. $currentID->getID() .'" type = "submit" class="btn btn-primary">Send via e-mail</button></form></td>';
+                    echo '<td><a target = "_blank" href="../createReport.php?candID=' . $currentID->getID() . '" class="btn btn-primary">View Report</a></td>';
+                    echo '</tr>';
+
+                    //echo '<a target = "_blank" href="../createReport.php?candID=' . $currentID->getID() . '">' . $currentID->getName();
+
+                    //echo '<p>Has answered '.$qAnswered.'/'.$qToAnswer[0].' Questions</p>';
+                    echo '</div>';
+                    $row++;
+                }
+            }
+            echo '</tbody>';
+            echo '</table>';
+        }
+    ?>
+</div>
+
+
+<?php require_once("template/footer.phtml"); ?>

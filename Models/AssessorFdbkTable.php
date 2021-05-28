@@ -8,11 +8,12 @@ class AssessorFdbkTable
 
     protected $_feedback_ID, $_question_ID, $_feedback;
 
+    /**
+     * Constructor of the AssessorFdbkTable class
+     */
     public function __construct($dbRow)
     {
-
         $this->_feedback_ID = $dbRow['feedback_ID']?? null;
-
         $this->_question_ID = $dbRow['question_ID']?? null;
         $this->_feedback = $dbRow['feedback']?? null;
     }

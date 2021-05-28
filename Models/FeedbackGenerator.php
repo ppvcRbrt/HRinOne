@@ -1,6 +1,11 @@
 <?php
 require("./fpdf_protection.php");
 
+/**
+ * Class FeedbackGenerator. This class represents the backend functionality
+ * behind generating a PDF document.
+ */
+
 class FeedbackGenerator extends FPDF_Protection {
     public $fontSize = 12;
     public $cellHeight = 6; //i recommend setting cell height to half of fontsize so when filled with colour it looks noice
@@ -43,6 +48,10 @@ class FeedbackGenerator extends FPDF_Protection {
         $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
     }
 
+    /**
+     * This function is used to print the first page with a title
+     * @param $label : title name
+     */
     function FirstPageTitle($label)
     {
         $w = $this->GetStringWidth($label)+6;
@@ -164,6 +173,52 @@ class FeedbackGenerator extends FPDF_Protection {
         }
     }
 
+    /**
+     * Supplementary function that will return the number of lines in a file
+     * @param $file : filepath
+     * @return int : count lines
+     */
+    function getLines($file)
+    {
+        $f = fopen($file, 'rb');
+        $lines = 0;
+        while (!feof($f)) {
+            $lines += substr_count(fread($f, 8192), "\n");
+        }
+        fclose($f);
+
+        return $lines;
+    }
+
+    /**
+     * Function that will get how many questions the candidate has answered from the .txt file
+     * it can do that by ignoring specific flags made at the .txt file creating
+     * @param $file : filepath
+     * @return int : number of questions answered by candidate
+     */
+    public function getLinesV2($file)
+    {
+        $f = fopen($file, 'rb');
+        $flagLines = 0;
+        $lineCount = 0;
+        $flags = ["TYPE:", "SECTION:", "FEEDBACK:", "SCORE:"];
+        if ($f)
+        {
+            while (($line = fgets($f)) !== false)
+            {
+                foreach($flags as $currentFlag)
+                {
+                    $toCompare = substr($line, 0, strlen($currentFlag));
+                    if($toCompare === $currentFlag)
+                    {
+                        $flagLines--;
+                    }
+                }
+                $lineCount++;
+            }
+        }
+        return $lineCount + $flagLines;
+    }
 }
 
 

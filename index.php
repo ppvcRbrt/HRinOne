@@ -1,14 +1,13 @@
 <?php
-/* Starts the session */
-//session_start();
-/*
-if(!isset($_SESSION['UserData']['Username'])){
-    require_once("login.php");
-    require_once("Views/login.phtml");
-}
-else
+require_once("Models/UnsetAll.php");
+if(session_status() !== 2)
 {
-    require_once("Views/index.phtml");
+    session_start();
 }
-*/
+
+$currentPage = "Home";
+setcookie("currentPageNav", $currentPage);
+$unset = new UnsetAll();
+$unset->unsetEverything($currentPage);
+
 require_once('Views/index.phtml');

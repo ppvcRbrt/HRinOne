@@ -1,0 +1,79 @@
+<?php require_once("template/header.phtml"); ?>
+<div class = "container">
+    <!-- User Registration -->
+    <div class = "row justify-content-center">
+        <h2>Register/Delete any users here!</h2>
+    </div>
+    <h4>Register Users</h4>
+    <form class="form-group" method = "post" action="../adminUserPage.php">
+        <label>Please enter the username</label>
+        <input class="form-control" type="text" name = "userName" placeholder="Username" required>
+        <label>Please enter the password</label>
+        <input class="form-control" type="password" name = "password" placeholder="Password" required>
+        <label>Please select user category</label>
+        <select name = "category" multiple class="form-control" required>
+            <option value = "1">
+                admin
+            </option>
+            <option value = "2">
+                assessor
+            </option>
+        </select>
+        <button type="submit" name = "addUser" class="btn btn-primary">Add User</button>
+    </form>
+
+    <!-- User search -->
+    <h4>Search and Delete Users</h4>
+    <form class="form-group" method = "post" action="../adminUserPage.php">
+        <label>Please enter the username of the user you would like deleted</label>
+        <input class="form-control" type="text" name = "userName" placeholder="Username" required>
+        <button type="submit" name = "searchUser" class="btn btn-primary">Search</button>
+    </form>
+    <?php
+        if(isset($_COOKIE["searching"]))
+        {
+            if(!empty($_COOKIE["searching"]))
+            {
+                if($_COOKIE["searching"] === "true")
+                {
+                    echo '<form class="form-group" method = "post" action="../adminUserPage.php">';
+                    echo '<table class="table">';
+                    echo '<thead>';
+                    echo '<tr>';
+                    echo '<th scope="col">#</th>';
+                    echo '<th scope="col">User-Name</th>';
+                    echo '<th scope="col">Position</th>';
+                    echo '<th scope="col">Delete</th>';
+                    echo '</tr>';
+                    echo '</thead>';
+                    echo '<tbody>';
+                    if(isset($_SESSION["userNames"]))
+                    {
+                        $x =0;
+                        $row = 1;
+                        $categories = $_SESSION["categories"];
+                        foreach($_SESSION["userNames"] as $currentUser)
+                        {
+                            echo '<tr>';
+                            echo '<th scope = "row">'.$row.'</th>';
+                            echo '<td>'.$currentUser->getName().'</td>';
+                            echo '<td>'.$categories[$x].'</td>';
+                            echo '<td><button type="submit" name = "deleteUser" value = "'.$currentUser->getID().'" class="btn btn-primary">DELETE</button></td>';
+                            echo '</tr>';
+                        }
+                    }
+                    echo '</tbody>';
+                    echo '</table>';
+                    echo '</form>';
+                }
+                if($_COOKIE["searching"] === "false")
+                {
+                    echo '<p style = "color:indianred">User Has Been Successfully Deleted!</p>';
+                }
+
+            }
+        }
+
+    ?>
+</div>
+<?php require_once("template/footer.phtml"); ?>

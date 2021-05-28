@@ -1,40 +1,78 @@
 <?php require('template/header.phtml') ?>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
 <div class = "container">
-    <h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
-    <div class = "row justify-content-center">
-        <a href="#loginModal" data-toggle="modal" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Login</a>
-    </div>
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLogin">Login Here</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- here is the form for the login modal which will post to login.php all values -->
-                    <form action ="../login.php" method ="post">
-                        <div class="form-group">
-                            <label>User Name</label>
-                            <input type="text" class="custom-control" name="Username" aria-describedby="emailHelp" placeholder="Enter username">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="custom-control" name="Password" placeholder="Password">
-                        </div>
-                        <button type="submit" name = "Submit" class="btn btn-outline-danger">Submit</button>
+    <?php
+        if(isset($_SESSION["loggedIn"]))
+        {
+            if($_SESSION["loggedIn"] !== true)
+            {
+                if(isset($_COOKIE["isPassword"]))
+                {
+                    if($_COOKIE["isPassword"] === "false")
+                    {
+                        echo '<div class = "row justify-content-center">
+                              <h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
+                              <div class = "col-lg-3">                       
+                              <form class="form-group mt-3" id = "loginMain" method = "post" action="../login.php">
+                              <label>User Name</label>
+                              <input type="text" class="custom-control" name="Username" placeholder="Enter username">
+                              <label>Password</label>
+                              <input type="password" class="custom-control" name="Password" placeholder="Password"> 
+                              <button type="submit" name = "Submit" class="btn btn-primary">Login</button>
+                              <div class = "row justify-content-around">
+                              <div class="g-recaptcha" data-sitekey="6LcIHz4aAAAAAGv90bJdJmaFCF4FJ7qJZ1fJTQib"></div>
+                              </div>
+                              <p style="color:indianred">Wrong Password or Username Please Try Again!</p>
+                              <p style="color:indianred">Make sure you have filled in the captcha too!</p>
+                          </form>
+                          </div>
+                      </div>';
+                    }
+                }
+                else
+                {
+                    echo '<div class = "row justify-content-center">
+                          <h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
+                          <form class="form-group mt-3" id = "loginMain" method = "post" action="../login.php">
+                              <label>User Name</label>
+                              <input type="text" class="custom-control" name="Username" placeholder="Enter username">
+                              <label>Password</label>
+                              <input type="password" class="custom-control" name="Password" placeholder="Password">                       
+                              <button type="submit" name = "Submit" class="btn btn-primary">Login</button>
+                              <div class = "row justify-content-end">
+                              <div class="g-recaptcha" data-sitekey="6LcIHz4aAAAAAGv90bJdJmaFCF4FJ7qJZ1fJTQib"></div>
+                              </div>
+                          </form>
+                      </div>';
+                }
+            }
+            else
+            {
+                echo '<div class = "row justify-content-center">
+                          <h2>Welcome to the PACE portal</h2>                   
+                      </div>
+                      <p>Some information about PACE can go here :)</p>';
+            }
+        }
+        else
+        {
+            echo '<h2>Welcome, In order to use any of the functionalities you will need to log in</h2>
+                      <div class = "row justify-content-center">
+                          <form class="form-group mt-3" id = "loginMain" method = "post" action="../login.php">
+                              <label>User Name</label>
+                              <input type="text" class="custom-control" name="Username" placeholder="Enter username">
+                              <label>Password</label>
+                              <input type="password" class="custom-control" name="Password" placeholder="Password">                          
+                              <button type="submit" name = "Submit" class="btn btn-primary" >Login</button>
+                              <div class = "row justify-content-end">
+                              <div class="g-recaptcha" data-sitekey="6LcIHz4aAAAAAGv90bJdJmaFCF4FJ7qJZ1fJTQib"></div>
+                              </div>
+                          </form>
+                      </div>';
+        }
+    ?>
 
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-
-    <!--<p class='demo'><a href='../generateFeedback.php' target='_blank' class='demo'>[Demo]</a></p> -->
 <?php require('template/footer.phtml') ?>

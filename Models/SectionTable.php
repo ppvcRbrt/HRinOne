@@ -3,11 +3,13 @@
 class SectionTable
 {
 
-    protected $_section_ID, $_name, $_weight, $_assessment_type_ID; //SectionTable Table
+    protected $_section_ID, $_name, $description, $_weight, $_assessment_type_ID; //SectionTable Table
 
+    /**
+     * Constructor of the SectionTable class
+     */
     public function __construct($dbRow)
     {
-
         $this->_section_ID = $dbRow['section_ID'] ?? null;
         $this->_name = $dbRow['name'] ?? null;
         $this->_weight = $dbRow['weight'] ?? null;
