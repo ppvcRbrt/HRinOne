@@ -1,5 +1,5 @@
 # HRinOne
-```HR in 1 HackCamp Project```
+```HR in One HackCamp Project```
 
 This project represents a fully-featured solution to generate PDF reports for candidates 
 with the ability to manipulate data accordingly to the needs of a PACS examiner. It is intended 
